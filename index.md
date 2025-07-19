@@ -28,7 +28,7 @@
 - Export optical profiles, generation data, J–V curves, EQE  
 - Save/load full simulation states  
 - CSV export for external tools  
-- Built-in \( n(\lambda), k(\lambda) \) optical constants database
+- Built-in n(λ),k(λ) optical constants database
 
 Future updates will ad EQE (using thermodynamic equations, the goal is NOT to redo what SCAPS already does well), other bult-in recombination pathways, intermediate band solar cells, hot carrier solar cells etc. Just be patient with me please :)
 

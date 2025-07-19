@@ -2,10 +2,35 @@
 
 **SOLEY** is a scientific-grade simulation software for modelling the optical and electrical performance of photvoltaic solar cells.
 
-🌞 Supports single junction and multijunction (2T/4T/6T etc)  
-🌞 Uses TMM + extended Detailed Balance + SRH recombination  
-🌞 Includes several functionalities such as batch calculations, optical optimisation etc.
-🌞 Designed for experimentalists and theorists alike  
+### 🟠 Optical Simulation Capabilities
+- Transfer Matrix Method for multilayer optical calculations  
+- Bruggeman effective medium approximation for composite layers (could sometimes be buggy as it messes the layer indexing)  
+- Direct and diffuse illumination with angle and polarisation control (TE, TM, unpolarised)  
+- Generation profile computation
+- Parallel wavelength processing for faster simulations. Not always faster due to overheads unfortunately 🥴
+
+### 🔵 Device Physics & Electrical Modelling
+- Extended detailed balance framework  
+- Multi-junction support (2T, 4T/6T configurations)  
+- Recombination mechanisms: SRH, radiative, and Auger  
+- Custom defect input: trap density, capture cross-sections  
+- Temperature-dependent modelling with activation energy  
+- Series and shunt resistance effects
+
+### 🟢 Analysis & Visualisation
+- J–V curve generation (dark and illuminated)  
+- EQE calculations to come in a future update  
+- Bandgap extraction from absorbance spectra, but always double check please!  
+- Real-time plotting of R, T, and internal absorption  
+- Batch parameter sweeps and thickness optimisation
+
+### 🟣 Data Handling & Export
+- Export optical profiles, generation data, J–V curves, EQE  
+- Save/load full simulation states  
+- CSV export for external tools  
+- Built-in \( n(\lambda), k(\lambda) \) optical constants database
+
+Future updates will ad EQE (using thermodynamic equations, the goal is NOT to redo what SCAPS already does well), other bult-in recombination pathways, intermediate band solar cells, hot carrier solar cells etc. Just be patient with me please :)
 
 ## 🔽 Download
 

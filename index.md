@@ -1,3 +1,5 @@
+<img src="logo.png" alt="SOLEY Logo" width="300">
+
 # SOLEY – Solar Cell Simulation Package
 
 **SOLEY** is a scientific-grade simulation software for modelling the optical and electrical performance of photvoltaic solar cells.

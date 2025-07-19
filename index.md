@@ -28,7 +28,6 @@
 - Export optical profiles, generation data, J–V curves, EQE  
 - Save/load full simulation states  
 - CSV export for external tools  
-- Built-in n(λ),k(λ) optical constants database
 
 Future updates will ad EQE (using thermodynamic equations, the goal is NOT to redo what SCAPS already does well), other bult-in recombination pathways, intermediate band solar cells, hot carrier solar cells etc. Just be patient with me please :)
 
@@ -39,6 +38,8 @@ Executable versions are available for:
 - [Windows (.exe)](https://zenodo.org/record/XXXXXX/files/SOLEY_Windows.exe)
 - [macOS (.dmg)](https://zenodo.org/record/XXXXXX/files/SOLEY_macOS.dmg)
 - [Linux (.AppImage)](https://zenodo.org/record/XXXXXX/files/SOLEY_Linux.AppImage)
+
+The SOLEY Manual is available here: https://zenodo.org/record/XXXXXX/files/SOLEY_Manual_1.0.pdf 
 
 👉 **[View full release on Zenodo](https://zenodo.org/record/XXXXXX)**
 

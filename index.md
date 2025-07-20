@@ -38,8 +38,8 @@ Future updates will ad EQE (using thermodynamic equations, the goal is NOT to re
 Executable versions are available for:
 
 - [Windows (.exe)](https://zenodo.org/records/16151991/files/SOLEY_1.0_Windows.exe?download=1)
-- [macOS (.dmg)](https://zenodo.org/records/16151991/files/SOLEY_1.0_MacOS?download=1)
-- [Linux (.AppImage)](https://zenodo.org/records/16151991/files/SOLEY_1.0__Linux?download=1)
+- [macOS](https://zenodo.org/records/16151991/files/SOLEY_1.0_MacOS?download=1)
+- [Linux](https://zenodo.org/records/16151991/files/SOLEY_1.0__Linux?download=1)
 
 The SOLEY Manual is available here: [SOLEY Manual 1.0](https://zenodo.org/records/16151991/files/SOLEY%20MANUAL%201.03.pdf?download=1) 
 

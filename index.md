@@ -3,6 +3,7 @@
 # SOLEY – Solar Cell Simulation Package
 
 **SOLEY** is a scientific-grade simulation software for modelling the optical and electrical performance of photvoltaic solar cells.
+It does not intend to replace existing packages which use the drift diffusion model, but rather to complement those by offering an alternative approach.
 
 ### 🟠 Optical Simulation Capabilities
 - Transfer Matrix Method for multilayer optical calculations  
@@ -15,23 +16,24 @@
 - Extended detailed balance framework  
 - Multi-junction support (2T, 4T/6T configurations)  
 - Recombination mechanisms: SRH, radiative, and Auger  
-- Custom defect input: trap density, capture cross-sections  
-- Temperature-dependent modelling with activation energy  
+- Custom defect input: trap density, capture cross-sections, bulk and interface defects etc. The whole enchilada.  
 - Series and shunt resistance effects
+- Dynamic carrier injection variation (through a very innaccurate slider)
+- Possibility to bypass the optical caluclation and use a step absorption, as in the SQ limit. If non radiative recombination are set to 0 and resistances are inexistent, you get the SQ limit.
 
 ### 🟢 Analysis & Visualisation
 - J–V curve generation (dark and illuminated)  
 - EQE calculations to come in a future update  
 - Bandgap extraction from absorbance spectra, but always double check please!  
-- Real-time plotting of R, T, and internal absorption  
+- Plotting of R, T, and internal absorption  
 - Batch parameter sweeps and thickness optimisation
 
 ### 🟣 Data Handling & Export
-- Export optical profiles, generation data, J–V curves, EQE  
-- Save/load full simulation states  
+- Export optical profiles, generation data, J–V curves...
+- Save/load full simulation states as .soley files
 - CSV export for external tools  
 
-Future updates will ad EQE (using thermodynamic equations, the goal is NOT to redo what SCAPS already does well), other bult-in recombination pathways, intermediate band solar cells, hot carrier solar cells etc. Just be patient with me please :)
+Future updates will add EQE (using thermodynamic equations, the goal is not to redo what SCAPS already does so well), other built-in recombination pathways, intermediate band solar cells, hot carrier solar cells etc. Just be patient with me pretty please.
 
 ## 🔽 Download
 
@@ -40,6 +42,9 @@ Executable versions are available for:
 - [Windows (.exe)](https://zenodo.org/records/16151991/files/SOLEY_1.0_Windows.exe?download=1)
 - [macOS](https://zenodo.org/records/16151991/files/SOLEY_1.0_MacOS?download=1)
 - [Linux](https://zenodo.org/records/16151991/files/SOLEY_1.0__Linux?download=1)
+
+I don't have a Mac, but on some machine, it is possible that the GUI would not properly scale. I use tkinter for the GUI and it is a bit of a mystery to me, so apologies in advance if you encounter issues.
+On a well-behaved screen/resolution, it should work. 
 
 The SOLEY Manual is available here: [SOLEY Manual 1.03](https://zenodo.org/records/16151991/files/SOLEY%20MANUAL%201.03.pdf?download=1) 
 New functio nalities may not appear directly in the manual, as I am sometimes a bit lazy 🗿. Apologies

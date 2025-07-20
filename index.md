@@ -43,7 +43,31 @@ Executable versions are available for:
 
 The SOLEY Manual is available here: [SOLEY Manual 1.0](https://zenodo.org/records/16151991/files/SOLEY%20MANUAL%201.03.pdf?download=1) 
 
+
+
 👉 **[View full release on Zenodo](https://zenodo.org/records/16151991)**
+
+## Installation
+
+### Security Warning
+Your OS will flag SOLEY as unsafe because it's unsigned. This is normal for independent software.
+
+### Windows
+1. Download `SOLEY_1.0_19072025.exe`
+2. When Windows blocks it: click "More info" → "Run anyway"
+
+### macOS
+```bash
+chmod +x SOLEY_1.0_19072025
+./SOLEY_1.0_19072025
+```
+If blocked: System Preferences → Security & Privacy → Allow
+
+### Linux
+```bash
+chmod +x SOLEY_1.0_19072025
+./SOLEY_1.0_19072025
+```
 
 ## 📖 How to Cite
 

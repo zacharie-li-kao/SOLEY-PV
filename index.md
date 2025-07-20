@@ -9,7 +9,7 @@
 - Bruggeman effective medium approximation for composite layers (could sometimes be buggy as it messes the layer indexing)  
 - Direct and diffuse illumination with angle and polarisation control (TE, TM, unpolarised)  
 - Generation profile computation
-- Parallel wavelength processing for faster simulations. Not always faster due to overheads unfortunately 🥴
+- Parallel wavelength processing for faster simulations. Not always faster due to overheads unfortunately 🗿
 
 ### 🔵 Device Physics & Electrical Modelling
 - Extended detailed balance framework  
@@ -41,7 +41,8 @@ Executable versions are available for:
 - [macOS](https://zenodo.org/records/16151991/files/SOLEY_1.0_MacOS?download=1)
 - [Linux](https://zenodo.org/records/16151991/files/SOLEY_1.0__Linux?download=1)
 
-The SOLEY Manual is available here: [SOLEY Manual 1.0](https://zenodo.org/records/16151991/files/SOLEY%20MANUAL%201.03.pdf?download=1) 
+The SOLEY Manual is available here: [SOLEY Manual 1.03](https://zenodo.org/records/16151991/files/SOLEY%20MANUAL%201.03.pdf?download=1) 
+New functio nalities may not appear directly in the manual, as I am sometimes a bit lazy 🗿. Apologies
 
 
 

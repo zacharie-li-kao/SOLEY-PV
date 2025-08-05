@@ -39,15 +39,15 @@ Future updates will add EQE (using thermodynamic equations, the goal is not to r
 
 Executable versions are available for:
 
-- [Windows (.exe)](https://zenodo.org/records/16151991/files/SOLEY_1.0_Windows.exe?download=1)
-- [macOS](https://zenodo.org/records/16151991/files/SOLEY_1.0_MacOS?download=1)
-- [Linux](https://zenodo.org/records/16151991/files/SOLEY_1.0__Linux?download=1)
+- [Windows (.exe)](https://zenodo.org/records/16748821/files/SOLEY1.01-Windows.exe?download=1)
+- [macOS](https://zenodo.org/records/16748821/files/SOLEY1.01-macOS?download=1)
+- [Linux](https://zenodo.org/records/16748821/files/SOLEY1.01-Linux?download=1)
 
 I don't have a Mac, but on some machine, it is possible that the GUI would not properly scale. I use tkinter for the GUI and it is a bit of a mystery to me, so apologies in advance if you encounter issues.
 On a well-behaved screen/resolution, it should work. 
 
-The SOLEY Manual is available here: [SOLEY Manual 1.03](https://zenodo.org/records/16151991/files/SOLEY%20MANUAL%201.03.pdf?download=1) 
-New functio nalities may not appear directly in the manual, as I am sometimes a bit lazy 🗿. Apologies
+The SOLEY Manual is available here: [SOLEY Manual 1.01](https://zenodo.org/records/16748821/files/SOLEY_Manual.pdf?download=1) 
+New functionalities may not appear directly in the manual, as I am sometimes a bit lazy 🗿. Apologies
 
 
 

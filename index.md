@@ -39,7 +39,7 @@ Future updates will add EQE (using thermodynamic equations, the goal is not to r
 
 Executable versions are available for:
 
-- [Windows (.exe)](https://zenodo.org/records/16748821/files/SOLEY1.01-Windows.exe?download=1)
+- [Windows (.exe)](https://zenodo.org/records/16887436/files/SOLEY-Windows_1.02.exe?download=1)
 - [macOS](https://zenodo.org/records/16748821/files/SOLEY1.01-macOS?download=1)
 - [Linux](https://zenodo.org/records/16748821/files/SOLEY1.01-Linux?download=1)
 
@@ -59,20 +59,20 @@ New functionalities may not appear directly in the manual, as I am sometimes a b
 Your OS will flag SOLEY as unsafe because it's unsigned. This is normal for independent software.
 
 ### Windows
-1. Download `SOLEY_1.0_19072025.exe`
+1. Download `SOLEY_1.02.exe`
 2. When Windows blocks it: click "More info" → "Run anyway"
 
 ### macOS
 ```bash
-chmod +x SOLEY_1.0_19072025
-./SOLEY_1.0_19072025
+chmod +x SOLEY_1.01
+./SOLEY_1.01
 ```
 If blocked: System Preferences → Security & Privacy → Allow
 
 ### Linux
 ```bash
-chmod +x SOLEY_1.0_19072025
-./SOLEY_1.0_19072025
+chmod +x SOLEY_1.01
+./SOLEY_1.01
 ```
 
 ## 📖 How to Cite

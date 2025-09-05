@@ -79,7 +79,7 @@ chmod +x SOLEY_1.01
 
 Please cite the following article when using SOLEY in your work:
 
-> Jehl Li-Kao, Z. "*SOLEY: a package for optical and extended detailed balance model for photovoltaic device simulation.*" *Solar RRL* (2025). DOI: [10.xxxx/solarrl.xxxxx](https://doi.org/10.xxxx/solarrl.xxxxx)
+> Jehl Li-Kao, Z. "*SOLEY: a package for optical and extended detailed balance model for photovoltaic device simulation.*" *Solar RRL* (2025). DOI: [https://doi.org/10.1002/solr.202500345])
 
 BibTeX:
 ```bibtex
@@ -88,5 +88,6 @@ BibTeX:
   title = {SOLEY: a package for optical and extended detailed balance model for photovoltaic device simulation},
   journal = {Solar RRL},
   year = {2025},
-  doi = {10.xxxx/solarrl.xxxxx}
+  doi = {10.1002/solr.202500345}
 }
+

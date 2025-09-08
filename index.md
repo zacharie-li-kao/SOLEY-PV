@@ -40,8 +40,8 @@ Future updates will add EQE (using thermodynamic equations, the goal is not to r
 Executable versions are available for:
 
 - [Windows (.exe)](https://zenodo.org/records/16887436/files/SOLEY-Windows_1.02.exe?download=1)
-- [macOS](https://zenodo.org/records/16748821/files/SOLEY1.01-macOS?download=1)
-- [Linux](https://zenodo.org/records/16748821/files/SOLEY1.01-Linux?download=1)
+- [macOS](https://zenodo.org/records/16887436/files/SOLEY1.01-macOS?download=1)
+- [Linux](https://zenodo.org/records/16887436/files/SOLEY1.01-Linux?download=1)
 
 I don't have a Mac, but on some machine, it is possible that the GUI would not properly scale. I use tkinter for the GUI and it is a bit of a mystery to me, so apologies in advance if you encounter issues.
 On a well-behaved screen/resolution, it should work. 

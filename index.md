@@ -46,7 +46,7 @@ Executable versions are available for:
 I don't have a Mac, but on some machine, it is possible that the GUI would not properly scale. I use tkinter for the GUI and it is a bit of a mystery to me, so apologies in advance if you encounter issues.
 On a well-behaved screen/resolution, it should work. 
 
-The SOLEY Manual is available here: [SOLEY Manual 1.01](https://zenodo.org/records/16748821/files/SOLEY_Manual.pdf?download=1) 
+The SOLEY Manual is available here: [SOLEY Manual 1.01](https://github.com/zacharie-li-kao/SOLEY-PV/blob/main/SOLEY_Manual_1.3.pdf) 
 New functionalities may not appear directly in the manual, as I am sometimes a bit lazy 🗿. Apologies
 
 

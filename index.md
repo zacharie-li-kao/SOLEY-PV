@@ -1,87 +1,107 @@
 <img src="logo.png" alt="SOLEY Logo" width="300">
 
-# SOLEY – Solar Cell Simulation Package
+# ✨ SOLEY – Scientific Solar Cell Simulation Package
 
-**SOLEY** is a scientific-grade simulation software for modelling the optical and electrical performance of photvoltaic solar cells.
-It does not intend to replace existing packages which use the drift diffusion model, but rather to complement those by offering an alternative approach.
+**SOLEY** is a scientific-grade simulation software designed to model the **optical** and **electrical performance** of photovoltaic (PV) solar cells. It doesn't aim to replace existing packages using the drift-diffusion model, but rather to **complement** them by offering an alternative, rigorous approach based on the **Extended Detailed Balance Framework**.
 
-### 🟠 Optical Simulation Capabilities
-- Transfer Matrix Method for multilayer optical calculations  
-- Bruggeman effective medium approximation for composite layers (could sometimes be buggy as it messes the layer indexing)  
-- Direct and diffuse illumination with angle and polarisation control (TE, TM, unpolarised)  
-- Generation profile computation
-- Parallel wavelength processing for faster simulations. Not always faster due to overheads unfortunately 🗿
+---
 
-### 🔵 Device Physics & Electrical Modelling
-- Extended detailed balance framework  
-- Multi-junction support (2T, 4T/6T configurations)  
-- Recombination mechanisms: SRH, radiative, and Auger  
-- Custom defect input: trap density, capture cross-sections, bulk and interface defects etc. The whole enchilada.  
-- Series and shunt resistance effects
-- Dynamic carrier injection variation (through a very innaccurate slider)
-- Possibility to bypass the optical caluclation and use a step absorption, as in the SQ limit. If non radiative recombination are set to 0 and resistances are inexistent, you get the SQ limit.
+## 🔬 Core Methodology: An Alternative to Drift-Diffusion
 
-### 🟢 Analysis & Visualisation
-- J–V curve generation (dark and illuminated)  
-- EQE calculations to come in a future update  
-- Bandgap extraction from absorbance spectra, but always double check please!  
-- Plotting of R, T, and internal absorption  
-- Batch parameter sweeps and thickness optimisation
+SOLEY is built on two primary physics engines that work in tandem: the **Optical Engine (TMM)** and the **Electrical Engine (Extended Detailed Balance)**.
 
-### 🟣 Data Handling & Export
-- Export optical profiles, generation data, J–V curves...
-- Save/load full simulation states as .soley files
-- CSV export for external tools  
+### **Key Features at a Glance**
 
-Future updates will add EQE (using thermodynamic equations, the goal is not to redo what SCAPS already does so well), other built-in recombination pathways, intermediate band solar cells, hot carrier solar cells etc. Just be patient with me pretty please.
+| Feature Area | Core Capability | Key Physics/Methodology |
+| :--- | :--- | :--- |
+| **Optics** | $R$, $T$, Absorption Profiles, $G(x)$ | **Transfer Matrix Method (TMM)**, Bruggeman Effective Medium Approx. |
+| **Electrics** | J-V Curves, $\text{V}_{\text{OC}}$, $\text{J}_{\text{SC}}$, $\eta$, Loss Analysis | **Extended Detailed Balance Framework** (SQ-Limit + Non-radiative Losses) |
+| **Recombination** | Radiative, Non-Radiative ($SRH$, Auger) | **Van Roosbroeck-Shockley (VRS) Relation**, Scaffidi $\text{J}_{0,SRH}$ Formulation |
+| **Analysis** | J-V, R/T/A Plots, Bandgap Extraction, Parameter Sweeps | **Photoluminescence (PL) / Electroluminescence (EL)** Spectra (Future EQE) |
 
-## 🔽 Download
+---
 
-Executable versions are available for:
+## 🟢 Optical Simulation & Generation Profile
 
-- [Windows (.exe)](https://zenodo.org/records/17144667/files/SOLEY-Windows_1_3.exe?download=1)
-- [macOS](https://zenodo.org/records/17144667/files/SOLEY-macOS_1_3.zip?download=1)
-- [Linux](https://zenodo.org/records/17144667/files/SOLEY-Linux_1_3?download=1)
+SOLEY uses the **Transfer Matrix Method (TMM)**, the gold standard for thin-film optics, to precisely calculate how light interacts with your multilayer device stack.
 
-I don't have a Mac, but on some machine, it is possible that the GUI would not properly scale. I use tkinter for the GUI and it is a bit of a mystery to me, so apologies in advance if you encounter issues.
-On a well-behaved screen/resolution, it should work. 
+* **TMM Core Engine:** Calculates **Reflectance ($\mathbf{R}$)**, **Transmittance ($\mathbf{T}$)**, and the internal **electric field profiles ($\mathbf{|E|^2}$)** across the device.
+* **Generation Rate ($\mathbf{G(x)}$):** The absorbed power is converted into a spatially-resolved **generation profile** (photons/m³/s), which is crucial input for the electrical model.
+* **Wavelength & Angle Control:** Supports **Direct (Collimated)** and **Diffuse (Hemispherical)** illumination, with full control over the **incidence angle ($\theta$)** and **polarisation (TE, TM, or unpolarised)**.
+* **Complex Layers:** Features the **Bruggeman effective medium approximation** for accurately simulating composite/nanostructured layers (note: occasionally buggy, may require user verification).
+* **Performance:** Utilises **parallel wavelength processing** for speed, though note that overheads can sometimes impact performance 🗿.
 
-The SOLEY Manual is available here: [SOLEY Manual 1.01](https://github.com/zacharie-li-kao/SOLEY-PV/blob/main/SOLEY_Manual_1.3.pdf) 
+---
+
+## 🔵 Device Physics & Electrical Modelling
+
+The electrical performance is determined using an **Extended Detailed Balance Framework**, which directly calculates losses due to non-ideal recombination and parasitic resistances.
+
+* **Recombination Mechanisms:** All major recombination pathways are rigorously accounted for by calculating their corresponding saturation current densities ($\mathbf{J_{0}}$):
+    * **Radiative ($\mathbf{J_{0,rad}}$):** Calculated from the **Van Roosbroeck-Shockley (VRS) relation** and the blackbody emission spectrum.
+    * **Shockley-Read-Hall (SRH) ($\mathbf{J_{0,SRH}}$):** Modeled using the **Scaffidi et al. formulation**, allowing for custom input of microscopic defect parameters (trap density, capture cross-sections, activation energy, etc.). The whole enchilada.
+    * **Auger ($\mathbf{J_{0,Auger}}$):** Explicitly calculated with temperature and bandgap dependence.
+* **Performance Limits:** The package allows for **bypassing the optical calculation** to use a **step absorption** (as in the traditional **Shockley-Queisser (SQ) Limit**) for fast comparison and validation. Setting non-radiative recombination and resistances to zero will reproduce the theoretical SQ limit.
+* **Device Non-Idealities:** Accurately incorporates the effects of **Series Resistance ($\mathbf{R_s}$)** and **Shunt Resistance ($\mathbf{R_{sh}}$)**.
+* **Multijunction Support:** Handles complex devices in **2T, 4T/6T configurations**, calculating the final current-matched performance.
+* *NOTE:* Includes a dynamic carrier injection variation slider for testing, but be aware it is highly simplistic and inaccurate.
+
+---
+
+## 🟣 Analysis & Data Handling
+
+SOLEY provides extensive tools for visualizing, analyzing, and exporting your simulation results.
+
+### **Analysis & Visualisation**
+* **J–V Curve Generation:** Produce both **illuminated J-V curves** (incorporating all $R_{s}/R_{sh}$ and recombination losses) and **dark J-V curves**.
+* **Optical Spectra Plotting:** Quickly plot **Reflectance ($\mathbf{R}$)**, **Transmittance ($\mathbf{T}$)**, and **Internal Absorption** spectra.
+* **Photoluminescence/Electroluminescence:** Future updates will leverage the **VRS relation** to calculate **PL and EL spectra** based on TMM absorptivity and the calculated quasi-Fermi level splitting.
+* **Extraction Tools:** Features **bandgap extraction** from absorbance spectra (always double check please!).
+* **Parameter Sweeps:** Easily set up **batch parameter sweeps** and **thickness optimisation** routines.
+
+### **Data Handling & Export**
+* **Simulation State:** Save and load full simulation states using proprietary **`.soley` files**.
+* **Data Export:** Export all profiles and curves to **CSV files** for external analysis (optical profiles, generation data, J–V curves, etc.).
+
+> **Future Roadmap:** We plan to integrate **EQE calculations** (using thermodynamic equations to complement packages like SCAPS), other built-in recombination pathways, Intermediate Band Solar Cells, and Hot Carrier Solar Cells. Just be patient with me pretty please.
+
+---
+
+## ⬇️ Download & Installation
+
+The latest executable versions are available below.
+
+| Platform | Download Link | File Type |
+| :--- | :--- | :--- |
+| **Windows** | [SOLEY-Windows\_1\_3.exe](https://zenodo.org/records/17144667/files/SOLEY-Windows_1_3.exe?download=1) | Executable |
+| **macOS** | [SOLEY-macOS\_1\_3.zip](https://zenodo.org/records/17144667/files/SOLEY-macOS_1_3.zip?download=1) | Compressed Executable |
+| **Linux** | [SOLEY-Linux\_1\_3](https://zenodo.org/records/17144667/files/SOLEY-Linux_1_3?download=1) | Executable |
+
+The SOLEY Manual is available here: **[SOLEY Manual 1.01](https://github.com/zacharie-li-kao/SOLEY-PV/blob/main/SOLEY_Manual_1.3.pdf)**
 New functionalities may not appear directly in the manual, as I am sometimes a bit lazy 🗿. Apologies
-
-
 
 👉 **[View full release on Zenodo](https://zenodo.org/records/16151991)**
 
-## Installation
+### ❗ Installation & Security Warning
 
-### Security Warning
-Your OS will flag SOLEY as unsafe because it's unsigned. This is normal for independent software.
+Your Operating System will likely flag SOLEY as unsafe because it is **unsigned software**. This is normal for independent developer packages and is safe to ignore.
 
-### Windows
-1. Download `SOLEY_1.3.exe`
-2. When Windows blocks it: click "More info" → "Run anyway"
+| Platform | Security Warning | Installation Steps |
+| :--- | :--- | :--- |
+| **Windows** | "Windows protected your PC" | 1. Download `SOLEY-Windows_1_3.exe`<br>2. Click **"More info"** → **"Run anyway"** |
+| **macOS** | "Developer cannot be verified" | 1. Open Terminal and run: `chmod +x SOLEY_1_3`<br>2. Run the executable: `./SOLEY_1_3`<br>3. If blocked: Go to System Preferences → Security & Privacy → **Allow** |
+| **Linux** | Execution Denied | 1. Open Terminal and run: `chmod +x SOLEY_1_3`<br>2. Run the executable: `./SOLEY_1_3` |
 
-### macOS
-```bash
-chmod +x SOLEY_1.3
-./SOLEY_1.3
-```
-If blocked: System Preferences → Security & Privacy → Allow
+---
 
-### Linux
-```bash
-chmod +x SOLEY_1.3
-./SOLEY_1.3
-```
+## 📜 How to Cite
 
-## 📖 How to Cite
+If you use SOLEY in your research or published work, please cite the following article:
 
-Please cite the following article when using SOLEY in your work:
+> Jehl Li-Kao, Z. "*SOLEY: a package for optical and extended detailed balance model for photovoltaic device simulation.*" *Solar RRL* (2025). DOI: **[https://doi.org/10.1002/solr.202500345]**
 
-> Jehl Li-Kao, Z. "*SOLEY: a package for optical and extended detailed balance model for photovoltaic device simulation.*" *Solar RRL* (2025). DOI: [https://doi.org/10.1002/solr.202500345])
+### **BibTeX**
 
-BibTeX:
 ```bibtex
 @article{jehl2025soley,
   author = {Zacharie Jehl Li-Kao},
@@ -90,4 +110,3 @@ BibTeX:
   year = {2025},
   doi = {10.1002/solr.202500345}
 }
-

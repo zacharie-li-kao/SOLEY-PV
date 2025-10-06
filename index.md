@@ -28,7 +28,7 @@ SOLEY uses the **Transfer Matrix Method (TMM)**, the gold standard for thin-film
 * **TMM Core Engine:** Calculates **Reflectance ($\mathbf{R}$)**, **Transmittance ($\mathbf{T}$)**, and the internal **electric field profiles ($\mathbf{|E|^2}$)** across the device.
 * **Generation Rate ($\mathbf{G(x)}$):** The absorbed power is converted into a spatially-resolved **generation profile** (photons/m³/s), which is crucial input for the electrical model.
 * **Wavelength & Angle Control:** Supports **Direct (Collimated)** and **Diffuse (Hemispherical)** illumination, with full control over the **incidence angle ($\theta$)** and **polarisation (TE, TM, or unpolarised)**.
-* **Complex Layers:** Features the **Bruggeman effective medium approximation** for accurately simulating composite/nanostructured layers (note: occasionally buggy, may require user verification).
+* **Complex Layers:** Features the **Bruggeman effective medium approximation** for accurately simulating composite/nanostructured layers (note: occasionally buggy, esepcially for luminescence, may require user verification).
 * **Performance:** Utilises **parallel wavelength processing** for speed, though note that overheads can sometimes impact performance 🗿.
 
 ---
@@ -39,7 +39,7 @@ The electrical performance is determined using an **Extended Detailed Balance Fr
 
 * **Recombination Mechanisms:** All major recombination pathways are rigorously accounted for by calculating their corresponding saturation current densities ($\mathbf{J_{0}}$):
     * **Radiative ($\mathbf{J_{0,rad}}$):** Calculated from the **Van Roosbroeck-Shockley (VRS) relation** and the blackbody emission spectrum.
-    * **Shockley-Read-Hall (SRH) ($\mathbf{J_{0,SRH}}$):** Modeled using the **Scaffidi et al. formulation**, allowing for custom input of microscopic defect parameters (trap density, capture cross-sections, activation energy, etc.). The whole enchilada.
+    * **Shockley-Read-Hall (SRH) ($\mathbf{J_{0,SRH}}$):** Modeled using the **Scaffidi et al. formulation**, allowing for custom input of microscopic defect parameters (trap density, capture cross-sections, activation energy, etc.). The whole enchilada. Check the enchilada here https://www.cell.com/newton/fulltext/S2950-6360(25)00190-2
     * **Auger ($\mathbf{J_{0,Auger}}$):** Explicitly calculated with temperature and bandgap dependence.
 * **Performance Limits:** The package allows for **bypassing the optical calculation** to use a **step absorption** (as in the traditional **Shockley-Queisser (SQ) Limit**) for fast comparison and validation. Setting non-radiative recombination and resistances to zero will reproduce the theoretical SQ limit.
 * **Device Non-Idealities:** Accurately incorporates the effects of **Series Resistance ($\mathbf{R_s}$)** and **Shunt Resistance ($\mathbf{R_{sh}}$)**.

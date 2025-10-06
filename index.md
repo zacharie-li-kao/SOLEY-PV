@@ -171,6 +171,19 @@
 </details>
 
 <details>
+<summary><b>Photoluminescence (PL) and Electroluminescence (EL)</b></summary>
+
+- **Van Roosbroeck-Shockley relation** for emission spectra
+- PL calculations under optical excitation with variable laser wavelength and power
+- EL calculations under applied voltage with internal quantum efficiency control
+- TMM-based absorptivity for accurate emission modelling
+- Full recombination balance including radiative, SRH, and Auger mechanisms
+- Quasi-Fermi level splitting calculations
+- Export spectral emission data to CSV
+
+</details>
+
+<details>
 <summary><b>Performance Metrics Dashboard</b></summary>
 
 Real-time calculation and display of:

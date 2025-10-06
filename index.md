@@ -30,7 +30,7 @@ SOLEY uses the **Transfer Matrix Method (TMM)**, works great for thin-film optic
 * **Wavelength & Angle Control:** Supports **Direct (Collimated)** and **Diffuse (Hemispherical)** illumination, with full control over the **incidence angle ($\theta$)** and **polarisation (TE, TM, or unpolarised)**.
 * **Complex Layers:** Features the **Bruggeman effective medium approximation** for accurately simulating composite/nanostructured layers (note: occasionally buggy, esepcially for luminescence, may require user verification).
 * **Performance:** Utilises **parallel wavelength processing** for speed, though note that overheads can sometimes impact performance 🗿.
-* **Numerical checks:** Normally, TMM starts giving crazy stuff when layer thickness is too large. I implemented a few numerical optimisation to prevent that and it should be ok for thikcnesses up to 150 $\mu$m, which means that c-Si should be possible. But don't be surprised if sometimes, you get a bit of divergence. It is inherent to the TMM method.
+* **Numerical checks:** Normally, TMM starts giving crazy stuff when layer thickness is too large. I implemented a few numerical optimisation to prevent that and it should be ok for thikcnesses up to 150 $\mu$ m, which means that c-Si should be possible. But don't be surprised if sometimes, you get a bit of divergence. It is inherent to the TMM method.
 
 ---
 

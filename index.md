@@ -436,7 +436,7 @@ Reference: Scaffidi et al., *Solar RRL* **1**, 1700056 (2017)
 ### Planned Features
 
 - Incoherent TMM for thick substrates and glass
-- Drift-diffusion EQE solver with mobility input
+- EQE using thermodynamic equations. Pretty hard, I am trying to define collection probabilities. Doesn't work well so far.
 - Intermediate band solar cells (IBSC) physics
 - Hot carrier devices with non-thermal distributions
 

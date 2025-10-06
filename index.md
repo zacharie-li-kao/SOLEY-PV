@@ -44,7 +44,7 @@
 
 - Thermodynamically consistent, built on detailed balance principles
 - Native support for tandem and multi-terminal configurations
-- Microscopic-to-macroscopic parameter translation using Scaffidi formulation
+- SRH recombination using formulations from https://www.cell.com/newton/fulltext/S2950-6360(25)00190-2
 - Parallel TMM calculations with generation profile export
 - Suitable for quick parameter screening and design space exploration
 
@@ -104,7 +104,7 @@
 - Shockley-Queisser limit calculations with step-function absorption
 - Full recombination physics:
   - Radiative recombination (Van Roosbroeck-Shockley)
-  - SRH (Shockley-Read-Hall) with Scaffidi prefactor formulation
+  - SRH (Shockley-Read-Hall) with Scaffidi prefactor formulation (https://www.cell.com/newton/fulltext/S2950-6360(25)00190-2)
   - Auger recombination with temperature and bandgap dependence
 - Integration with TMM-calculated absorption spectra
 - Thermodynamically consistent Voc and FF predictions

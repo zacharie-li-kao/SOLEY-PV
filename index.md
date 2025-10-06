@@ -44,26 +44,25 @@ The electrical performance is determined using an **Extended Detailed Balance Fr
 * **Performance Limits:** The package allows for **bypassing the optical calculation** to use a **step absorption** (as in the traditional **Shockley-Queisser (SQ) Limit**) for fast comparison and validation. Setting non-radiative recombination and resistances to zero will reproduce the theoretical SQ limit.
 * **Device Non-Idealities:** Accurately incorporates the effects of **Series Resistance ($\mathbf{R_s}$)** and **Shunt Resistance ($\mathbf{R_{sh}}$)**.
 * **Multijunction Support:** Handles complex devices in **2T, 4T/6T configurations**, calculating the final current-matched performance.
-* *NOTE:* Includes a dynamic carrier injection variation slider for testing, but be aware it is highly simplistic and inaccurate.
+* *NOTE:* Includes a dynamic carrier injection variation slider for testing, but be aware it is a bit inaccurate. And importantly, the non-linearities at very injection are not yet implemented, so it is for physics illustration purpose.
 
 ---
 
 ## 🟣 Analysis & Data Handling
 
-SOLEY provides extensive tools for visualizing, analyzing, and exporting your simulation results.
+SOLEY provides some tools for visualising, analysing, and exporting your simulation results.
 
 ### **Analysis & Visualisation**
 * **J–V Curve Generation:** Produce both **illuminated J-V curves** (incorporating all $R_{s}/R_{sh}$ and recombination losses) and **dark J-V curves**.
 * **Optical Spectra Plotting:** Quickly plot **Reflectance ($\mathbf{R}$)**, **Transmittance ($\mathbf{T}$)**, and **Internal Absorption** spectra.
-* **Photoluminescence/Electroluminescence:** Future updates will leverage the **VRS relation** to calculate **PL and EL spectra** based on TMM absorptivity and the calculated quasi-Fermi level splitting.
-* **Extraction Tools:** Features **bandgap extraction** from absorbance spectra (always double check please!).
+* **Photoluminescence/Electroluminescence:** It leverages the **VRS relation** to calculate **PL and EL spectra** based on TMM absorptivity and the calculated quasi-Fermi level splitting.
 * **Parameter Sweeps:** Easily set up **batch parameter sweeps** and **thickness optimisation** routines.
 
 ### **Data Handling & Export**
-* **Simulation State:** Save and load full simulation states using proprietary **`.soley` files**.
+* **Simulation State:** Save and load full simulation states using **`.soley` files**. There are also a few included presets.
 * **Data Export:** Export all profiles and curves to **CSV files** for external analysis (optical profiles, generation data, J–V curves, etc.).
 
-> **Future Roadmap:** We plan to integrate **EQE calculations** (using thermodynamic equations to complement packages like SCAPS), other built-in recombination pathways, Intermediate Band Solar Cells, and Hot Carrier Solar Cells. Just be patient with me pretty please.
+> **Future Roadmap:** I plan to integrate **EQE calculations** (using thermodynamic equations to complement packages like SCAPS) but that's really hard so far, other built-in recombination pathways, Intermediate Band Solar Cells, and Hot Carrier Solar Cells. Just be patient with me.
 
 ---
 

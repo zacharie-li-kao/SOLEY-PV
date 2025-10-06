@@ -1,12 +1,12 @@
 <img src="logo.png" alt="SOLEY Logo" width="300">
 
-# ✨ SOLEY – Scientific Solar Cell Simulation Package
+# SOLEY – Scientific Solar Cell Simulation Package
 
 **SOLEY** is a scientific-grade simulation software designed to model the **optical** and **electrical performance** of photovoltaic (PV) solar cells. It doesn't aim to replace existing packages using the drift-diffusion model, but rather to **complement** them by offering an alternative, rigorous approach based on the **Extended Detailed Balance Framework**.
 
 ---
 
-## 🔬 Core Methodology: An Alternative to Drift-Diffusion
+##  Core Methodology: Alternative to Drift-Diffusion
 
 SOLEY is built on two primary physics engines that work in tandem: the **Optical Engine (TMM)** and the **Electrical Engine (Extended Detailed Balance)**.
 
@@ -23,13 +23,14 @@ SOLEY is built on two primary physics engines that work in tandem: the **Optical
 
 ## 🟢 Optical Simulation & Generation Profile
 
-SOLEY uses the **Transfer Matrix Method (TMM)**, the gold standard for thin-film optics, to precisely calculate how light interacts with your multilayer device stack.
+SOLEY uses the **Transfer Matrix Method (TMM)**, works great for thin-film optics, to precisely calculate how light interacts with your multilayer device stack.
 
 * **TMM Core Engine:** Calculates **Reflectance ($\mathbf{R}$)**, **Transmittance ($\mathbf{T}$)**, and the internal **electric field profiles ($\mathbf{|E|^2}$)** across the device.
 * **Generation Rate ($\mathbf{G(x)}$):** The absorbed power is converted into a spatially-resolved **generation profile** (photons/m³/s), which is crucial input for the electrical model.
 * **Wavelength & Angle Control:** Supports **Direct (Collimated)** and **Diffuse (Hemispherical)** illumination, with full control over the **incidence angle ($\theta$)** and **polarisation (TE, TM, or unpolarised)**.
 * **Complex Layers:** Features the **Bruggeman effective medium approximation** for accurately simulating composite/nanostructured layers (note: occasionally buggy, esepcially for luminescence, may require user verification).
 * **Performance:** Utilises **parallel wavelength processing** for speed, though note that overheads can sometimes impact performance 🗿.
+* **Numerical checks:** Normally, TMM starts giving crazy stuff when layer thickness is too large. I implemented a few numerical optimisation to prevent that and it should be ok for thikcnesses up to 150 ($\mu$)m, which means that c-Si should be possible. But don't be surprised if sometimes, you get a bit of divergence. It is inherent to the TMM method.
 
 ---
 

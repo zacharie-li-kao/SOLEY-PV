@@ -576,6 +576,7 @@
                 <li><button class="tab-btn" data-tab="technical">Technical</button></li>
                 <li><button class="tab-btn" data-tab="roadmap">Roadmap</button></li>
                 <li><button class="tab-btn" data-tab="citation">Citation</button></li>
+                <li><button class="tab-btn" data-tab="contact">Contact</button></li>
             </ul>
         </div>
     </nav>
@@ -668,7 +669,7 @@
                         <ul>
                             <li>Shockley-Queisser limit calculations</li>
                             <li>Radiative recombination (Van Roosbroeck-Shockley)</li>
-                            <li>SRH with Scaffidi prefactor formulation</li>
+                            <li>SRH with bulk and interface recombination</li>
                             <li>Auger recombination with T and Eg dependence</li>
                             <li>TMM-integrated absorption spectra</li>
                         </ul>
@@ -772,7 +773,7 @@
 
                     <div class="screenshot-item">
                         <img src="defects.png" alt="Defect parameter window">
-                        <div class="screenshot-caption">Defect parameter window with Scaffidi formulation implementation</div>
+                        <div class="screenshot-caption">Defect parameter window for bulk and interface recombination modeling</div>
                     </div>
                 </div>
 
@@ -938,8 +939,8 @@
                 </ul>
                 <p><strong>Reference:</strong> Jehl Li-Kao, <em>Solar RRL</em> (2025), DOI: 10.1002/solr.202500345</p>
 
-                <h4>Defect Modelling: Scaffidi Formulation</h4>
-                <p>SOLEY translates microscopic trap parameters into macroscopic J₀:</p>
+                <h4>Defect Modelling: Bulk and Interface Recombination</h4>
+                <p>SOLEY translates microscopic trap parameters into macroscopic J₀ using the formulation from Scaffidi et al.:</p>
                 <pre>Bulk recombination:
 J₀₀_bulk = π·kB·T·√(ε·Nc·Nv/(2·q·Vbi·Ndop))·vth·σn·Nt
 
@@ -948,7 +949,7 @@ J₀₀_interface = q·Sp·Ndop·[(Nc_adj·Nv)/(Ndop_adj·Ndop)]^(1-θ)
 
 Final J₀_SRH:
 J₀_SRH = (J₀₀_bulk + J₀₀_interface)·exp(-Ea/(n·kB·T))</pre>
-                <p><strong>Reference:</strong> Scaffidi et al., <em>Solar RRL</em> <strong>1</strong>, 1700056 (2017)</p>
+                <p><strong>Reference:</strong> Scaffidi, R. et al., "Modeling of current-voltage characteristics of high-efficiency kesterite solar cells," <em>Newton</em> <strong>1</strong>(8), 100198 (2025). DOI: <a href="https://doi.org/10.1016/j.newton.2025.100198" target="_blank">10.1016/j.newton.2025.100198</a></p>
             </section>
         </div>
 
@@ -1023,6 +1024,50 @@ J₀_SRH = (J₀₀_bulk + J₀₀_interface)·exp(-Ea/(n·kB·T))</pre>
             </section>
         </div>
 
+        <!-- Contact Tab -->
+        <div id="contact" class="tab-content">
+            <section>
+                <h3>Contact</h3>
+                <p style="font-size: 1.1rem; margin-bottom: 2rem;">
+                    Get in touch for questions, bug reports, feature requests, or collaboration opportunities.
+                </p>
+
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h5>📧 Email</h5>
+                        <p><a href="mailto:zacharie.jehl@upc.edu">zacharie.jehl@upc.edu</a></p>
+                        <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-light);">
+                            Use subject prefixes:<br>
+                            [SOLEY Bug] - Bug reports<br>
+                            [SOLEY Feature] - Feature requests<br>
+                            [SOLEY Collaboration] - Research collaboration
+                        </p>
+                    </div>
+
+                    <div class="feature-card">
+                        <h5>💼 LinkedIn</h5>
+                        <p><a href="https://www.linkedin.com/in/zacharie-j-9ba014ba/" target="_blank">Connect on LinkedIn</a></p>
+                        <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-light);">
+                            Professional networking and updates
+                        </p>
+                    </div>
+
+                    <div class="feature-card">
+                        <h5>🐛 GitHub Issues</h5>
+                        <p><a href="https://github.com/zacharie-li-kao/SOLEY-PV/issues" target="_blank">Report on GitHub</a></p>
+                        <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-light);">
+                            For bug tracking and feature discussions
+                        </p>
+                    </div>
+                </div>
+
+                <h4>Developer</h4>
+                <p><strong>Zacharie Jehl Li-Kao</strong><br>
+                Universitat Politècnica de Catalunya (UPC)<br>
+                Barcelona, Spain</p>
+            </section>
+        </div>
+
     </div>
 
     <!-- Footer -->
@@ -1048,6 +1093,7 @@ J₀_SRH = (J₀₀_bulk + J₀₀_interface)·exp(-Ea/(n·kB·T))</pre>
                 <h4>Contact</h4>
                 <p><strong>Developer:</strong> Zacharie Jehl Li-Kao</p>
                 <p><strong>Email:</strong> <a href="mailto:zacharie.jehl@upc.edu">zacharie.jehl@upc.edu</a></p>
+                <p><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/zacharie-j-9ba014ba/" target="_blank">Connect on LinkedIn</a></p>
                 <p style="margin-top: 1rem;">
                     <strong>Bug reports:</strong> GitHub Issues<br>
                     <strong>Feature requests:</strong> Email with "[SOLEY Feature]"<br>
@@ -1070,7 +1116,7 @@ J₀_SRH = (J₀₀_bulk + J₀₀_interface)·exp(-Ea/(n·kB·T))</pre>
     <!-- JavaScript for Tabs -->
     <script>
         // Tab switching functionality
-        const tabButtons = document.querySelectorAll('.tab-btn');
+        const tabButtons = document.querySAll('.tab-btn');
         const tabContents = document.querySelectorAll('.tab-content');
 
         tabButtons.forEach(button => {

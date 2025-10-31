@@ -54,6 +54,11 @@
             gap: 1rem;
         }
 
+        .logo-section img {
+            height: 2rem;
+            width: auto;
+        }
+
         .logo-section h1 {
             font-size: 1.8rem;
             font-weight: 700;
@@ -515,8 +520,8 @@
     <header>
         <div class="header-content">
             <div class="logo-section">
-                <!-- Replace with actual logo -->
-                <h1>☀️ SOLEY</h1>
+                <img src="logo.png" alt="SOLEY Logo">
+                <h1>SOLEY</h1>
             </div>
             <nav>
                 <ul>
@@ -741,178 +746,36 @@
 
                 <div class="screenshot-gallery">
                     <div class="screenshot-item">
+                        <img src="main_interface.png" alt="Main SOLEY Interface">
                         <div class="screenshot-caption">Main SOLEY Interface - Layer stack management and optical profile visualization</div>
                     </div>
 
                     <div class="screenshot-item">
+                        <img src="opti_batch.png" alt="Layer stack optimisation and Batch calculation">
                         <div class="screenshot-caption">Layer stack optimisation panel and Batch calculation panel</div>
                     </div>
 
                     <div class="screenshot-item">
+                        <img src="jv_curves.png" alt="J-V curve plotting">
                         <div class="screenshot-caption">J-V curve plotting window with multi-absorber support</div>
                     </div>
 
                     <div class="screenshot-item">
+                        <img src="luminescence.png" alt="Luminescence spectroscopy">
                         <div class="screenshot-caption">Luminescence spectroscopy window showing PL and EL emission spectra</div>
                     </div>
 
                     <div class="screenshot-item">
+                        <img src="sq_limit.png" alt="Shockley-Queisser limit calculator">
                         <div class="screenshot-caption">Shockley-Queisser limit calculator with theoretical efficiency analysis</div>
                     </div>
 
                     <div class="screenshot-item">
+                        <img src="defects.png" alt="Defect parameter window">
                         <div class="screenshot-caption">Defect parameter window with Scaffidi formulation implementation</div>
                     </div>
                 </div>
 
-
-            </section>
-        </div>
-
-        <!-- Download Tab -->
-        <div id="download" class="tab-content">
-            <section>
-                <h3>Download SOLEY v1.5</h3>
-                
-                <div class="download-grid">
-                    <div class="download-card">
-                        <div class="platform-icon">🪟</div>
-                        <h5>Windows</h5>
-                        <p class="size">~100 MB</p>
-                        <a href="https://zenodo.org/records/17492939/files/SOLEY-Academic-Windows%201_5.exe?download=1" class="btn btn-primary">Download for Windows</a>
-                        <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-light);">Windows 10/11, 64-bit</p>
-                    </div>
-
-                    <div class="download-card">
-                        <div class="platform-icon">🍎</div>
-                        <h5>macOS</h5>
-                        <p class="size">~60 MB</p>
-                        <a href="https://zenodo.org/records/17492939/files/SOLEY-Academic-macOS%201_5?download=1" class="btn btn-primary">Download for macOS</a>
-                        <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-light);">macOS 11.0+ (Intel & Apple Silicon)</p>
-                    </div>
-
-                    <div class="download-card">
-                        <div class="platform-icon">🐧</div>
-                        <h5>Linux</h5>
-                        <p class="size">~100 MB</p>
-                        <a href="https://zenodo.org/records/17492939/files/SOLEY-Academic-Linux%201_5?download=1" class="btn btn-primary">Download for Linux</a>
-                        <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-light);">Ubuntu 20.04+ / equivalent</p>
-                    </div>
-                </div>
-
-                <div style="text-align: center; margin: 3rem 0;">
-                    <a href="https://github.com/zacharie-li-kao/SOLEY-PV/blob/main/SOLEY%201_5%20Manual.pdf" class="btn btn-secondary" target="_blank">📄 Download Manual (PDF)</a>
-                </div>
-
-                <div class="alert alert-warning">
-                    <strong>⚠️ Security Warning:</strong> Your operating system will flag SOLEY as potentially unsafe because the executable is not code-signed. This is normal for independent academic software and does not indicate malware. See installation instructions below.
-                </div>
-
-                <h4>Installation Instructions</h4>
-                
-                <details style="margin: 1rem 0; padding: 1rem; background: var(--light-bg); border-radius: 8px;">
-                    <summary style="cursor: pointer; font-weight: 600; font-size: 1.1rem;">Windows 10/11</summary>
-                    <ol style="margin-top: 1rem; padding-left: 1.5rem;">
-                        <li>Download <code>SOLEY-Windows_1_5.exe</code></li>
-                        <li>Double-click to run</li>
-                        <li>When Windows Defender SmartScreen appears:
-                            <ul>
-                                <li>Click "More info"</li>
-                                <li>Click "Run anyway"</li>
-                            </ul>
-                        </li>
-                        <li>Accept the licence agreement in the splash screen</li>
-                    </ol>
-                    <p style="margin-top: 1rem;"><strong>Known Issues:</strong> On some high-DPI displays, GUI elements may appear misaligned.</p>
-                </details>
-
-                <details style="margin: 1rem 0; padding: 1rem; background: var(--light-bg); border-radius: 8px;">
-                    <summary style="cursor: pointer; font-weight: 600; font-size: 1.1rem;">macOS (Intel & Apple Silicon)</summary>
-                    <ol style="margin-top: 1rem; padding-left: 1.5rem;">
-                        <li>Download and extract <code>SOLEY-macOS_1_5.zip</code></li>
-                        <li>Open Terminal and navigate to the extracted folder</li>
-                        <li>Make executable: <pre>chmod +x SOLEY_1.5</pre></li>
-                        <li>Run: <pre>./SOLEY_1.5</pre></li>
-                        <li>If blocked by Gatekeeper:
-                            <ul>
-                                <li>Go to System Preferences → Security & Privacy</li>
-                                <li>Click "Open Anyway" next to the SOLEY warning</li>
-                            </ul>
-                        </li>
-                    </ol>
-                </details>
-
-                <details style="margin: 1rem 0; padding: 1rem; background: var(--light-bg); border-radius: 8px;">
-                    <summary style="cursor: pointer; font-weight: 600; font-size: 1.1rem;">Linux (Ubuntu/Debian/Fedora)</summary>
-                    <ol style="margin-top: 1rem; padding-left: 1.5rem;">
-                        <li>Download <code>SOLEY-Linux_1_5</code></li>
-                        <li>Make executable: <pre>chmod +x SOLEY-Linux_1_5</pre></li>
-                        <li>Run: <pre>./SOLEY-Linux_1_5</pre></li>
-                    </ol>
-                    <p style="margin-top: 1rem;"><strong>Dependencies</strong> (usually pre-installed): <code>libgtk-3-0</code>, <code>libffi7</code></p>
-                </details>
-
-                <div style="text-align: center; margin: 3rem 0;">
-                    <p><a href="https://doi.org/10.5281/zenodo.16151990" target="_blank">View all releases on Zenodo →</a></p>
-                </div>
-            </section>
-        </div>
-
-        <!-- Quick Start Tab -->
-        <div id="quickstart" class="tab-content">
-            <section>
-                <h3>Quick Start Guide</h3>
-
-                <h4>Basic Workflow</h4>
-                <div class="timeline">
-                    <div class="timeline-item">
-                        <h5>1. Build Layer Stack</h5>
-                        <ul>
-                            <li>Click "Add Layer" and select optical data file (n, k vs. wavelength)</li>
-                            <li>Enter thickness in nanometres</li>
-                            <li>Mark absorber layers with "Abs" checkbox</li>
-                            <li>Use "A(λ)" checkbox to export absorption spectra</li>
-                        </ul>
-                    </div>
-
-                    <div class="timeline-item">
-                        <h5>2. Configure Optical Calculation</h5>
-                        <ul>
-                            <li>Set wavelength range (typically 300–1300 nm)</li>
-                            <li>Choose illumination mode (direct/diffuse)</li>
-                            <li>Select polarisation</li>
-                            <li>Click "RUN OPTICAL CALCULATION"</li>
-                        </ul>
-                    </div>
-
-                    <div class="timeline-item">
-                        <h5>3. Set Device Parameters</h5>
-                        <ul>
-                            <li>Input bandgaps for each absorber</li>
-                            <li>Load incident spectrum (e.g., AM1.5G)</li>
-                            <li>Set temperature (default: 300 K)</li>
-                            <li>Adjust injection slider for light concentration</li>
-                        </ul>
-                    </div>
-
-                    <div class="timeline-item">
-                        <h5>4. Define Recombination</h5>
-                        <ul>
-                            <li>Go to Defects tab</li>
-                            <li>Click absorber button to open defect window</li>
-                            <li>Enter microscopic parameters or use defaults</li>
-                            <li>Computed J₀ values are automatically stored</li>
-                        </ul>
-                    </div>
-
-                    <div class="timeline-item">
-                        <h5>5. Calculate Performance</h5>
-                        <ul>
-                            <li>Click "CALCULATE DEVICE PARAMS"</li>
-                            <li>View results table with Jsc, Voc, FF, efficiency</li>
-                            <li>Export data or plot J-V curves</li>
-                        </ul>
-                    </div>
                 </div>
 
                 <div class="alert alert-info">

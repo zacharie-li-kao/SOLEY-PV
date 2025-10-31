@@ -11,7 +11,7 @@
 **A scientific-grade toolkit for optical and electrical modelling of photovoltaic devices**
 
 [![DOI](https://img.shields.io/badge/DOI-10.1002%2Fsolr.202500345-blue)](https://doi.org/10.1002/solr.202500345)
-[![Zenodo](https://img.shields.io/badge/Zenodo-v1.5-orange)](https://zenodo.org/records/17144667)
+[![Zenodo](https://img.shields.io/badge/Zenodo-v1.5-orange)](https://doi.org/10.5281/zenodo.16151990)
 [![License](https://img.shields.io/badge/License-Academic%20Use-green)](#license)
 
 [**Download**](#download) • [**Documentation**](https://github.com/zacharie-li-kao/SOLEY-PV/blob/main/SOLEY_Manual_1.5.pdf) • [**Cite**](#citation) • [**Contact**](#contact)
@@ -276,7 +276,7 @@ Real-time calculation and display of:
 
 ### All Releases
 
-[View on Zenodo](https://zenodo.org/records/17144667) for complete version history and DOI references.
+[View on Zenodo](https://doi.org/10.5281/zenodo.16151990) for complete version history and DOI references.
 
 ---
 

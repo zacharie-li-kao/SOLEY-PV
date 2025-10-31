@@ -11,10 +11,10 @@
 **A scientific-grade toolkit for optical and electrical modelling of photovoltaic devices**
 
 [![DOI](https://img.shields.io/badge/DOI-10.1002%2Fsolr.202500345-blue)](https://doi.org/10.1002/solr.202500345)
-[![Zenodo](https://img.shields.io/badge/Zenodo-v1.3-orange)](https://zenodo.org/records/17144667)
+[![Zenodo](https://img.shields.io/badge/Zenodo-v1.5-orange)](https://zenodo.org/records/17144667)
 [![License](https://img.shields.io/badge/License-Academic%20Use-green)](#license)
 
-[**Download**](#download) • [**Documentation**](https://github.com/zacharie-li-kao/SOLEY-PV/blob/main/SOLEY_Manual_1.3.pdf) • [**Cite**](#citation) • [**Contact**](#contact)
+[**Download**](#download) • [**Documentation**](https://github.com/zacharie-li-kao/SOLEY-PV/blob/main/SOLEY_Manual_1.5.pdf) • [**Cite**](#citation) • [**Contact**](#contact)
 
 ---
 
@@ -47,6 +47,7 @@
 - Native support for tandem and multi-terminal configurations
 - Microscopic-to-macroscopic parameter translation using Scaffidi formulation (https://www.cell.com/newton/fulltext/S2950-6360(25)00190-2)
 - Parallel TMM calculations with generation profile export
+- Integrated luminescence spectroscopy for material characterization
 - Suitable for quick parameter screening and design space exploration
 
 ---
@@ -185,6 +186,20 @@
 </details>
 
 <details>
+<summary><b>Shockley-Queisser Limit Calculator</b></summary>
+
+- Standalone module for theoretical efficiency limit analysis
+- Classic SQ limit with detailed balance
+- Extended to include Auger recombination
+- Series and shunt resistance effects
+- Temperature-dependent calculations
+- Concentration effects (0.001 to 46,300 suns)
+- Bandgap sweep with user-defined range and resolution
+- Export efficiency vs. bandgap data to CSV
+
+</details>
+
+<details>
 <summary><b>Performance Metrics Dashboard</b></summary>
 
 Real-time calculation and display of:
@@ -226,6 +241,7 @@ Real-time calculation and display of:
 - J-V curves: Voltage-current pairs to CSV
 - EQE spectra: λ vs. EQE to CSV
 - PL/EL spectra: Emission vs. wavelength to CSV
+- SQ limit data: Eg vs. efficiency to CSV
 - Results table: Multi-run parameter sweep data
 
 </details>
@@ -244,17 +260,17 @@ Real-time calculation and display of:
 
 ## Download
 
-### Executables (v1.3)
+### Executables (v1.5)
 
 | Platform | Download Link | Size |
 |----------|---------------|------|
-| **Windows** | [SOLEY-Windows_1_3.exe](https://zenodo.org/records/17144667/files/SOLEY-Windows_1_3.exe?download=1) | ~150 MB |
-| **macOS** | [SOLEY-macOS_1_3.zip](https://zenodo.org/records/17144667/files/SOLEY-macOS_1_3.zip?download=1) | ~160 MB |
-| **Linux** | [SOLEY-Linux_1_3](https://zenodo.org/records/17144667/files/SOLEY-Linux_1_3?download=1) | ~155 MB |
+| **Windows** | [SOLEY-Windows_1_5.exe](https://zenodo.org/records/17492939/files/SOLEY-Academic-Windows%201_5.exe?download=1) | ~100 MB |
+| **macOS** | [SOLEY-macOS_1_5.zip](https://zenodo.org/records/17492939/files/SOLEY-Academic-macOS%201_5?download=1) | ~60 MB |
+| **Linux** | [SOLEY-Linux_1_5](https://zenodo.org/records/17492939/files/SOLEY-Academic-Linux%201_5?download=1) | ~100 MB |
 
 ### Documentation
 
-[SOLEY Manual v1.3](https://github.com/zacharie-li-kao/SOLEY-PV/blob/main/SOLEY_Manual_1.3.pdf) (PDF)
+[SOLEY Manual v1.5](https://github.com/zacharie-li-kao/SOLEY-PV/blob/main/SOLEY%201_5%20Manual.pdf) (PDF)
 
 **Note**: Some newly added features may not yet be documented. Check the GUI tooltips or contact the developer for assistance.
 
@@ -275,7 +291,7 @@ Your operating system will flag SOLEY as potentially unsafe because the executab
 <details>
 <summary><b>Windows 10/11</b></summary>
 
-1. Download `SOLEY-Windows_1_3.exe`
+1. Download `SOLEY-Windows_1_5.exe`
 2. Double-click to run
 3. When Windows Defender SmartScreen appears:
    - Click "More info"
@@ -290,15 +306,15 @@ Your operating system will flag SOLEY as potentially unsafe because the executab
 <details>
 <summary><b>macOS (Intel & Apple Silicon)</b></summary>
 
-1. Download and extract `SOLEY-macOS_1_3.zip`
+1. Download and extract `SOLEY-macOS_1_5.zip`
 2. Open Terminal and navigate to the extracted folder
 3. Make executable:
    ```bash
-   chmod +x SOLEY_1.3
+   chmod +x SOLEY_1.5
    ```
 4. Run:
    ```bash
-   ./SOLEY_1.3
+   ./SOLEY_1.5
    ```
 5. If blocked by Gatekeeper:
    - Go to System Preferences → Security & Privacy
@@ -312,14 +328,14 @@ Your operating system will flag SOLEY as potentially unsafe because the executab
 <details>
 <summary><b>Linux (Ubuntu/Debian/Fedora)</b></summary>
 
-1. Download `SOLEY-Linux_1_3`
+1. Download `SOLEY-Linux_1_5`
 2. Make executable:
    ```bash
-   chmod +x SOLEY-Linux_1_3
+   chmod +x SOLEY-Linux_1_5
    ```
 3. Run:
    ```bash
-   ./SOLEY-Linux_1_3
+   ./SOLEY-Linux_1_5
    ```
 
 **Dependencies** (usually pre-installed):

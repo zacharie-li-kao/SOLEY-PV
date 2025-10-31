@@ -1114,53 +1114,55 @@ J₀_SRH = (J₀₀_bulk + J₀₀_interface)·exp(-Ea/(n·kB·T))</pre>
     </footer>
 
     <!-- JavaScript for Tabs -->
-    <script>
-        // Tab switching functionality
-        const tabButtons = document.querySAll('.tab-btn');
-        const tabContents = document.querySelectorAll('.tab-content');
+<script>
+    // Tab switching functionality
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    const tabContents = document.querySelectorAll('.tab-content');
 
-        tabButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                // Remove active class from all buttons and contents
-                tabButtons.forEach(btn => btn.classList.remove('active'));
-                tabContents.forEach(content => content.classList.remove('active'));
+    tabButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Remove active class from all buttons and contents
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            tabContents.forEach(content => content.classList.remove('active'));
 
-                // Add active class to clicked button and corresponding content
-                button.classList.add('active');
-                const tabId = button.getAttribute('data-tab');
-                document.getElementById(tabId).classList.add('active');
+            // Add active class to clicked button and corresponding content
+            button.classList.add('active');
+            const tabId = button.getAttribute('data-tab');
+            document.getElementById(tabId).classList.add('active');
 
-                // Scroll to top of content
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            });
+            // Scroll to top of content
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         });
+    });
 
-        // Handle hash navigation
-        function handleHashNavigation() {
-            const hash = window.location.hash.replace('#', '').replace('-tab', '');
-            if (hash) {
-                const targetButton = document.querySelector(`[data-tab="${hash}"]`);
-                if (targetButton) {
-                    targetButton.click();
-                }
+    // Handle hash navigation
+    function handleHashNavigation() {
+        const hash = window.location.hash.replace('#', '').replace('-tab', '');
+        if (hash) {
+            const targetButton = document.querySelector(`[data-tab="${hash}"]`);
+            if (targetButton) {
+                targetButton.click();
             }
         }
+    }
 
-        // Navigation links
-        document.querySelectorAll('nav a[href^="#"]').forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const targetId = link.getAttribute('href').replace('#', '').replace('-tab', '');
-                const targetButton = document.querySelector(`[data-tab="${targetId}"]`);
-                if (targetButton) {
-                    targetButton.click();
-                }
-            });
+    // Navigation links
+    document.querySelectorAll('nav a[href^="#"]').forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetId = link.getAttribute('href').replace('#', '').replace('-tab', '');
+            const targetButton = document.querySelector(`[data-tab="${targetId}"]`);
+            if (targetButton) {
+                targetButton.click();
+            }
         });
+    });
 
-        // Handle page load with hash
-        window.addEventListener('load', handleHashNavigation);
-        window.addEventListener('hashchange', handleHashNavigation);
-    </script>
+    // Handle page load with hash
+    window.addEventListener('load', handleHashNavigation);
+    window.addEventListener('hashchange', handleHashNavigation);
+</script>
+
+
 </body>
 </html>

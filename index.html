@@ -776,11 +776,134 @@
                     </div>
                 </div>
 
-                </div>
-
                 <div class="alert alert-info">
                     <strong>💡 Tip:</strong> Start with the example files included in the download to familiarize yourself with the workflow before building your own device structures.
                 </div>
+            </section>
+        </div>
+
+        <!-- Download Tab -->
+        <div id="download" class="tab-content">
+            <section>
+                <h3>Download SOLEY v1.5</h3>
+                <p style="font-size: 1.1rem; margin-bottom: 2rem;">
+                    Choose your platform below. All packages include the full application, example files, and user manual.
+                </p>
+
+                <div class="download-grid">
+                    <div class="download-card">
+                        <div class="platform-icon">🪟</div>
+                        <h5>Windows</h5>
+                        <p class="size">~150 MB</p>
+                        <a href="https://zenodo.org/records/14612312/files/SOLEY_1_5_Windows.zip?download=1" class="btn btn-primary">Download for Windows</a>
+                        <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-light);">
+                            Windows 10/11 (64-bit)
+                        </p>
+                    </div>
+
+                    <div class="download-card">
+                        <div class="platform-icon">🍎</div>
+                        <h5>macOS</h5>
+                        <p class="size">~150 MB</p>
+                        <a href="https://zenodo.org/records/14612312/files/SOLEY_1_5_macOS.zip?download=1" class="btn btn-primary">Download for macOS</a>
+                        <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-light);">
+                            macOS 10.15+ (Intel/Apple Silicon)
+                        </p>
+                    </div>
+
+                    <div class="download-card">
+                        <div class="platform-icon">🐧</div>
+                        <h5>Linux</h5>
+                        <p class="size">~150 MB</p>
+                        <a href="https://zenodo.org/records/14612312/files/SOLEY_1_5_Linux.zip?download=1" class="btn btn-primary">Download for Linux</a>
+                        <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-light);">
+                            Ubuntu 20.04+ / Debian-based
+                        </p>
+                    </div>
+                </div>
+
+                <div class="alert alert-info" style="margin-top: 2rem;">
+                    <strong>📦 What's included:</strong>
+                    <ul style="margin: 0.5rem 0 0 1.5rem;">
+                        <li>SOLEY executable application</li>
+                        <li>User manual (PDF)</li>
+                        <li>Example device structures</li>
+                        <li>Sample optical constants database</li>
+                    </ul>
+                </div>
+
+                <h4>System Requirements</h4>
+                <ul style="line-height: 1.8;">
+                    <li><strong>OS:</strong> Windows 10/11, macOS 10.15+, or Ubuntu 20.04+</li>
+                    <li><strong>RAM:</strong> 4 GB minimum (8 GB recommended)</li>
+                    <li><strong>Disk Space:</strong> 500 MB free space</li>
+                    <li><strong>Display:</strong> 1280×720 minimum resolution</li>
+                </ul>
+
+                <h4>Previous Versions</h4>
+                <p>All releases are archived on <a href="https://doi.org/10.5281/zenodo.16151990" target="_blank">Zenodo</a> with DOI versioning.</p>
+            </section>
+        </div>
+
+        <!-- Quick Start Tab -->
+        <div id="quickstart" class="tab-content">
+            <section>
+                <h3>Quick Start Guide</h3>
+
+                <h4>Installation</h4>
+                <ol style="line-height: 1.8; font-size: 1.05rem;">
+                    <li>Download the appropriate package for your operating system</li>
+                    <li>Extract the ZIP archive to your desired location</li>
+                    <li>Run the SOLEY executable (no installation required)</li>
+                </ol>
+
+                <div class="alert alert-warning">
+                    <strong>⚠️ macOS Users:</strong> You may need to right-click the application and select "Open" the first time due to Gatekeeper security. Go to System Preferences → Security & Privacy if blocked.
+                </div>
+
+                <h4>First Simulation in 5 Steps</h4>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <h5>1. Load Example Structure</h5>
+                        <p>File → Open → Select "perovskite_silicon_tandem.soley"</p>
+                    </div>
+                    <div class="timeline-item">
+                        <h5>2. Run Optical Calculation</h5>
+                        <p>Click "Calculate TMM" to compute absorption profiles</p>
+                    </div>
+                    <div class="timeline-item">
+                        <h5>3. Set Device Parameters</h5>
+                        <p>Navigate to "Device Physics" tab and review recombination settings</p>
+                    </div>
+                    <div class="timeline-item">
+                        <h5>4. Generate J-V Curve</h5>
+                        <p>Tools → J-V Characteristics → Select illumination conditions</p>
+                    </div>
+                    <div class="timeline-item">
+                        <h5>5. Export Results</h5>
+                        <p>File → Export → Choose CSV or PNG format</p>
+                    </div>
+                </div>
+
+                <h4>Essential Workflow</h4>
+                <pre>1. Define layer stack (materials + thicknesses)
+2. Assign optical constants (n, k data)
+3. Run TMM calculation
+4. Set absorber parameters (Eg, defects, etc.)
+5. Choose illumination (spectrum, angle, intensity)
+6. Run electrical model (J-V, EQE, PL, etc.)
+7. Analyze and export results</pre>
+
+                <h4>Example Files Included</h4>
+                <ul style="line-height: 1.8;">
+                    <li><code>single_junction_silicon.soley</code> - Basic c-Si device</li>
+                    <li><code>perovskite_silicon_tandem.soley</code> - 2T tandem cell</li>
+                    <li><code>triple_junction_concentrator.soley</code> - III-V multijunction</li>
+                    <li><code>thin_film_cdte.soley</code> - CdTe heterojunction</li>
+                </ul>
+
+                <h4>Getting Help</h4>
+                <p>Consult the full <a href="https://github.com/zacharie-li-kao/SOLEY-PV/blob/main/SOLEY%201_5%20Manual.pdf" target="_blank">User Manual (PDF)</a> for detailed tutorials and parameter explanations.</p>
             </section>
         </div>
 
@@ -791,7 +914,7 @@
 
                 <h4>Optical Model: Transfer Matrix Method</h4>
                 <p>SOLEY implements the Fresnel-based TMM for stratified media:</p>
-                <ul style="margin: 1rem 0;">
+                <ul style="margin: 1rem 0; line-height: 1.8;">
                     <li>Exact solution of Maxwell's equations in planar geometry</li>
                     <li>Coherent interference effects in thin films</li>
                     <li>Incoherent limit available for thick substrates (future update)</li>
@@ -801,13 +924,13 @@
                 <h4>Electrical Model: Extended Detailed Balance</h4>
                 <p>The device physics engine solves:</p>
                 <pre>J(V) = Jph - J0_rad·[exp(qV/kT) - 1] 
-            - J0_SRH·[exp(qV/nkT) - 1]
-            - JAuger(V)
-            - V/Rsh 
-            - J·Rs</pre>
+       - J0_SRH·[exp(qV/nkT) - 1]
+       - JAuger(V)
+       - V/Rsh 
+       - J·Rs</pre>
                 
                 <p><strong>Key advantages:</strong></p>
-                <ul>
+                <ul style="line-height: 1.8;">
                     <li>No need to solve Poisson-drift-diffusion system</li>
                     <li>Faster iteration for design screening</li>
                     <li>Thermodynamic consistency checks</li>
@@ -892,7 +1015,7 @@ J₀_SRH = (J₀₀_bulk + J₀₀_interface)·exp(-Ea/(n·kB·T))</pre>
                 <h4>License</h4>
                 <p><strong>SOLEY</strong> is distributed for academic use only. Commercial use requires explicit written permission from the author.</p>
                 <p>By downloading and using SOLEY, you agree to:</p>
-                <ul>
+                <ul style="line-height: 1.8;">
                     <li>Use the software strictly for non-commercial research and educational purposes</li>
                     <li>Cite the software in any publications or presentations</li>
                     <li>Not redistribute modified versions without permission</li>

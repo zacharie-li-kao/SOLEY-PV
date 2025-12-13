@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SOLEY - Solar Cell Simulation Package</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -12,37 +15,75 @@
         }
 
         :root {
-            --primary-color: #2563eb;
-            --secondary-color: #f59e0b;
-            --dark-bg: #1e293b;
-            --light-bg: #f8fafc;
-            --text-dark: #0f172a;
-            --text-light: #64748b;
-            --border-color: #e2e8f0;
+            --primary: #3B82F6;
+            --primary-light: #60A5FA;
+            --accent: #14B8A6;
+            --deep-space: #0B1120;
+            --midnight: #111827;
+            --slate-900: #1E293B;
+            --slate-800: #334155;
+            --slate-600: #475569;
+            --slate-400: #94A3B8;
+            --slate-300: #CBD5E1;
+            --slate-200: #E2E8F0;
+            --slate-50: #F8FAFC;
+            --white: #FFFFFF;
+        }
+
+        html {
+            scroll-behavior: smooth;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            line-height: 1.6;
-            color: var(--text-dark);
-            background: white;
+            font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.7;
+            color: var(--slate-200);
+            background: var(--deep-space);
+            overflow-x: hidden;
+        }
+
+        /* Subtle grid background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        a {
+            color: var(--primary-light);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        a:hover {
+            color: var(--primary);
         }
 
         /* Header */
         header {
-            background: linear-gradient(135deg, var(--dark-bg) 0%, #334155 100%);
-            color: white;
-            padding: 1rem 0;
-            position: sticky;
+            position: fixed;
             top: 0;
+            left: 0;
+            right: 0;
             z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            background: rgba(10, 14, 23, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
         }
 
         .header-content {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 0 2rem;
+            padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -51,71 +92,86 @@
         .logo-section {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 0.875rem;
         }
 
         .logo-section img {
-            height: 2rem;
+            height: 2.25rem;
             width: auto;
         }
 
         .logo-section h1 {
-            font-size: 1.8rem;
-            font-weight: 700;
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--white);
+            letter-spacing: 0.08em;
         }
 
         nav ul {
             display: flex;
             list-style: none;
-            gap: 2rem;
+            gap: 2.5rem;
         }
 
         nav a {
-            color: white;
-            text-decoration: none;
+            color: var(--slate-400);
+            font-size: 0.9rem;
             font-weight: 500;
-            transition: color 0.3s;
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
+            transition: color 0.2s ease;
         }
 
         nav a:hover {
-            color: var(--secondary-color);
+            color: var(--white);
         }
 
         /* Hero Section */
         .hero {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 4rem 2rem;
-            text-align: center;
+            min-height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 8rem 2rem 5rem;
         }
 
         .hero-content {
-            max-width: 1200px;
-            margin: 0 auto;
+            max-width: 900px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
         }
 
         .hero h2 {
-            font-size: 3rem;
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 600;
+            color: var(--white);
+            line-height: 1.2;
             margin-bottom: 1rem;
-            font-weight: 700;
+            letter-spacing: 0.04em;
         }
 
-        .hero p {
-            font-size: 1.3rem;
-            margin-bottom: 2rem;
-            opacity: 0.95;
+        .hero-subtitle {
+            font-size: 1.125rem;
+            color: var(--slate-400);
+            max-width: 600px;
+            margin: 0 auto 2rem;
         }
 
         .badges {
             display: flex;
-            gap: 1rem;
+            gap: 0.75rem;
             justify-content: center;
-            margin: 2rem 0;
+            margin-bottom: 2.5rem;
             flex-wrap: wrap;
         }
 
-        .badge {
-            display: inline-block;
+        .badge img {
+            height: 24px;
+            border-radius: 4px;
         }
 
         .cta-buttons {
@@ -123,37 +179,40 @@
             gap: 1rem;
             justify-content: center;
             flex-wrap: wrap;
-            margin-top: 2rem;
         }
 
         .btn {
-            padding: 0.875rem 2rem;
-            border-radius: 8px;
-            text-decoration: none;
+            padding: 1rem 2rem;
+            border-radius: 6px;
             font-weight: 600;
-            transition: all 0.3s;
-            display: inline-block;
+            font-size: 0.95rem;
+            letter-spacing: 0.02em;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .btn-primary {
-            background: var(--secondary-color);
-            color: white;
+            background: var(--primary);
+            color: var(--white);
         }
 
         .btn-primary:hover {
-            background: #d97706;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+            background: var(--primary-light);
+            color: var(--white);
         }
 
         .btn-secondary {
-            background: white;
-            color: var(--primary-color);
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--white);
+            border: 1px solid rgba(255, 255, 255, 0.15);
         }
 
         .btn-secondary:hover {
-            background: var(--light-bg);
-            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.25);
+            color: var(--white);
         }
 
         /* Container */
@@ -165,61 +224,65 @@
 
         /* Tabs Navigation */
         .tabs-nav {
-            background: var(--light-bg);
-            border-bottom: 2px solid var(--border-color);
             position: sticky;
             top: 73px;
             z-index: 999;
+            background: rgba(10, 14, 23, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
         }
 
         .tabs-nav-inner {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 2rem;
+            overflow-x: auto;
         }
 
         .tabs-nav ul {
             display: flex;
             list-style: none;
-            gap: 0.5rem;
-            flex-wrap: wrap;
+            gap: 0;
+            min-width: max-content;
         }
 
         .tabs-nav button {
-            padding: 1rem 1.5rem;
+            padding: 1.25rem 1.5rem;
             border: none;
             background: none;
             cursor: pointer;
-            font-weight: 600;
-            color: var(--text-light);
-            transition: all 0.3s;
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-weight: 500;
+            font-size: 0.875rem;
+            color: var(--slate-400);
+            transition: all 0.2s ease;
             white-space: nowrap;
             position: relative;
         }
 
         .tabs-nav button:hover {
-            color: var(--primary-color);
+            color: var(--slate-200);
         }
 
         .tabs-nav button.active {
-            color: var(--primary-color);
+            color: var(--primary-light);
         }
 
         .tabs-nav button.active::after {
             content: '';
             position: absolute;
-            bottom: -2px;
+            bottom: 0;
             left: 0;
             right: 0;
-            height: 3px;
-            background: var(--primary-color);
+            height: 2px;
+            background: var(--primary);
         }
 
         /* Tab Content */
         .tab-content {
             display: none;
-            padding: 3rem 0;
-            animation: fadeIn 0.3s;
+            padding: 5rem 0;
+            animation: fadeIn 0.4s ease;
         }
 
         .tab-content.active {
@@ -227,52 +290,68 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         /* Section Styling */
         section {
-            margin-bottom: 3rem;
+            margin-bottom: 4rem;
         }
 
         h3 {
-            font-size: 2rem;
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: var(--white);
             margin-bottom: 1rem;
-            color: var(--text-dark);
         }
 
         h4 {
-            font-size: 1.5rem;
-            margin: 2rem 0 1rem;
-            color: var(--text-dark);
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 3rem 0 1.5rem;
+            color: var(--white);
+            letter-spacing: 0.02em;
+        }
+
+        h5 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--primary-light);
+            margin-bottom: 0.75rem;
+        }
+
+        p {
+            color: var(--slate-400);
         }
 
         /* Feature Grid */
         .feature-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
             margin: 2rem 0;
         }
 
         .feature-card {
-            background: white;
-            border: 1px solid var(--border-color);
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.06);
             border-radius: 12px;
             padding: 2rem;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
 
         .feature-card:hover {
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(255, 255, 255, 0.12);
         }
 
-        .feature-card h5 {
-            font-size: 1.25rem;
-            margin-bottom: 0.75rem;
-            color: var(--primary-color);
+        .feature-card p {
+            color: var(--slate-400);
+            font-size: 0.95rem;
         }
 
         .feature-card ul {
@@ -281,17 +360,19 @@
         }
 
         .feature-card li {
-            padding: 0.5rem 0;
+            padding: 0.4rem 0;
             padding-left: 1.5rem;
             position: relative;
+            color: var(--slate-400);
+            font-size: 0.95rem;
         }
 
         .feature-card li::before {
-            content: '✓';
+            content: '→';
             position: absolute;
             left: 0;
-            color: var(--secondary-color);
-            font-weight: bold;
+            color: var(--accent);
+            font-size: 0.85rem;
         }
 
         /* Screenshot Gallery */
@@ -305,12 +386,13 @@
         .screenshot-item {
             border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: all 0.3s ease;
         }
 
         .screenshot-item:hover {
-            transform: scale(1.02);
+            border-color: rgba(255, 255, 255, 0.15);
         }
 
         .screenshot-item img {
@@ -319,92 +401,122 @@
             display: block;
         }
 
-        .screenshot-placeholder {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 6rem 2rem;
-            text-align: center;
-            font-size: 1.2rem;
-            font-weight: 600;
-        }
-
         .screenshot-caption {
-            padding: 1rem;
-            background: var(--light-bg);
-            font-weight: 600;
-            color: var(--text-dark);
+            padding: 1.25rem;
+            background: rgba(0, 0, 0, 0.3);
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: var(--slate-200);
         }
 
         /* Download Section */
         .download-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
             margin: 2rem 0;
         }
 
         .download-card {
-            background: white;
-            border: 2px solid var(--border-color);
-            border-radius: 12px;
-            padding: 2rem;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 2.5rem 2rem;
             text-align: center;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
+            position: relative;
         }
 
         .download-card:hover {
-            border-color: var(--primary-color);
-            box-shadow: 0 8px 25px rgba(37, 99, 235, 0.15);
+            border-color: var(--primary);
+            background: rgba(59, 130, 246, 0.05);
         }
 
         .download-card .platform-icon {
             font-size: 3rem;
-            margin-bottom: 1rem;
+            margin-bottom: 1.25rem;
+            display: block;
         }
 
         .download-card h5 {
-            font-size: 1.3rem;
+            font-size: 1.4rem;
+            color: var(--white);
             margin-bottom: 0.5rem;
         }
 
         .download-card .size {
-            color: var(--text-light);
+            color: var(--slate-400);
             font-size: 0.9rem;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .download-card .btn {
+            width: 100%;
+            justify-content: center;
+        }
+
+        .download-card .platform-note {
+            margin-top: 1.25rem;
+            font-size: 0.85rem;
+            color: var(--slate-600);
         }
 
         /* Code Block */
         pre {
-            background: var(--dark-bg);
-            color: #e2e8f0;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            color: var(--slate-200);
             padding: 1.5rem;
-            border-radius: 8px;
+            border-radius: 6px;
             overflow-x: auto;
-            margin: 1rem 0;
+            margin: 1.5rem 0;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.875rem;
+            line-height: 1.6;
         }
 
         code {
-            font-family: 'Courier New', monospace;
+            font-family: 'IBM Plex Mono', monospace;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.15rem 0.4rem;
+            border-radius: 3px;
+            font-size: 0.875em;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
         }
 
         /* Alert Box */
         .alert {
-            padding: 1rem 1.5rem;
+            padding: 1.25rem 1.5rem;
             border-radius: 8px;
             margin: 1.5rem 0;
-            border-left: 4px solid;
+            border-left: 3px solid;
         }
 
         .alert-info {
-            background: #dbeafe;
-            border-color: var(--primary-color);
-            color: #1e40af;
+            background: rgba(59, 130, 246, 0.08);
+            border-color: var(--primary);
+        }
+
+        .alert-info strong {
+            color: var(--primary-light);
         }
 
         .alert-warning {
-            background: #fef3c7;
-            border-color: var(--secondary-color);
-            color: #92400e;
+            background: rgba(245, 158, 11, 0.08);
+            border-color: #F59E0B;
+        }
+
+        .alert-warning strong {
+            color: #FBBF24;
+        }
+
+        .alert ul {
+            margin: 0.5rem 0 0 1.5rem;
+            color: var(--slate-400);
         }
 
         /* Timeline */
@@ -420,12 +532,12 @@
             left: 0;
             top: 0;
             bottom: 0;
-            width: 3px;
-            background: var(--primary-color);
+            width: 2px;
+            background: var(--slate-600);
         }
 
         .timeline-item {
-            margin-bottom: 2rem;
+            margin-bottom: 2.5rem;
             padding-left: 2rem;
             position: relative;
         }
@@ -433,26 +545,50 @@
         .timeline-item::before {
             content: '';
             position: absolute;
-            left: -0.625rem;
-            top: 0.5rem;
-            width: 1rem;
-            height: 1rem;
+            left: -5px;
+            top: 0.4rem;
+            width: 12px;
+            height: 12px;
             border-radius: 50%;
-            background: var(--secondary-color);
-            border: 3px solid white;
-            box-shadow: 0 0 0 3px var(--primary-color);
+            background: var(--primary);
         }
 
         .timeline-item h5 {
-            font-size: 1.2rem;
+            font-size: 1.15rem;
+            color: var(--white);
             margin-bottom: 0.5rem;
+        }
+
+        .timeline-item ul {
+            margin-top: 0.75rem;
+            padding-left: 1.25rem;
+            color: var(--slate-400);
+        }
+
+        .timeline-item li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Citation Block */
+        .citation-block {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .citation-block p {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: var(--slate-200);
         }
 
         /* Footer */
         footer {
-            background: var(--dark-bg);
-            color: white;
-            padding: 3rem 2rem 1rem;
+            background: rgba(0, 0, 0, 0.4);
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 4rem 2rem 2rem;
             margin-top: 4rem;
         }
 
@@ -460,58 +596,123 @@
             max-width: 1200px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-bottom: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
         }
 
         .footer-section h4 {
-            color: white;
-            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--slate-200);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1.25rem;
+            margin-top: 0;
+        }
+
+        .footer-section p {
+            font-size: 0.95rem;
+            color: var(--slate-400);
+            margin-bottom: 0.5rem;
         }
 
         .footer-section a {
-            color: #94a3b8;
-            text-decoration: none;
+            color: var(--slate-400);
             display: block;
             margin: 0.5rem 0;
-            transition: color 0.3s;
+            font-size: 0.95rem;
+            transition: color 0.2s ease;
         }
 
         .footer-section a:hover {
-            color: var(--secondary-color);
+            color: var(--primary-light);
         }
 
         .footer-bottom {
             text-align: center;
             padding-top: 2rem;
-            border-top: 1px solid #334155;
-            color: #94a3b8;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            color: var(--slate-600);
+            font-size: 0.9rem;
+        }
+
+        /* Intro paragraph styling */
+        .intro-text {
+            font-size: 1.15rem;
+            line-height: 1.9;
+            color: var(--slate-300);
+            max-width: 900px;
+        }
+
+        /* Lists in content */
+        .content-list {
+            line-height: 2;
+            padding-left: 1.5rem;
+            color: var(--slate-400);
+        }
+
+        .content-list li {
+            margin-bottom: 0.25rem;
         }
 
         /* Responsive */
         @media (max-width: 768px) {
             .hero h2 {
-                font-size: 2rem;
+                font-size: 2.5rem;
             }
 
-            .hero p {
+            .hero-subtitle {
                 font-size: 1.1rem;
             }
 
             nav ul {
-                flex-direction: column;
-                gap: 0.5rem;
+                display: none;
             }
 
             .header-content {
-                flex-direction: column;
-                gap: 1rem;
+                padding: 0.875rem 1.5rem;
+            }
+
+            .tabs-nav-inner {
+                padding: 0 1rem;
+            }
+
+            .tabs-nav button {
+                padding: 1rem;
+                font-size: 0.8rem;
             }
 
             .screenshot-gallery {
                 grid-template-columns: 1fr;
             }
+
+            h3 {
+                font-size: 2rem;
+            }
+
+            .container {
+                padding: 0 1.5rem;
+            }
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--deep-space);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--slate-600);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--slate-400);
         }
     </style>
 </head>
@@ -537,8 +738,8 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-content">
-            <h2>SOLEY - Solar Cell Simulation Package</h2>
-            <p>A scientific-grade toolkit for optical and electrical modelling of photovoltaic devices</p>
+            <h2>SOLEY</h2>
+            <p class="hero-subtitle">Solar cell simulation using extended detailed balance and Transfer Matrix Method optical calculations.</p>
             
             <div class="badges">
                 <span class="badge">
@@ -557,8 +758,14 @@
             </div>
 
             <div class="cta-buttons">
-                <a href="#download-tab" class="btn btn-primary">Download v1.7</a>
-                <a href="https://github.com/zacharie-li-kao/SOLEY-PV/blob/main/SOLEY-1_7_Manual.pdf" class="btn btn-secondary" target="_blank">View Documentation</a>
+                <a href="#download-tab" class="btn btn-primary">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    Download v1.7
+                </a>
+                <a href="https://github.com/zacharie-li-kao/SOLEY-PV/blob/main/SOLEY-1_7_Manual.pdf" class="btn btn-secondary" target="_blank">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                    View Documentation
+                </a>
             </div>
         </div>
     </section>
@@ -588,7 +795,7 @@
         <div id="overview" class="tab-content active">
             <section>
                 <h3>Overview</h3>
-                <p style="font-size: 1.1rem; line-height: 1.8;">
+                <p class="intro-text">
                     <strong>SOLEY</strong> is a simulation platform for researchers and engineers working on photovoltaic device optimisation. Unlike traditional drift-diffusion simulators, SOLEY implements an extended detailed balance framework combined with rigorous Transfer Matrix Method (TMM) optical calculations, offering a complementary approach to existing tools like SCAPS-1D or PC1D.
                 </p>
             </section>
@@ -605,7 +812,7 @@
                         <p>Native support for tandem and multi-terminal configurations</p>
                     </div>
                     <div class="feature-card">
-                        <h5>Bulk and Interface defects</h5>
+                        <h5>Bulk and Interface Defects</h5>
                         <p>Customisable recombination pathways</p>
                     </div>
                     <div class="feature-card">
@@ -646,7 +853,6 @@
                             <li>Direct and diffuse illumination (Lambertian integration)</li>
                             <li>Angle (0-89°) and polarization (TE/TM/unpolarized) control</li>
                             <li>Generation profiles with spectral integration</li>
-                            
                         </ul>
                     </div>
                     <div class="feature-card">
@@ -737,18 +943,9 @@
                     <div class="feature-card">
                         <h5>Generation Function Export</h5>
                         <ul>
-                            <li>TMM-caluclated Generation</li>
+                            <li>TMM-calculated Generation</li>
                             <li>SCAPS-compatible</li>
                             <li>Parallel computing for faster export</li>
-                        </ul>
-                    </div>
-                    <div class="feature-card">
-                        <h5>Light Scattering/Trapping</h5>
-                        <ul>
-                            <li>Debye-Waller (roughness ~ wavelength)</li>
-                            <li>Geometric trapping (roughness >> wavelength)</li>
-                            <li>Hybrid absorber/non-absorber treatment</li>
-                            <li>Infinite bounce path enhancement</li>
                         </ul>
                     </div>
                     <div class="feature-card">
@@ -768,6 +965,15 @@
                         </ul>
                     </div>
                     <div class="feature-card">
+                        <h5>Light Scattering/Trapping</h5>
+                        <ul>
+                            <li>Debye-Waller (roughness ~ wavelength)</li>
+                            <li>Geometric trapping (roughness >> wavelength)</li>
+                            <li>Hybrid absorber/non-absorber treatment</li>
+                            <li>Infinite bounce path enhancement</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
                         <h5>Integrated Theoretical Hints</h5>
                         <ul>
                             <li>Scientific explanations in GUI</li>
@@ -783,7 +989,7 @@
         <div id="screenshots" class="tab-content">
             <section>
                 <h3>Application Screenshots</h3>
-                <p style="margin-bottom: 2rem;">See SOLEY in action with these interface examples:</p>
+                <p style="margin-bottom: 2rem; color: var(--slate-400);">See SOLEY in action with these interface examples:</p>
 
                 <div class="screenshot-gallery">
                     <div class="screenshot-item">
@@ -827,45 +1033,39 @@
         <div id="download" class="tab-content">
             <section>
                 <h3>Download SOLEY v1.7</h3>
-                <p style="font-size: 1.1rem; margin-bottom: 2rem;">
+                <p style="font-size: 1.1rem; margin-bottom: 2rem; color: var(--slate-300);">
                     Choose your platform below. SOLEY now requires installation. Example files are located in the installation directory (Program Files/SOLEY/ for Windows).
                 </p>
 
                 <div class="download-grid">
                     <div class="download-card">
-                        <div class="platform-icon">🪟</div>
+                        <span class="platform-icon">🪟</span>
                         <h5>Windows</h5>
                         <p class="size">~100 MB</p>
                         <a href="https://zenodo.org/records/17882521/files/SOLEY-1_7-Win.exe?download=1" class="btn btn-primary">Download for Windows</a>
-                        <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-light);">
-                            Windows 10/11 (64-bit)
-                        </p>
+                        <p class="platform-note">Windows 10/11 (64-bit)</p>
                     </div>
 
                     <div class="download-card">
-                        <div class="platform-icon">🍎</div>
+                        <span class="platform-icon">🍎</span>
                         <h5>macOS</h5>
                         <p class="size">~60 MB</p>
                         <a href="https://zenodo.org/records/17882521/files/SOLEY-1_7-macOS?download=1" class="btn btn-primary">Download for macOS</a>
-                        <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-light);">
-                            macOS 10.15+ (Intel/Apple Silicon)
-                        </p>
+                        <p class="platform-note">macOS 10.15+ (Intel/Apple Silicon)</p>
                     </div>
 
                     <div class="download-card">
-                        <div class="platform-icon">🐧</div>
+                        <span class="platform-icon">🐧</span>
                         <h5>Linux</h5>
                         <p class="size">~100 MB</p>
                         <a href="https://zenodo.org/records/17882521/files/SOLEY-1_7-Linux?download=1" class="btn btn-primary">Download for Linux</a>
-                        <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-light);">
-                            Ubuntu 20.04+ / Debian-based
-                        </p>
+                        <p class="platform-note">Ubuntu 20.04+ / Debian-based</p>
                     </div>
                 </div>
 
                 <div class="alert alert-info" style="margin-top: 2rem;">
                     <strong>📦 What's included:</strong>
-                    <ul style="margin: 0.5rem 0 0 1.5rem;">
+                    <ul>
                         <li>SOLEY installer with full application</li>
                         <li>Example device structures (Windows: Program Files/SOLEY/)</li>
                         <li>Sample optical constants database</li>
@@ -875,7 +1075,7 @@
                 </div>
 
                 <h4>System Requirements</h4>
-                <ul style="line-height: 1.8;">
+                <ul class="content-list">
                     <li><strong>OS:</strong> Windows 10/11, macOS 10.15+, or Ubuntu 20.04+</li>
                     <li><strong>RAM:</strong> 4 GB minimum (8 GB recommended)</li>
                     <li><strong>Disk Space:</strong> 500 MB free space</li>
@@ -893,7 +1093,7 @@
                 <h3>Quick Start Guide</h3>
 
                 <h4>Installation</h4>
-                <ol style="line-height: 1.8; font-size: 1.05rem;">
+                <ol class="content-list">
                     <li>Download the appropriate installer for your operating system</li>
                     <li>Run the installer and follow the installation wizard</li>
                     <li>Launch SOLEY from your applications menu or desktop shortcut</li>
@@ -938,7 +1138,7 @@
 7. Analyze and export results</pre>
 
                 <h4>Example Files Included</h4>
-                <ul style="line-height: 1.8;">
+                <ul class="content-list">
                     <li><code>single_junction_silicon.soley</code> - Basic c-Si device</li>
                     <li><code>perovskite_silicon_tandem.soley</code> - 2T tandem cell</li>
                     <li><code>CZTS.soley</code> - Sulphur Kesterite</li>
@@ -956,35 +1156,35 @@
                 <h3>Technical Approach</h3>
 
                 <h4>Optical Model: Transfer Matrix Method</h4>
-                <p>SOLEY implements the Fresnel-based TMM for stratified media:</p>
-                <ul style="margin: 1rem 0; line-height: 1.8;">
+                <p style="color: var(--slate-300); margin-bottom: 1rem;">SOLEY implements the Fresnel-based TMM for stratified media:</p>
+                <ul class="content-list">
                     <li>Exact solution of Maxwell's equations in planar geometry</li>
                     <li>Coherent interference effects in thin films</li>
                     <li>Partial coherence modeling (convolution & sampling methods)</li>
                     <li>Direct and diffuse illumination with angular integration</li>
                     <li>Three light scattering models: Debye-Waller, geometric trapping, and hybrid treatment</li>
                 </ul>
-                <p><strong>Reference:</strong> Jimenez et al., <em>SOl. Mat.</em> <strong>251</strong>, 112109 (2023), DOI: <a href="https://doi.org/10.1016/j.solmat.2022.112109" target="_blank">10.1016/j.solmat.2022.112109</a></p>
+                <p style="margin-top: 1rem;"><strong style="color: var(--slate-200);">Reference:</strong> Jimenez et al., <em>Sol. Mat.</em> <strong>251</strong>, 112109 (2023), DOI: <a href="https://doi.org/10.1016/j.solmat.2022.112109" target="_blank">10.1016/j.solmat.2022.112109</a></p>
 
                 <h4>Electrical Model: Extended Detailed Balance</h4>
-                <p>The device physics engine solves:</p>
+                <p style="color: var(--slate-300); margin-bottom: 1rem;">The device physics engine solves:</p>
                 <pre>J(V) = Jph - J0_rad·[exp(qV/kT) - 1] 
        - J0_SRH·[exp(qV/nkT) - 1]
        - JAuger(V)
        - V/Rsh 
        - J·Rs</pre>
                 
-                <p><strong>Key advantages:</strong></p>
-                <ul style="line-height: 1.8;">
+                <p style="margin-top: 1.5rem;"><strong style="color: var(--slate-200);">Key advantages:</strong></p>
+                <ul class="content-list">
                     <li>No need to solve Poisson-drift-diffusion system</li>
                     <li>Faster iteration for design screening</li>
                     <li>Thermodynamic consistency checks</li>
                     <li>Direct link between optical and electrical models</li>
                 </ul>
-                <p><strong>Reference:</strong> Jehl Li-Kao, <em>Solar RRL</em> (2025), DOI: <a href="https://doi.org/10.1002/solr.202500345" target="_blank">10.1002/solr.202500345</a></p>
+                <p style="margin-top: 1rem;"><strong style="color: var(--slate-200);">Reference:</strong> Jehl Li-Kao, <em>Solar RRL</em> (2025), DOI: <a href="https://doi.org/10.1002/solr.202500345" target="_blank">10.1002/solr.202500345</a></p>
 
                 <h4>Defect Modelling: Bulk and Interface Recombination</h4>
-                <p>SOLEY translates microscopic trap parameters into macroscopic J₀ using the formulation from Scaffidi et al.:</p>
+                <p style="color: var(--slate-300); margin-bottom: 1rem;">SOLEY translates microscopic trap parameters into macroscopic J₀ using the formulation from Scaffidi et al.:</p>
                 <pre>Bulk recombination:
 J₀₀_bulk = π·kB·T·√(ε·Nc·Nv/(2·q·Vbi·Ndop))·vth·σn·Nt
 
@@ -993,7 +1193,7 @@ J₀₀_interface = q·Sp·Ndop·[(Nc_adj·Nv)/(Ndop_adj·Ndop)]^(1-θ)
 
 Final J₀_SRH:
 J₀_SRH = (J₀₀_bulk + J₀₀_interface)·exp(-Ea/(n·kB·T))</pre>
-                <p><strong>Reference:</strong> Scaffidi, R. et al. <em>Newton</em> <strong>1</strong>(8), 100198 (2025). DOI: <a href="https://doi.org/10.1016/j.newton.2025.100198" target="_blank">10.1016/j.newton.2025.100198</a></p>
+                <p style="margin-top: 1rem;"><strong style="color: var(--slate-200);">Reference:</strong> Scaffidi, R. et al. <em>Newton</em> <strong>1</strong>(8), 100198 (2025). DOI: <a href="https://doi.org/10.1016/j.newton.2025.100198" target="_blank">10.1016/j.newton.2025.100198</a></p>
             </section>
         </div>
 
@@ -1034,40 +1234,40 @@ J₀_SRH = (J₀₀_bulk + J₀₀_interface)·exp(-Ea/(n·kB·T))</pre>
         <div id="patchnotes" class="tab-content">
             <section>
                 <h3>Patch Notes</h3>
-                <p style="margin-bottom: 2rem;">Version history and changelog for SOLEY releases.</p>
+                <p style="margin-bottom: 2rem; color: var(--slate-400);">Version history and changelog for SOLEY releases.</p>
 
                 <div class="timeline">
                     <div class="timeline-item">
                         <h5>Version 1.7 (Current)</h5>
-                        <p style="margin-bottom: 0.5rem;"><strong>Release Date:</strong> December 10th, 2025</p>
-                        <p style="margin-bottom: 1rem;"><strong>Major Updates:</strong></p>
-                        <ul style="line-height: 1.8;">
-                            <li><strong>Light Scattering/Trapping Logic:</strong> Three comprehensive models - Debye-Waller factors for smooth interfaces, geometric light trapping for textured surfaces with infinite bounce path enhancement, and hybrid absorber/non-absorber interface treatment</li>
-                            <li><strong>Voltage Dependent Collection:</strong> Integrated Hecht equation for modeling collection efficiency as a function of applied voltage based on mobility-lifetime product (μτ) and drift length</li>
-                            <li><strong>Advanced Diode Analysis:</strong> Added local ideality factor n_id(V) and differential resistance R_diff(V) diagnostic tools to separate shunt, recombination, and series resistance regimes</li>
-                            <li><strong>Integrated Theoretical Hints:</strong> GUI now includes contextual scientific explanations for each functionality, helping users understand the physics behind SOLEY's features</li>
-                            <li><strong>Installation Changes:</strong> SOLEY now uses an installer instead of portable executables</li>
-                            <li><strong>Example Files:</strong> Example files now included in installation directory (Program Files/SOLEY/ for Windows)</li>
+                        <p style="margin-bottom: 0.5rem; color: var(--slate-400);"><strong style="color: var(--slate-200);">Release Date:</strong> December 10th, 2025</p>
+                        <p style="margin-bottom: 1rem; color: var(--slate-300);"><strong>Major Updates:</strong></p>
+                        <ul>
+                            <li><strong style="color: var(--slate-200);">Light Scattering/Trapping Logic:</strong> Three comprehensive models - Debye-Waller factors for smooth interfaces, geometric light trapping for textured surfaces with infinite bounce path enhancement, and hybrid absorber/non-absorber interface treatment</li>
+                            <li><strong style="color: var(--slate-200);">Voltage Dependent Collection:</strong> Integrated Hecht equation for modeling collection efficiency as a function of applied voltage based on mobility-lifetime product (μτ) and drift length</li>
+                            <li><strong style="color: var(--slate-200);">Advanced Diode Analysis:</strong> Added local ideality factor n_id(V) and differential resistance R_diff(V) diagnostic tools to separate shunt, recombination, and series resistance regimes</li>
+                            <li><strong style="color: var(--slate-200);">Integrated Theoretical Hints:</strong> GUI now includes contextual scientific explanations for each functionality, helping users understand the physics behind SOLEY's features</li>
+                            <li><strong style="color: var(--slate-200);">Installation Changes:</strong> SOLEY now uses an installer instead of portable executables</li>
+                            <li><strong style="color: var(--slate-200);">Example Files:</strong> Example files now included in installation directory (Program Files/SOLEY/ for Windows)</li>
                         </ul>
                     </div>
 
                     <div class="timeline-item">
                         <h5>Version 1.5</h5>
-                        <p style="margin-bottom: 0.5rem;"><strong>Release Date:</strong> October 30th, 2025</p>
-                        <p style="margin-bottom: 1rem;"><strong>Key Features:</strong></p>
-                        <ul style="line-height: 1.8;">
-                            <li><strong>Luminescence Logic:</strong> Implemented photoluminescence (PL) and electroluminescence (EL) spectroscopy capabilities</li>
-                            <li><strong>Bug Fixes:</strong> Corrected bug in Auger recombination calculations</li>
+                        <p style="margin-bottom: 0.5rem; color: var(--slate-400);"><strong style="color: var(--slate-200);">Release Date:</strong> October 30th, 2025</p>
+                        <p style="margin-bottom: 1rem; color: var(--slate-300);"><strong>Key Features:</strong></p>
+                        <ul>
+                            <li><strong style="color: var(--slate-200);">Luminescence Logic:</strong> Implemented photoluminescence (PL) and electroluminescence (EL) spectroscopy capabilities</li>
+                            <li><strong style="color: var(--slate-200);">Bug Fixes:</strong> Corrected bug in Auger recombination calculations</li>
                         </ul>
                     </div>
 
                     <div class="timeline-item">
                         <h5>Version 1.3</h5>
-                        <p style="margin-bottom: 0.5rem;"><strong>Release Date:</strong> September 15th, 2025</p>
-                        <p style="margin-bottom: 1rem;"><strong>Key Features:</strong></p>
-                        <ul style="line-height: 1.8;">
-                            <li><strong>Modern GUI:</strong> Interface redesign with improved user experience</li>
-                            <li><strong>Batch Logic Fixes:</strong> Resolved bugs affecting batch calculation workflows</li>
+                        <p style="margin-bottom: 0.5rem; color: var(--slate-400);"><strong style="color: var(--slate-200);">Release Date:</strong> September 15th, 2025</p>
+                        <p style="margin-bottom: 1rem; color: var(--slate-300);"><strong>Key Features:</strong></p>
+                        <ul>
+                            <li><strong style="color: var(--slate-200);">Modern GUI:</strong> Interface redesign with improved user experience</li>
+                            <li><strong style="color: var(--slate-200);">Batch Logic Fixes:</strong> Resolved bugs affecting batch calculation workflows</li>
                         </ul>
                     </div>
                 </div>
@@ -1082,11 +1282,11 @@ J₀_SRH = (J₀₀_bulk + J₀₀_interface)·exp(-Ea/(n·kB·T))</pre>
         <div id="citation" class="tab-content">
             <section>
                 <h3>Citation</h3>
-                <p>If you use SOLEY in your research, please cite:</p>
+                <p style="color: var(--slate-300); margin-bottom: 1rem;">If you use SOLEY in your research, please cite:</p>
 
-                <div style="background: var(--light-bg); padding: 2rem; border-radius: 8px; margin: 2rem 0;">
-                    <p style="font-style: italic;">
-                        <strong>Jehl Li-Kao, Z.</strong> "SOLEY: a package for optical and extended detailed balance model for photovoltaic device simulation." <em>Solar RRL</em> (2025). DOI: <a href="https://doi.org/10.1002/solr.202500345" target="_blank">10.1002/solr.202500345</a>
+                <div class="citation-block">
+                    <p>
+                        <strong style="color: var(--primary-light);">Jehl Li-Kao, Z.</strong> "SOLEY: a package for optical and extended detailed balance model for photovoltaic device simulation." <em>Solar RRL</em> (2025). DOI: <a href="https://doi.org/10.1002/solr.202500345" target="_blank">10.1002/solr.202500345</a>
                     </p>
                 </div>
 
@@ -1102,9 +1302,9 @@ J₀_SRH = (J₀₀_bulk + J₀₀_interface)·exp(-Ea/(n·kB·T))</pre>
 }</pre>
 
                 <h4>License</h4>
-                <p><strong>SOLEY</strong> is distributed for academic use only. Commercial use requires explicit written permission from the author.</p>
-                <p>By downloading and using SOLEY, you agree to:</p>
-                <ul style="line-height: 1.8;">
+                <p style="color: var(--slate-300);"><strong style="color: var(--slate-200);">SOLEY</strong> is distributed for academic use only. Commercial use requires explicit written permission from the author.</p>
+                <p style="color: var(--slate-400); margin-top: 0.75rem;">By downloading and using SOLEY, you agree to:</p>
+                <ul class="content-list">
                     <li>Use the software strictly for non-commercial research and educational purposes</li>
                     <li>Cite the software in any publications or presentations</li>
                     <li>Not redistribute modified versions without permission</li>
@@ -1116,7 +1316,7 @@ J₀_SRH = (J₀₀_bulk + J₀₀_interface)·exp(-Ea/(n·kB·T))</pre>
         <div id="contact" class="tab-content">
             <section>
                 <h3>Contact</h3>
-                <p style="font-size: 1.1rem; margin-bottom: 2rem;">
+                <p style="font-size: 1.1rem; margin-bottom: 2rem; color: var(--slate-300);">
                     Get in touch for questions, bug reports, feature requests, or collaboration opportunities.
                 </p>
 
@@ -1124,7 +1324,7 @@ J₀_SRH = (J₀₀_bulk + J₀₀_interface)·exp(-Ea/(n·kB·T))</pre>
                     <div class="feature-card">
                         <h5>📧 Email</h5>
                         <p><a href="mailto:zacharie.jehl@upc.edu">zacharie.jehl@upc.edu</a></p>
-                        <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-light);">
+                        <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--slate-600);">
                             Use subject prefixes:<br>
                             [SOLEY Bug] - Bug reports<br>
                             [SOLEY Feature] - Feature requests<br>
@@ -1135,7 +1335,7 @@ J₀_SRH = (J₀₀_bulk + J₀₀_interface)·exp(-Ea/(n·kB·T))</pre>
                     <div class="feature-card">
                         <h5>💼 LinkedIn</h5>
                         <p><a href="https://www.linkedin.com/in/zacharie-j-9ba014ba/" target="_blank">Connect on LinkedIn</a></p>
-                        <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-light);">
+                        <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--slate-600);">
                             Professional networking and updates
                         </p>
                     </div>
@@ -1143,14 +1343,14 @@ J₀_SRH = (J₀₀_bulk + J₀₀_interface)·exp(-Ea/(n·kB·T))</pre>
                     <div class="feature-card">
                         <h5>🐛 GitHub Issues</h5>
                         <p><a href="https://github.com/zacharie-li-kao/SOLEY-PV/issues" target="_blank">Report on GitHub</a></p>
-                        <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-light);">
+                        <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--slate-600);">
                             For bug tracking and feature discussions
                         </p>
                     </div>
                 </div>
 
                 <h4>Developer</h4>
-                <p><strong>Zacharie Jehl Li-Kao</strong><br>
+                <p style="color: var(--slate-300);"><strong style="color: var(--white);">Zacharie Jehl Li-Kao</strong><br>
                 Universitat Politècnica de Catalunya (UPC)<br>
                 Barcelona, Spain</p>
             </section>
@@ -1163,8 +1363,8 @@ J₀_SRH = (J₀₀_bulk + J₀₀_interface)·exp(-Ea/(n·kB·T))</pre>
         <div class="footer-content">
             <div class="footer-section">
                 <h4>SOLEY</h4>
-                <p>Solar Cell Simulation Package</p>
-                <p style="margin-top: 1rem; color: #94a3b8;">
+                <p style="color: var(--slate-300);">Solar Cell Simulation Package</p>
+                <p style="margin-top: 1rem;">
                     A scientific-grade toolkit for optical and electrical modelling of photovoltaic devices.
                 </p>
             </div>
@@ -1179,14 +1379,9 @@ J₀_SRH = (J₀₀_bulk + J₀₀_interface)·exp(-Ea/(n·kB·T))</pre>
 
             <div class="footer-section">
                 <h4>Contact</h4>
-                <p><strong>Developer:</strong> Zacharie Jehl Li-Kao</p>
-                <p><strong>Email:</strong> <a href="mailto:zacharie.jehl@upc.edu">zacharie.jehl@upc.edu</a></p>
-                <p><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/zacharie-j-9ba014ba/" target="_blank">Connect on LinkedIn</a></p>
-                <p style="margin-top: 1rem;">
-                    <strong>Bug reports:</strong> GitHub Issues<br>
-                    <strong>Feature requests:</strong> Email with "[SOLEY Feature]"<br>
-                    <strong>Collaboration:</strong> Email with "[SOLEY Collaboration]"
-                </p>
+                <p><strong style="color: var(--slate-300);">Developer:</strong> Zacharie Jehl Li-Kao</p>
+                <p><strong style="color: var(--slate-300);">Email:</strong> <a href="mailto:zacharie.jehl@upc.edu">zacharie.jehl@upc.edu</a></p>
+                <p><strong style="color: var(--slate-300);">LinkedIn:</strong> <a href="https://www.linkedin.com/in/zacharie-j-9ba014ba/" target="_blank">Connect</a></p>
             </div>
 
             <div class="footer-section">
@@ -1197,12 +1392,12 @@ J₀_SRH = (J₀₀_bulk + J₀₀_interface)·exp(-Ea/(n·kB·T))</pre>
         </div>
 
         <div class="footer-bottom">
-            <p>&copy; 2024-2025 Zacharie Jehl Li-Kao | Made for the solar energy research community</p>
+            <p>© 2024-2025 Zacharie Jehl Li-Kao · Made for the solar energy research community</p>
         </div>
     </footer>
 
     <!-- JavaScript for Tabs -->
-<script>
+    <script>
     // Tab switching functionality
     const tabButtons = document.querySelectorAll('.tab-btn');
     const tabContents = document.querySelectorAll('.tab-content');
@@ -1218,8 +1413,14 @@ J₀_SRH = (J₀₀_bulk + J₀₀_interface)·exp(-Ea/(n·kB·T))</pre>
             const tabId = button.getAttribute('data-tab');
             document.getElementById(tabId).classList.add('active');
 
-            // Scroll to top of content
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            // Smooth scroll to tabs area
+            const tabsNav = document.querySelector('.tabs-nav');
+            const headerHeight = document.querySelector('header').offsetHeight;
+            const tabsTop = tabsNav.offsetTop - headerHeight;
+            
+            if (window.scrollY > tabsTop) {
+                window.scrollTo({ top: tabsTop, behavior: 'smooth' });
+            }
         });
     });
 
@@ -1242,15 +1443,27 @@ J₀_SRH = (J₀₀_bulk + J₀₀_interface)·exp(-Ea/(n·kB·T))</pre>
             const targetButton = document.querySelector(`[data-tab="${targetId}"]`);
             if (targetButton) {
                 targetButton.click();
+                // Update URL hash
+                history.pushState(null, '', `#${targetId}-tab`);
             }
         });
     });
 
-    // Handle page load with hash
+    // Handle CTA buttons that link to download tab
+    document.querySelectorAll('a[href="#download-tab"]').forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetButton = document.querySelector('[data-tab="download"]');
+            if (targetButton) {
+                targetButton.click();
+                history.pushState(null, '', '#download-tab');
+            }
+        });
+    });
+
+    // Initialize on page load
     window.addEventListener('load', handleHashNavigation);
     window.addEventListener('hashchange', handleHashNavigation);
-</script>
-
-
+    </script>
 </body>
 </html>

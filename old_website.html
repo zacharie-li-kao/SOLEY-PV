@@ -1,0 +1,1256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOLEY - Solar Cell Simulation Package</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #f59e0b;
+            --dark-bg: #1e293b;
+            --light-bg: #f8fafc;
+            --text-dark: #0f172a;
+            --text-light: #64748b;
+            --border-color: #e2e8f0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: white;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--dark-bg) 0%, #334155 100%);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-section img {
+            height: 2rem;
+            width: auto;
+        }
+
+        .logo-section h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--secondary-color);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hero h2 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+
+        .badges {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            display: inline-block;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 0.875rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: var(--secondary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #d97706;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--primary-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--light-bg);
+            transform: translateY(-2px);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Tabs Navigation */
+        .tabs-nav {
+            background: var(--light-bg);
+            border-bottom: 2px solid var(--border-color);
+            position: sticky;
+            top: 73px;
+            z-index: 999;
+        }
+
+        .tabs-nav-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .tabs-nav ul {
+            display: flex;
+            list-style: none;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .tabs-nav button {
+            padding: 1rem 1.5rem;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text-light);
+            transition: all 0.3s;
+            white-space: nowrap;
+            position: relative;
+        }
+
+        .tabs-nav button:hover {
+            color: var(--primary-color);
+        }
+
+        .tabs-nav button.active {
+            color: var(--primary-color);
+        }
+
+        .tabs-nav button.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--primary-color);
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+            padding: 3rem 0;
+            animation: fadeIn 0.3s;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Section Styling */
+        section {
+            margin-bottom: 3rem;
+        }
+
+        h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+
+        h4 {
+            font-size: 1.5rem;
+            margin: 2rem 0 1rem;
+            color: var(--text-dark);
+        }
+
+        /* Feature Grid */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .feature-card {
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transform: translateY(-5px);
+        }
+
+        .feature-card h5 {
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+            color: var(--primary-color);
+        }
+
+        .feature-card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .feature-card li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .feature-card li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--secondary-color);
+            font-weight: bold;
+        }
+
+        /* Screenshot Gallery */
+        .screenshot-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .screenshot-item {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .screenshot-item:hover {
+            transform: scale(1.02);
+        }
+
+        .screenshot-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .screenshot-placeholder {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 6rem 2rem;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .screenshot-caption {
+            padding: 1rem;
+            background: var(--light-bg);
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        /* Download Section */
+        .download-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .download-card {
+            background: white;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .download-card:hover {
+            border-color: var(--primary-color);
+            box-shadow: 0 8px 25px rgba(37, 99, 235, 0.15);
+        }
+
+        .download-card .platform-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .download-card h5 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .download-card .size {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Code Block */
+        pre {
+            background: var(--dark-bg);
+            color: #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        code {
+            font-family: 'Courier New', monospace;
+        }
+
+        /* Alert Box */
+        .alert {
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            border-left: 4px solid;
+        }
+
+        .alert-info {
+            background: #dbeafe;
+            border-color: var(--primary-color);
+            color: #1e40af;
+        }
+
+        .alert-warning {
+            background: #fef3c7;
+            border-color: var(--secondary-color);
+            color: #92400e;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+            margin: 2rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: var(--primary-color);
+        }
+
+        .timeline-item {
+            margin-bottom: 2rem;
+            padding-left: 2rem;
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -0.625rem;
+            top: 0.5rem;
+            width: 1rem;
+            height: 1rem;
+            border-radius: 50%;
+            background: var(--secondary-color);
+            border: 3px solid white;
+            box-shadow: 0 0 0 3px var(--primary-color);
+        }
+
+        .timeline-item h5 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark-bg);
+            color: white;
+            padding: 3rem 2rem 1rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .footer-section a {
+            color: #94a3b8;
+            text-decoration: none;
+            display: block;
+            margin: 0.5rem 0;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: var(--secondary-color);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #334155;
+            color: #94a3b8;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h2 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .screenshot-gallery {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <div class="logo-section">
+                <img src="logo.png" alt="SOLEY Logo">
+                <h1>SOLEY</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#overview-tab">Overview</a></li>
+                    <li><a href="#features-tab">Features</a></li>
+                    <li><a href="#download-tab">Download</a></li>
+                    <li><a href="#patchnotes-tab">Patch Notes</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h2>SOLEY - Solar Cell Simulation Package</h2>
+            <p>A scientific-grade toolkit for optical and electrical modelling of photovoltaic devices</p>
+            
+            <div class="badges">
+                <span class="badge">
+                    <a href="https://doi.org/10.1002/solr.202500345" target="_blank">
+                        <img src="https://img.shields.io/badge/DOI-10.1002%2Fsolr.202500345-blue" alt="DOI">
+                    </a>
+                </span>
+                <span class="badge">
+                    <a href="https://doi.org/10.5281/zenodo.16151990" target="_blank">
+                        <img src="https://img.shields.io/badge/Zenodo-v1.7-orange" alt="Zenodo">
+                    </a>
+                </span>
+                <span class="badge">
+                    <img src="https://img.shields.io/badge/License-Academic%20Use-green" alt="License">
+                </span>
+            </div>
+
+            <div class="cta-buttons">
+                <a href="#download-tab" class="btn btn-primary">Download v1.7</a>
+                <a href="https://github.com/zacharie-li-kao/SOLEY-PV/blob/main/SOLEY-1_7_Manual.pdf" class="btn btn-secondary" target="_blank">View Documentation</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tabs Navigation -->
+    <nav class="tabs-nav">
+        <div class="tabs-nav-inner">
+            <ul>
+                <li><button class="tab-btn active" data-tab="overview">Overview</button></li>
+                <li><button class="tab-btn" data-tab="features">Features</button></li>
+                <li><button class="tab-btn" data-tab="screenshots">Screenshots</button></li>
+                <li><button class="tab-btn" data-tab="download">Download</button></li>
+                <li><button class="tab-btn" data-tab="quickstart">Quick Start</button></li>
+                <li><button class="tab-btn" data-tab="technical">Technical</button></li>
+                <li><button class="tab-btn" data-tab="roadmap">Roadmap</button></li>
+                <li><button class="tab-btn" data-tab="patchnotes">Patch Notes</button></li>
+                <li><button class="tab-btn" data-tab="citation">Citation</button></li>
+                <li><button class="tab-btn" data-tab="contact">Contact</button></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Tab Contents -->
+    <div class="container">
+        
+        <!-- Overview Tab -->
+        <div id="overview" class="tab-content active">
+            <section>
+                <h3>Overview</h3>
+                <p style="font-size: 1.1rem; line-height: 1.8;">
+                    <strong>SOLEY</strong> is a simulation platform for researchers and engineers working on photovoltaic device optimisation. Unlike traditional drift-diffusion simulators, SOLEY implements an extended detailed balance framework combined with rigorous Transfer Matrix Method (TMM) optical calculations, offering a complementary approach to existing tools like SCAPS-1D or PC1D.
+                </p>
+            </section>
+
+            <section>
+                <h4>Why SOLEY?</h4>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h5>Thermodynamically Consistent</h5>
+                        <p>Built on detailed balance principles ensuring physical accuracy</p>
+                    </div>
+                    <div class="feature-card">
+                        <h5>Multi-Junction Support</h5>
+                        <p>Native support for tandem and multi-terminal configurations</p>
+                    </div>
+                    <div class="feature-card">
+                        <h5>Bulk and Interface defects</h5>
+                        <p>Customisable recombination pathways</p>
+                    </div>
+                    <div class="feature-card">
+                        <h5>Fast & Parallel</h5>
+                        <p>TMM calculations with generation profile export</p>
+                    </div>
+                    <div class="feature-card">
+                        <h5>Luminescence Spectroscopy</h5>
+                        <p>Integrated PL/EL for material characterization</p>
+                    </div>
+                    <div class="feature-card">
+                        <h5>Advanced Diode Analysis</h5>
+                        <p>Ideality factor and differential resistance vs voltage</p>
+                    </div>
+                    <div class="feature-card">
+                        <h5>Light Trapping & Scattering</h5>
+                        <p>Advanced optical modeling for enhanced absorption</p>
+                    </div>
+                    <div class="feature-card">
+                        <h5>Design Exploration</h5>
+                        <p>Quick parameter screening and optimization</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Features Tab -->
+        <div id="features" class="tab-content">
+            <section>
+                <h3>Key Features</h3>
+                
+                <h4>Optical Simulation Capabilities</h4>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h5>Transfer Matrix Method (TMM) Engine</h5>
+                        <ul>
+                            <li>Coherent & partial coherence calculations</li>
+                            <li>Direct and diffuse illumination (Lambertian integration)</li>
+                            <li>Angle (0-89°) and polarization (TE/TM/unpolarized) control</li>
+                            <li>Generation profiles with spectral integration</li>
+                            
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h5>Light Scattering & Trapping Models</h5>
+                        <ul>
+                            <li>Debye-Waller factors (roughness ~ wavelength)</li>
+                            <li>Geometric trapping (roughness >> wavelength, e.g. pyramids)</li>
+                            <li>Hybrid absorber/non-absorber interface treatment</li>
+                            <li>Infinite bounce path enhancement</li>
+                            <li>Metallic vs dielectric Fresnel handling</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h5>Material Handling</h5>
+                        <ul>
+                            <li>Bruggeman EMA for composite layers</li>
+                            <li>Complex refractive index (n + ik)</li>
+                            <li>Custom spectral input (AM1.5G, indoor, etc.)</li>
+                            <li>Dynamic injection control (0.001–46,300 suns)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h4>Device Physics & Electrical Modelling</h4>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h5>Extended Detailed Balance</h5>
+                        <ul>
+                            <li>Shockley-Queisser limit calculations</li>
+                            <li>Radiative recombination (Van Roosbroeck-Shockley)</li>
+                            <li>SRH with bulk and interface recombination</li>
+                            <li>Auger recombination with T and Eg dependence</li>
+                            <li>TMM-integrated absorption spectra</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h5>Multi-Junction Support</h5>
+                        <ul>
+                            <li>2-terminal tandem calculations</li>
+                            <li>Current-matching analysis</li>
+                            <li>4-terminal efficiency summation</li>
+                            <li>Support for 3–6 junction devices</li>
+                            <li>Automatic limiting-subcell ID</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h5>Defect Modelling</h5>
+                        <ul>
+                            <li>Microscopic parameter input (Nt, σn, σp)</li>
+                            <li>Automatic J₀ calculation</li>
+                            <li>Activation energy (Ea) specification</li>
+                            <li>Per-absorber storage</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h4>Analysis & Characterization Tools</h4>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h5>J-V Characteristics</h5>
+                        <ul>
+                            <li>Dark and illuminated curves</li>
+                            <li>Custom voltage sweep range</li>
+                            <li>Multi-absorber overlay</li>
+                            <li>CSV export</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h5>Luminescence (PL/EL)</h5>
+                        <ul>
+                            <li>Van Roosbroeck-Shockley emission</li>
+                            <li>Variable excitation wavelength/power</li>
+                            <li>Applied voltage control</li>
+                            <li>TMM-based absorptivity</li>
+                            <li>Quasi-Fermi splitting calculations</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h5>SQ Limit Calculator</h5>
+                        <ul>
+                            <li>Theoretical efficiency limits</li>
+                            <li>Auger recombination inclusion</li>
+                            <li>Resistance effects</li>
+                            <li>Temperature-dependent</li>
+                            <li>Concentration effects</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h5>Generation Function Export</h5>
+                        <ul>
+                            <li>TMM-caluclated Generation</li>
+                            <li>SCAPS-compatible</li>
+                            <li>Parallel computing for faster export</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h5>Light Scattering/Trapping</h5>
+                        <ul>
+                            <li>Debye-Waller (roughness ~ wavelength)</li>
+                            <li>Geometric trapping (roughness >> wavelength)</li>
+                            <li>Hybrid absorber/non-absorber treatment</li>
+                            <li>Infinite bounce path enhancement</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h5>Voltage Dependent Collection</h5>
+                        <ul>
+                            <li>Hecht equation implementation</li>
+                            <li>Mobility-lifetime product (μτ) based</li>
+                            <li>Drift length and field collapse modeling</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h5>Advanced Diode Analysis</h5>
+                        <ul>
+                            <li>Local ideality factor n_id(V)</li>
+                            <li>Differential resistance R_diff(V)</li>
+                            <li>Shunt/recombination/series regime separation</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h5>Integrated Theoretical Hints</h5>
+                        <ul>
+                            <li>Scientific explanations in GUI</li>
+                            <li>Contextual theoretical information</li>
+                            <li>Understand the physics behind each feature</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Screenshots Tab -->
+        <div id="screenshots" class="tab-content">
+            <section>
+                <h3>Application Screenshots</h3>
+                <p style="margin-bottom: 2rem;">See SOLEY in action with these interface examples:</p>
+
+                <div class="screenshot-gallery">
+                    <div class="screenshot-item">
+                        <img src="main_interface.png" alt="Main SOLEY Interface">
+                        <div class="screenshot-caption">Main SOLEY Interface - Layer stack management and optical profile visualization</div>
+                    </div>
+
+                    <div class="screenshot-item">
+                        <img src="opti_batch.png" alt="Layer stack optimisation and Batch calculation">
+                        <div class="screenshot-caption">Layer stack optimisation panel and Batch calculation panel</div>
+                    </div>
+
+                    <div class="screenshot-item">
+                        <img src="jv_curves.png" alt="J-V curve plotting">
+                        <div class="screenshot-caption">J-V curve plotting window with multi-absorber support</div>
+                    </div>
+
+                    <div class="screenshot-item">
+                        <img src="luminescence.png" alt="Luminescence spectroscopy">
+                        <div class="screenshot-caption">Luminescence spectroscopy window showing PL and EL emission spectra</div>
+                    </div>
+
+                    <div class="screenshot-item">
+                        <img src="sq_limit.png" alt="Shockley-Queisser limit calculator">
+                        <div class="screenshot-caption">Shockley-Queisser limit calculator with theoretical efficiency analysis</div>
+                    </div>
+
+                    <div class="screenshot-item">
+                        <img src="defects.png" alt="Defect parameter window">
+                        <div class="screenshot-caption">Defect parameter window for bulk and interface recombination modeling</div>
+                    </div>
+                </div>
+
+                <div class="alert alert-info">
+                    <strong>💡 Tip:</strong> Start with the example files included in the download to familiarize yourself with the workflow before building your own device structures.
+                </div>
+            </section>
+        </div>
+
+        <!-- Download Tab -->
+        <div id="download" class="tab-content">
+            <section>
+                <h3>Download SOLEY v1.7</h3>
+                <p style="font-size: 1.1rem; margin-bottom: 2rem;">
+                    Choose your platform below. SOLEY now requires installation. Example files are located in the installation directory (Program Files/SOLEY/ for Windows).
+                </p>
+
+                <div class="download-grid">
+                    <div class="download-card">
+                        <div class="platform-icon">🪟</div>
+                        <h5>Windows</h5>
+                        <p class="size">~100 MB</p>
+                        <a href="https://zenodo.org/records/17882521/files/SOLEY-1_7-Win.exe?download=1" class="btn btn-primary">Download for Windows</a>
+                        <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-light);">
+                            Windows 10/11 (64-bit)
+                        </p>
+                    </div>
+
+                    <div class="download-card">
+                        <div class="platform-icon">🍎</div>
+                        <h5>macOS</h5>
+                        <p class="size">~60 MB</p>
+                        <a href="https://zenodo.org/records/17882521/files/SOLEY-1_7-macOS?download=1" class="btn btn-primary">Download for macOS</a>
+                        <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-light);">
+                            macOS 10.15+ (Intel/Apple Silicon)
+                        </p>
+                    </div>
+
+                    <div class="download-card">
+                        <div class="platform-icon">🐧</div>
+                        <h5>Linux</h5>
+                        <p class="size">~100 MB</p>
+                        <a href="https://zenodo.org/records/17882521/files/SOLEY-1_7-Linux?download=1" class="btn btn-primary">Download for Linux</a>
+                        <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-light);">
+                            Ubuntu 20.04+ / Debian-based
+                        </p>
+                    </div>
+                </div>
+
+                <div class="alert alert-info" style="margin-top: 2rem;">
+                    <strong>📦 What's included:</strong>
+                    <ul style="margin: 0.5rem 0 0 1.5rem;">
+                        <li>SOLEY installer with full application</li>
+                        <li>Example device structures (Windows: Program Files/SOLEY/)</li>
+                        <li>Sample optical constants database</li>
+                        <li>Configuration files with method details (optics.txt, global_parameters.txt, outputs.txt)</li>
+                        <li>User manual (PDF) should be downloaded separately on Zenodo</li>
+                    </ul>
+                </div>
+
+                <h4>System Requirements</h4>
+                <ul style="line-height: 1.8;">
+                    <li><strong>OS:</strong> Windows 10/11, macOS 10.15+, or Ubuntu 20.04+</li>
+                    <li><strong>RAM:</strong> 4 GB minimum (8 GB recommended)</li>
+                    <li><strong>Disk Space:</strong> 500 MB free space</li>
+                    <li><strong>Display:</strong> 1280×720 minimum resolution</li>
+                </ul>
+
+                <h4>Previous Versions</h4>
+                <p>All releases are archived on <a href="https://doi.org/10.5281/zenodo.16151990" target="_blank">Zenodo</a> with DOI versioning.</p>
+            </section>
+        </div>
+
+        <!-- Quick Start Tab -->
+        <div id="quickstart" class="tab-content">
+            <section>
+                <h3>Quick Start Guide</h3>
+
+                <h4>Installation</h4>
+                <ol style="line-height: 1.8; font-size: 1.05rem;">
+                    <li>Download the appropriate installer for your operating system</li>
+                    <li>Run the installer and follow the installation wizard</li>
+                    <li>Launch SOLEY from your applications menu or desktop shortcut</li>
+                    <li>For Windows: Example files are located in Program Files/SOLEY/</li>
+                </ol>
+
+                <div class="alert alert-warning">
+                    <strong>⚠️ macOS Users:</strong> You may need to right-click the application and select "Open" the first time due to Gatekeeper security. Go to System Preferences → Security & Privacy if blocked.
+                </div>
+
+                <h4>First Simulation in 5 Steps</h4>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <h5>1. Load Example Structure</h5>
+                        <p>File → Open → Select "perovskite_silicon_tandem.soley"</p>
+                    </div>
+                    <div class="timeline-item">
+                        <h5>2. Run Optical Calculation</h5>
+                        <p>Click "Calculate TMM" to compute absorption profiles</p>
+                    </div>
+                    <div class="timeline-item">
+                        <h5>3. Set Device Parameters</h5>
+                        <p>Navigate to "Device Physics" tab and review recombination settings</p>
+                    </div>
+                    <div class="timeline-item">
+                        <h5>4. Generate J-V Curve</h5>
+                        <p>Tools → J-V Characteristics → Select illumination conditions</p>
+                    </div>
+                    <div class="timeline-item">
+                        <h5>5. Export Results</h5>
+                        <p>File → Export → Choose CSV or PNG format</p>
+                    </div>
+                </div>
+
+                <h4>Essential Workflow</h4>
+                <pre>1. Define layer stack (materials + thicknesses)
+2. Assign optical constants (n, k data)
+3. Run TMM calculation
+4. Set absorber parameters (Eg, defects, etc.)
+5. Choose illumination (spectrum, angle, intensity)
+6. Run electrical model (J-V, Generation, PL, etc.)
+7. Analyze and export results</pre>
+
+                <h4>Example Files Included</h4>
+                <ul style="line-height: 1.8;">
+                    <li><code>single_junction_silicon.soley</code> - Basic c-Si device</li>
+                    <li><code>perovskite_silicon_tandem.soley</code> - 2T tandem cell</li>
+                    <li><code>CZTS.soley</code> - Sulphur Kesterite</li>
+                    <li><code>CZTSe.soley</code> - Selenium Kesterite</li>
+                </ul>
+
+                <h4>Getting Help</h4>
+                <p>Consult the full <a href="https://github.com/zacharie-li-kao/SOLEY-PV/blob/main/SOLEY-1_7_Manual.pdf" target="_blank">User Manual (PDF)</a> for detailed tutorials and parameter explanations.</p>
+            </section>
+        </div>
+
+        <!-- Technical Tab -->
+        <div id="technical" class="tab-content">
+            <section>
+                <h3>Technical Approach</h3>
+
+                <h4>Optical Model: Transfer Matrix Method</h4>
+                <p>SOLEY implements the Fresnel-based TMM for stratified media:</p>
+                <ul style="margin: 1rem 0; line-height: 1.8;">
+                    <li>Exact solution of Maxwell's equations in planar geometry</li>
+                    <li>Coherent interference effects in thin films</li>
+                    <li>Partial coherence modeling (convolution & sampling methods)</li>
+                    <li>Direct and diffuse illumination with angular integration</li>
+                    <li>Three light scattering models: Debye-Waller, geometric trapping, and hybrid treatment</li>
+                </ul>
+                <p><strong>Reference:</strong> Jimenez et al., <em>SOl. Mat.</em> <strong>251</strong>, 112109 (2023), DOI: <a href="https://doi.org/10.1016/j.solmat.2022.112109" target="_blank">10.1016/j.solmat.2022.112109</a></p>
+
+                <h4>Electrical Model: Extended Detailed Balance</h4>
+                <p>The device physics engine solves:</p>
+                <pre>J(V) = Jph - J0_rad·[exp(qV/kT) - 1] 
+       - J0_SRH·[exp(qV/nkT) - 1]
+       - JAuger(V)
+       - V/Rsh 
+       - J·Rs</pre>
+                
+                <p><strong>Key advantages:</strong></p>
+                <ul style="line-height: 1.8;">
+                    <li>No need to solve Poisson-drift-diffusion system</li>
+                    <li>Faster iteration for design screening</li>
+                    <li>Thermodynamic consistency checks</li>
+                    <li>Direct link between optical and electrical models</li>
+                </ul>
+                <p><strong>Reference:</strong> Jehl Li-Kao, <em>Solar RRL</em> (2025), DOI: <a href="https://doi.org/10.1002/solr.202500345" target="_blank">10.1002/solr.202500345</a></p>
+
+                <h4>Defect Modelling: Bulk and Interface Recombination</h4>
+                <p>SOLEY translates microscopic trap parameters into macroscopic J₀ using the formulation from Scaffidi et al.:</p>
+                <pre>Bulk recombination:
+J₀₀_bulk = π·kB·T·√(ε·Nc·Nv/(2·q·Vbi·Ndop))·vth·σn·Nt
+
+Interface recombination:
+J₀₀_interface = q·Sp·Ndop·[(Nc_adj·Nv)/(Ndop_adj·Ndop)]^(1-θ)
+
+Final J₀_SRH:
+J₀_SRH = (J₀₀_bulk + J₀₀_interface)·exp(-Ea/(n·kB·T))</pre>
+                <p><strong>Reference:</strong> Scaffidi, R. et al. <em>Newton</em> <strong>1</strong>(8), 100198 (2025). DOI: <a href="https://doi.org/10.1016/j.newton.2025.100198" target="_blank">10.1016/j.newton.2025.100198</a></p>
+            </section>
+        </div>
+
+        <!-- Roadmap Tab -->
+        <div id="roadmap" class="tab-content">
+            <section>
+                <h3>Development Roadmap</h3>
+
+                <h4>Planned Features</h4>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <h5>Enhanced EQE</h5>
+                        <p>Thermodynamic equations with improved collection probabilities</p>
+                    </div>
+                    <div class="timeline-item">
+                        <h5>IBSC Physics</h5>
+                        <p>Intermediate band solar cells modelling</p>
+                    </div>
+                    <div class="timeline-item">
+                        <h5>Hot Carrier Devices</h5>
+                        <p>Non-thermal carrier distributions</p>
+                    </div>
+                </div>
+
+                <h4>Known Limitations</h4>
+                <div class="alert alert-warning">
+                    <ul style="margin: 0; padding-left: 1.5rem;">
+                        <li>Bruggeman mixing can cause layer indexing issues (use with caution)</li>
+                        <li>Parallel processing overhead sometimes slower than serial for small datasets</li>
+                        <li>macOS GUI scaling untested on all hardware variants</li>
+                        <li>Limited built-in database of optical constants (users must provide n, k files)</li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+
+        <!-- Patch Notes Tab -->
+        <div id="patchnotes" class="tab-content">
+            <section>
+                <h3>Patch Notes</h3>
+                <p style="margin-bottom: 2rem;">Version history and changelog for SOLEY releases.</p>
+
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <h5>Version 1.7 (Current)</h5>
+                        <p style="margin-bottom: 0.5rem;"><strong>Release Date:</strong> December 10th, 2025</p>
+                        <p style="margin-bottom: 1rem;"><strong>Major Updates:</strong></p>
+                        <ul style="line-height: 1.8;">
+                            <li><strong>Light Scattering/Trapping Logic:</strong> Three comprehensive models - Debye-Waller factors for smooth interfaces, geometric light trapping for textured surfaces with infinite bounce path enhancement, and hybrid absorber/non-absorber interface treatment</li>
+                            <li><strong>Voltage Dependent Collection:</strong> Integrated Hecht equation for modeling collection efficiency as a function of applied voltage based on mobility-lifetime product (μτ) and drift length</li>
+                            <li><strong>Advanced Diode Analysis:</strong> Added local ideality factor n_id(V) and differential resistance R_diff(V) diagnostic tools to separate shunt, recombination, and series resistance regimes</li>
+                            <li><strong>Integrated Theoretical Hints:</strong> GUI now includes contextual scientific explanations for each functionality, helping users understand the physics behind SOLEY's features</li>
+                            <li><strong>Installation Changes:</strong> SOLEY now uses an installer instead of portable executables</li>
+                            <li><strong>Example Files:</strong> Example files now included in installation directory (Program Files/SOLEY/ for Windows)</li>
+                        </ul>
+                    </div>
+
+                    <div class="timeline-item">
+                        <h5>Version 1.5</h5>
+                        <p style="margin-bottom: 0.5rem;"><strong>Release Date:</strong> October 30th, 2025</p>
+                        <p style="margin-bottom: 1rem;"><strong>Key Features:</strong></p>
+                        <ul style="line-height: 1.8;">
+                            <li><strong>Luminescence Logic:</strong> Implemented photoluminescence (PL) and electroluminescence (EL) spectroscopy capabilities</li>
+                            <li><strong>Bug Fixes:</strong> Corrected bug in Auger recombination calculations</li>
+                        </ul>
+                    </div>
+
+                    <div class="timeline-item">
+                        <h5>Version 1.3</h5>
+                        <p style="margin-bottom: 0.5rem;"><strong>Release Date:</strong> September 15th, 2025</p>
+                        <p style="margin-bottom: 1rem;"><strong>Key Features:</strong></p>
+                        <ul style="line-height: 1.8;">
+                            <li><strong>Modern GUI:</strong> Interface redesign with improved user experience</li>
+                            <li><strong>Batch Logic Fixes:</strong> Resolved bugs affecting batch calculation workflows</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="alert alert-info" style="margin-top: 2rem;">
+                    <strong>📋 Version Archive:</strong> All previous versions are archived on <a href="https://doi.org/10.5281/zenodo.16151990" target="_blank">Zenodo</a> with permanent DOI versioning for reproducibility.
+                </div>
+            </section>
+        </div>
+
+        <!-- Citation Tab -->
+        <div id="citation" class="tab-content">
+            <section>
+                <h3>Citation</h3>
+                <p>If you use SOLEY in your research, please cite:</p>
+
+                <div style="background: var(--light-bg); padding: 2rem; border-radius: 8px; margin: 2rem 0;">
+                    <p style="font-style: italic;">
+                        <strong>Jehl Li-Kao, Z.</strong> "SOLEY: a package for optical and extended detailed balance model for photovoltaic device simulation." <em>Solar RRL</em> (2025). DOI: <a href="https://doi.org/10.1002/solr.202500345" target="_blank">10.1002/solr.202500345</a>
+                    </p>
+                </div>
+
+                <h4>BibTeX</h4>
+                <pre>@article{jehl2025soley,
+  author  = {Zacharie Jehl Li-Kao},
+  title   = {SOLEY: a package for optical and extended 
+             detailed balance model for photovoltaic 
+             device simulation},
+  journal = {Solar RRL},
+  year    = {2025},
+  doi     = {10.1002/solr.202500345}
+}</pre>
+
+                <h4>License</h4>
+                <p><strong>SOLEY</strong> is distributed for academic use only. Commercial use requires explicit written permission from the author.</p>
+                <p>By downloading and using SOLEY, you agree to:</p>
+                <ul style="line-height: 1.8;">
+                    <li>Use the software strictly for non-commercial research and educational purposes</li>
+                    <li>Cite the software in any publications or presentations</li>
+                    <li>Not redistribute modified versions without permission</li>
+                </ul>
+            </section>
+        </div>
+
+        <!-- Contact Tab -->
+        <div id="contact" class="tab-content">
+            <section>
+                <h3>Contact</h3>
+                <p style="font-size: 1.1rem; margin-bottom: 2rem;">
+                    Get in touch for questions, bug reports, feature requests, or collaboration opportunities.
+                </p>
+
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h5>📧 Email</h5>
+                        <p><a href="mailto:zacharie.jehl@upc.edu">zacharie.jehl@upc.edu</a></p>
+                        <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-light);">
+                            Use subject prefixes:<br>
+                            [SOLEY Bug] - Bug reports<br>
+                            [SOLEY Feature] - Feature requests<br>
+                            [SOLEY Collaboration] - Research collaboration
+                        </p>
+                    </div>
+
+                    <div class="feature-card">
+                        <h5>💼 LinkedIn</h5>
+                        <p><a href="https://www.linkedin.com/in/zacharie-j-9ba014ba/" target="_blank">Connect on LinkedIn</a></p>
+                        <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-light);">
+                            Professional networking and updates
+                        </p>
+                    </div>
+
+                    <div class="feature-card">
+                        <h5>🐛 GitHub Issues</h5>
+                        <p><a href="https://github.com/zacharie-li-kao/SOLEY-PV/issues" target="_blank">Report on GitHub</a></p>
+                        <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-light);">
+                            For bug tracking and feature discussions
+                        </p>
+                    </div>
+                </div>
+
+                <h4>Developer</h4>
+                <p><strong>Zacharie Jehl Li-Kao</strong><br>
+                Universitat Politècnica de Catalunya (UPC)<br>
+                Barcelona, Spain</p>
+            </section>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>SOLEY</h4>
+                <p>Solar Cell Simulation Package</p>
+                <p style="margin-top: 1rem; color: #94a3b8;">
+                    A scientific-grade toolkit for optical and electrical modelling of photovoltaic devices.
+                </p>
+            </div>
+
+            <div class="footer-section">
+                <h4>Resources</h4>
+                <a href="https://github.com/zacharie-li-kao/SOLEY-PV/blob/main/SOLEY-1_7_Manual.pdf" target="_blank">Documentation</a>
+                <a href="https://doi.org/10.5281/zenodo.16151990" target="_blank">All Releases (Zenodo)</a>
+                <a href="https://doi.org/10.1002/solr.202500345" target="_blank">Research Paper</a>
+                <a href="https://github.com/zacharie-li-kao/SOLEY-PV" target="_blank">GitHub</a>
+            </div>
+
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <p><strong>Developer:</strong> Zacharie Jehl Li-Kao</p>
+                <p><strong>Email:</strong> <a href="mailto:zacharie.jehl@upc.edu">zacharie.jehl@upc.edu</a></p>
+                <p><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/zacharie-j-9ba014ba/" target="_blank">Connect on LinkedIn</a></p>
+                <p style="margin-top: 1rem;">
+                    <strong>Bug reports:</strong> GitHub Issues<br>
+                    <strong>Feature requests:</strong> Email with "[SOLEY Feature]"<br>
+                    <strong>Collaboration:</strong> Email with "[SOLEY Collaboration]"
+                </p>
+            </div>
+
+            <div class="footer-section">
+                <h4>Affiliations</h4>
+                <p>Universitat Politècnica de Catalunya (UPC)</p>
+                <p>Barcelona, Spain</p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2024-2025 Zacharie Jehl Li-Kao | Made for the solar energy research community</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript for Tabs -->
+<script>
+    // Tab switching functionality
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    tabButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Remove active class from all buttons and contents
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            tabContents.forEach(content => content.classList.remove('active'));
+
+            // Add active class to clicked button and corresponding content
+            button.classList.add('active');
+            const tabId = button.getAttribute('data-tab');
+            document.getElementById(tabId).classList.add('active');
+
+            // Scroll to top of content
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    });
+
+    // Handle hash navigation
+    function handleHashNavigation() {
+        const hash = window.location.hash.replace('#', '').replace('-tab', '');
+        if (hash) {
+            const targetButton = document.querySelector(`[data-tab="${hash}"]`);
+            if (targetButton) {
+                targetButton.click();
+            }
+        }
+    }
+
+    // Navigation links
+    document.querySelectorAll('nav a[href^="#"]').forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetId = link.getAttribute('href').replace('#', '').replace('-tab', '');
+            const targetButton = document.querySelector(`[data-tab="${targetId}"]`);
+            if (targetButton) {
+                targetButton.click();
+            }
+        });
+    });
+
+    // Handle page load with hash
+    window.addEventListener('load', handleHashNavigation);
+    window.addEventListener('hashchange', handleHashNavigation);
+</script>
+
+
+</body>
+</html>

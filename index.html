@@ -748,8 +748,8 @@
                     </a>
                 </span>
                 <span class="badge">
-                    <a href="https://zenodo.org/records/19401569" target="_blank">
-                        <img src="https://img.shields.io/badge/Zenodo-v1.9.7-orange" alt="Zenodo">
+                    <a href="https://zenodo.org/records/20301491" target="_blank">
+                        <img src="https://img.shields.io/badge/Zenodo-v1.9.8-orange" alt="Zenodo">
                     </a>
                 </span>
                 <span class="badge">
@@ -760,7 +760,7 @@
             <div class="cta-buttons">
                 <a href="#download-tab" class="btn btn-primary">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                    Download v1.9.7
+                    Download v1.9.8
                 </a>
                 <a href="https://zenodo.org/records/18771881/files/SOLEY_MANUAL1_9_5.pdf?download=1" class="btn btn-secondary" target="_blank">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
@@ -1058,7 +1058,7 @@
         <!-- Download Tab -->
         <div id="download" class="tab-content">
             <section>
-                <h3>Download SOLEY v1.9.7</h3>
+                <h3>Download SOLEY v1.9.8</h3>
                 <p style="font-size: 1.1rem; margin-bottom: 2rem; color: var(--slate-300);">
                     Choose your platform below. SOLEY now requires installation. Example files are located in the installation directory (Program Files/SOLEY/ for Windows).
                 </p>
@@ -1068,7 +1068,7 @@
                         <span class="platform-icon">🪟</span>
                         <h5>Windows</h5>
                         <p class="size">~100 MB</p>
-                        <a href="https://zenodo.org/records/19401569/files/SOLEY-1_9_7-Windows.exe?download=1" class="btn btn-primary">Download for Windows</a>
+                        <a href="https://zenodo.org/records/20301491/files/SOLEY-1_9_8-Windows.exe?download=1" class="btn btn-primary">Download for Windows</a>
                         <p class="platform-note">Windows 10/11 (64-bit)</p>
                     </div>
 
@@ -1076,16 +1076,16 @@
                         <span class="platform-icon">🍎</span>
                         <h5>macOS</h5>
                         <p class="size">~60 MB</p>
-                        <a href="https://zenodo.org/records/19401569/files/SOLEY-1_9_7-macOS.dmg?download=1" class="btn btn-primary">Download for macOS</a>
+                        <a href="https://zenodo.org/records/20301491/files/SOLEY-1_9_8-macOS.dmg?download=1" class="btn btn-primary">Download for macOS</a>
                         <p class="platform-note">macOS 10.15+ (Intel/Apple Silicon)</p>
                     </div>
 
                     <div class="download-card">
                         <span class="platform-icon">🐧</span>
                         <h5>Linux</h5>
-                        <p class="size">~100 MB</p>
-                        <a href="https://zenodo.org/records/19401569/files/SOLEY-1_9_7-Linux?download=1" class="btn btn-primary">Download for Linux</a>
-                        <p class="platform-note">Ubuntu 20.04+ / Debian-based</p>
+                        <p class="size">~250 MB</p>
+                        <a href="https://zenodo.org/records/20301491/files/SOLEY-1_9_8-Linux?download=1" class="btn btn-primary">Download for Linux</a>
+                        <p class="platform-note">Ubuntu 20.04+ / Debian-based · Qt-WebEngine bundled</p>
                     </div>
                 </div>
 
@@ -1264,7 +1264,19 @@ J₀_SRH = (J₀₀_bulk + J₀₀_interface)·exp(-Ea/(n·kB·T))</pre>
 
                 <div class="timeline">
                     <div class="timeline-item">
-                        <h5>Version 1.9.7 (Current)</h5>
+                        <h5>Version 1.9.8 (Current)</h5>
+                        <p style="margin-bottom: 0.5rem; color: var(--slate-400);"><strong style="color: var(--slate-200);">Release Date:</strong> May 2026</p>
+                        <p style="margin-bottom: 1rem; color: var(--slate-300);"><strong>Physics, multijunction, and packaging:</strong></p>
+                        <ul>
+                            <li><strong style="color: var(--slate-200);">Linux build now bundles Qt-WebEngine:</strong> the Linux executable no longer fails to open on distributions missing the system Qt-WebEngine packages. Self-contained at the cost of a larger download (~250 MB instead of ~100 MB).</li>
+                            <li><strong style="color: var(--slate-200);">2T multijunction solver:</strong> replaced the legacy interpolation-based combiner with the direct diode-equation solver across every code path (Device tab, J-V tab, headless calculation). Single source of truth for 2T physics.</li>
+                            <li><strong style="color: var(--slate-200);">MPP refinement:</strong> 3-point parabolic refinement around argmax(P) so reported V_mpp, J_mpp, P_max are no longer pinned to voltage-grid resolution. Same logic in api, jv, and device paths.</li>
+                            <li><strong style="color: var(--slate-200);">Per-absorber scattering mode:</strong> a new layer-level dropdown — Flat / Debye-Waller / Geometric — replaces the implicit global heuristic. The "Geometric" mode is the light-trapping model (textured-surface scattering with multi-bounce cavity factor); honored only on absorbers. Tagged per-layer and cached accordingly; old .soley files migrate automatically.</li>
+                        </ul>
+                    </div>
+
+                    <div class="timeline-item">
+                        <h5>Version 1.9.7</h5>
                         <p style="margin-bottom: 0.5rem; color: var(--slate-400);"><strong style="color: var(--slate-200);">Release Date:</strong> April 2026</p>
                         <p style="margin-bottom: 1rem; color: var(--slate-300);">Bugfix release: fixes a project file loading issue where custom optical material paths were lost during the second loading pass, causing missing absorber layers.</p>
                     </div>

@@ -6,28 +6,102 @@
     <title>SOLEY - Solar Cell Simulation Package</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
-        * {
+        /* ============================================================
+           Engawa theme tokens — matched to the SOLEY application UI
+           ============================================================ */
+        *, *::before, *::after {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
         :root {
-            --primary: #3B82F6;
-            --primary-light: #60A5FA;
-            --accent: #14B8A6;
-            --deep-space: #0B1120;
-            --midnight: #111827;
-            --slate-900: #1E293B;
-            --slate-800: #334155;
-            --slate-600: #475569;
-            --slate-400: #94A3B8;
-            --slate-300: #CBD5E1;
-            --slate-200: #E2E8F0;
-            --slate-50: #F8FAFC;
-            --white: #FFFFFF;
+            --bg-primary: #0A0D0C;
+            --bg-secondary: #111513;
+            --bg-tertiary: #1C2220;
+            --bg-card: #161B18;
+
+            --text-primary: #E6E9E4;
+            --text-secondary: #9CA69C;
+            --text-muted: #6C766C;
+
+            --accent-signature: #6FA37E;
+            --accent-signature-glow: rgba(111, 163, 126, 0.35);
+            --accent-cta: #C0603F;
+            --accent-cta-hover: #D0724F;
+            --accent-warning: #B8965A;
+
+            --border-color: #232925;
+            --border-light: #313832;
+
+            --radius-sm: 7px;
+            --radius-md: 9px;
+            --radius-lg: 12px;
+
+            --font-family: 'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Consolas', 'Monaco', monospace;
+
+            --ripple-texture: repeating-radial-gradient(
+                circle at 78% 8%,
+                rgba(230, 233, 228, 0.05) 0 1px,
+                transparent 1px 22px
+            );
+        }
+
+        /* Light theme */
+        @media (prefers-color-scheme: light) {
+            :root:not([data-theme="dark"]) {
+                --bg-primary: #EEF0EA;
+                --bg-secondary: #F9FAF7;
+                --bg-tertiary: #E7EAE1;
+                --bg-card: #FFFFFF;
+
+                --text-primary: #151912;
+                --text-secondary: #4B5245;
+                --text-muted: #6B7262;
+
+                --accent-signature: #3E7350;
+                --accent-signature-glow: rgba(62, 115, 80, 0.28);
+                --accent-cta: #9C4A30;
+                --accent-cta-hover: #843D27;
+                --accent-warning: #8A6B26;
+
+                --border-color: #DCE0D5;
+                --border-light: #C2C8B9;
+
+                --ripple-texture: repeating-radial-gradient(
+                    circle at 78% 8%,
+                    rgba(21, 25, 18, 0.05) 0 1px,
+                    transparent 1px 22px
+                );
+            }
+        }
+        :root[data-theme="light"] {
+            --bg-primary: #EEF0EA;
+            --bg-secondary: #F9FAF7;
+            --bg-tertiary: #E7EAE1;
+            --bg-card: #FFFFFF;
+
+            --text-primary: #151912;
+            --text-secondary: #4B5245;
+            --text-muted: #6B7262;
+
+            --accent-signature: #3E7350;
+            --accent-signature-glow: rgba(62, 115, 80, 0.28);
+            --accent-cta: #9C4A30;
+            --accent-cta-hover: #843D27;
+            --accent-warning: #8A6B26;
+
+            --border-color: #DCE0D5;
+            --border-light: #C2C8B9;
+
+            --ripple-texture: repeating-radial-gradient(
+                circle at 78% 8%,
+                rgba(21, 25, 18, 0.05) 0 1px,
+                transparent 1px 22px
+            );
         }
 
         html {
@@ -35,37 +109,25 @@
         }
 
         body {
-            font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: var(--font-family);
             line-height: 1.7;
-            color: var(--slate-200);
-            background: var(--deep-space);
+            color: var(--text-primary);
+            background: var(--bg-primary);
+            background-image: var(--ripple-texture);
             overflow-x: hidden;
-        }
-
-        /* Subtle grid background */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                linear-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px);
-            background-size: 60px 60px;
-            pointer-events: none;
-            z-index: -1;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            font-feature-settings: "cv11";
         }
 
         a {
-            color: var(--primary-light);
+            color: var(--accent-signature);
             text-decoration: none;
             transition: color 0.2s ease;
         }
 
         a:hover {
-            color: var(--primary);
+            color: var(--text-primary);
         }
 
         /* Header */
@@ -75,9 +137,9 @@
             left: 0;
             right: 0;
             z-index: 1000;
-            background: rgba(10, 14, 23, 0.85);
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
             backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
         }
 
         .header-content {
@@ -101,11 +163,11 @@
         }
 
         .logo-section h1 {
-            font-family: 'IBM Plex Sans', sans-serif;
+            font-family: var(--font-mono);
             font-size: 1.5rem;
             font-weight: 600;
-            color: var(--white);
-            letter-spacing: 0.08em;
+            color: var(--accent-signature);
+            letter-spacing: 1.5px;
         }
 
         nav ul {
@@ -115,7 +177,7 @@
         }
 
         nav a {
-            color: var(--slate-400);
+            color: var(--text-muted);
             font-size: 0.9rem;
             font-weight: 500;
             letter-spacing: 0.02em;
@@ -124,7 +186,7 @@
         }
 
         nav a:hover {
-            color: var(--white);
+            color: var(--text-primary);
         }
 
         /* Hero Section */
@@ -145,18 +207,18 @@
         }
 
         .hero h2 {
-            font-family: 'IBM Plex Sans', sans-serif;
+            font-family: var(--font-mono);
             font-size: clamp(2.5rem, 5vw, 3.5rem);
             font-weight: 600;
-            color: var(--white);
+            color: var(--accent-signature);
             line-height: 1.2;
             margin-bottom: 1rem;
-            letter-spacing: 0.04em;
+            letter-spacing: 1.5px;
         }
 
         .hero-subtitle {
             font-size: 1.125rem;
-            color: var(--slate-400);
+            color: var(--text-secondary);
             max-width: 600px;
             margin: 0 auto 2rem;
         }
@@ -171,7 +233,7 @@
 
         .badge img {
             height: 24px;
-            border-radius: 4px;
+            border-radius: var(--radius-sm);
         }
 
         .cta-buttons {
@@ -183,36 +245,39 @@
 
         .btn {
             padding: 1rem 2rem;
-            border-radius: 6px;
+            border-radius: var(--radius-sm);
             font-weight: 600;
             font-size: 0.95rem;
-            letter-spacing: 0.02em;
-            transition: all 0.3s ease;
+            letter-spacing: -0.005em;
+            transition: all 0.25s ease;
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
+            font-family: var(--font-family);
         }
 
         .btn-primary {
-            background: var(--primary);
-            color: var(--white);
+            background: var(--accent-cta);
+            color: #FFFFFF;
+            border: 1px solid var(--accent-cta);
         }
 
         .btn-primary:hover {
-            background: var(--primary-light);
-            color: var(--white);
+            background: var(--accent-cta-hover);
+            border-color: var(--accent-cta-hover);
+            color: #FFFFFF;
         }
 
         .btn-secondary {
-            background: rgba(255, 255, 255, 0.05);
-            color: var(--white);
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-light);
         }
 
         .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.25);
-            color: var(--white);
+            background: var(--border-color);
+            border-color: var(--text-muted);
+            color: var(--text-primary);
         }
 
         /* Container */
@@ -227,9 +292,9 @@
             position: sticky;
             top: 73px;
             z-index: 999;
-            background: rgba(10, 14, 23, 0.95);
+            background: var(--bg-secondary);
             backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            border-bottom: 1px solid var(--border-color);
         }
 
         .tabs-nav-inner {
@@ -251,21 +316,21 @@
             border: none;
             background: none;
             cursor: pointer;
-            font-family: 'IBM Plex Sans', sans-serif;
+            font-family: var(--font-family);
             font-weight: 500;
             font-size: 0.875rem;
-            color: var(--slate-400);
+            color: var(--text-muted);
             transition: all 0.2s ease;
             white-space: nowrap;
             position: relative;
         }
 
         .tabs-nav button:hover {
-            color: var(--slate-200);
+            color: var(--text-primary);
         }
 
         .tabs-nav button.active {
-            color: var(--primary-light);
+            color: var(--accent-signature);
         }
 
         .tabs-nav button.active::after {
@@ -275,7 +340,7 @@
             left: 0;
             right: 0;
             height: 2px;
-            background: var(--primary);
+            background: var(--accent-signature);
         }
 
         /* Tab Content */
@@ -300,10 +365,10 @@
         }
 
         h3 {
-            font-family: 'IBM Plex Sans', sans-serif;
+            font-family: var(--font-family);
             font-size: 1.75rem;
             font-weight: 600;
-            color: var(--white);
+            color: var(--text-primary);
             margin-bottom: 1rem;
         }
 
@@ -311,19 +376,19 @@
             font-size: 1.25rem;
             font-weight: 600;
             margin: 3rem 0 1.5rem;
-            color: var(--white);
+            color: var(--text-primary);
             letter-spacing: 0.02em;
         }
 
         h5 {
             font-size: 1.1rem;
             font-weight: 600;
-            color: var(--primary-light);
+            color: var(--accent-signature);
             margin-bottom: 0.75rem;
         }
 
         p {
-            color: var(--slate-400);
+            color: var(--text-secondary);
         }
 
         /* Feature Grid */
@@ -335,22 +400,21 @@
         }
 
         .feature-card {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 12px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
             padding: 2rem;
-            transition: all 0.3s ease;
+            transition: all 0.25s ease;
             position: relative;
             overflow: hidden;
         }
 
         .feature-card:hover {
-            background: rgba(255, 255, 255, 0.04);
-            border-color: rgba(255, 255, 255, 0.12);
+            border-color: var(--border-light);
         }
 
         .feature-card p {
-            color: var(--slate-400);
+            color: var(--text-secondary);
             font-size: 0.95rem;
         }
 
@@ -363,15 +427,15 @@
             padding: 0.4rem 0;
             padding-left: 1.5rem;
             position: relative;
-            color: var(--slate-400);
+            color: var(--text-secondary);
             font-size: 0.95rem;
         }
 
         .feature-card li::before {
-            content: '→';
+            content: '\2192';
             position: absolute;
             left: 0;
-            color: var(--accent);
+            color: var(--accent-signature);
             font-size: 0.85rem;
         }
 
@@ -384,15 +448,15 @@
         }
 
         .screenshot-item {
-            border-radius: 12px;
+            border-radius: var(--radius-lg);
             overflow: hidden;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            transition: all 0.3s ease;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            transition: all 0.25s ease;
         }
 
         .screenshot-item:hover {
-            border-color: rgba(255, 255, 255, 0.15);
+            border-color: var(--border-light);
         }
 
         .screenshot-item img {
@@ -403,10 +467,10 @@
 
         .screenshot-caption {
             padding: 1.25rem;
-            background: rgba(0, 0, 0, 0.3);
+            background: var(--bg-tertiary);
             font-weight: 500;
             font-size: 0.9rem;
-            color: var(--slate-200);
+            color: var(--text-primary);
         }
 
         /* Download Section */
@@ -418,18 +482,17 @@
         }
 
         .download-card {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 16px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
             padding: 2.5rem 2rem;
             text-align: center;
-            transition: all 0.3s ease;
+            transition: all 0.25s ease;
             position: relative;
         }
 
         .download-card:hover {
-            border-color: var(--primary);
-            background: rgba(59, 130, 246, 0.05);
+            border-color: var(--accent-signature);
         }
 
         .download-card .platform-icon {
@@ -440,12 +503,12 @@
 
         .download-card h5 {
             font-size: 1.4rem;
-            color: var(--white);
+            color: var(--text-primary);
             margin-bottom: 0.5rem;
         }
 
         .download-card .size {
-            color: var(--slate-400);
+            color: var(--text-muted);
             font-size: 0.9rem;
             margin-bottom: 1.5rem;
         }
@@ -458,28 +521,28 @@
         .download-card .platform-note {
             margin-top: 1.25rem;
             font-size: 0.85rem;
-            color: var(--slate-600);
+            color: var(--text-muted);
         }
 
         /* Code Block */
         pre {
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            color: var(--slate-200);
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
             padding: 1.5rem;
-            border-radius: 6px;
+            border-radius: var(--radius-md);
             overflow-x: auto;
             margin: 1.5rem 0;
-            font-family: 'IBM Plex Mono', monospace;
+            font-family: var(--font-mono);
             font-size: 0.875rem;
             line-height: 1.6;
         }
 
         code {
-            font-family: 'IBM Plex Mono', monospace;
-            background: rgba(255, 255, 255, 0.05);
+            font-family: var(--font-mono);
+            background: var(--bg-tertiary);
             padding: 0.15rem 0.4rem;
-            border-radius: 3px;
+            border-radius: var(--radius-sm);
             font-size: 0.875em;
         }
 
@@ -491,32 +554,32 @@
         /* Alert Box */
         .alert {
             padding: 1.25rem 1.5rem;
-            border-radius: 8px;
+            border-radius: var(--radius-md);
             margin: 1.5rem 0;
             border-left: 3px solid;
         }
 
         .alert-info {
-            background: rgba(59, 130, 246, 0.08);
-            border-color: var(--primary);
+            background: rgba(111, 163, 126, 0.08);
+            border-color: var(--accent-signature);
         }
 
         .alert-info strong {
-            color: var(--primary-light);
+            color: var(--accent-signature);
         }
 
         .alert-warning {
-            background: rgba(245, 158, 11, 0.08);
-            border-color: #F59E0B;
+            background: rgba(184, 150, 90, 0.08);
+            border-color: var(--accent-warning);
         }
 
         .alert-warning strong {
-            color: #FBBF24;
+            color: var(--accent-warning);
         }
 
         .alert ul {
             margin: 0.5rem 0 0 1.5rem;
-            color: var(--slate-400);
+            color: var(--text-secondary);
         }
 
         /* Timeline */
@@ -533,7 +596,7 @@
             top: 0;
             bottom: 0;
             width: 2px;
-            background: var(--slate-600);
+            background: var(--border-light);
         }
 
         .timeline-item {
@@ -550,19 +613,19 @@
             width: 12px;
             height: 12px;
             border-radius: 50%;
-            background: var(--primary);
+            background: var(--accent-signature);
         }
 
         .timeline-item h5 {
             font-size: 1.15rem;
-            color: var(--white);
+            color: var(--text-primary);
             margin-bottom: 0.5rem;
         }
 
         .timeline-item ul {
             margin-top: 0.75rem;
             padding-left: 1.25rem;
-            color: var(--slate-400);
+            color: var(--text-secondary);
         }
 
         .timeline-item li {
@@ -571,9 +634,9 @@
 
         /* Citation Block */
         .citation-block {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 12px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
             padding: 2rem;
             margin: 2rem 0;
         }
@@ -581,13 +644,13 @@
         .citation-block p {
             font-size: 1.05rem;
             line-height: 1.8;
-            color: var(--slate-200);
+            color: var(--text-primary);
         }
 
         /* Footer */
         footer {
-            background: rgba(0, 0, 0, 0.4);
-            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
             padding: 4rem 2rem 2rem;
             margin-top: 4rem;
         }
@@ -604,7 +667,7 @@
         .footer-section h4 {
             font-size: 0.9rem;
             font-weight: 600;
-            color: var(--slate-200);
+            color: var(--text-primary);
             text-transform: uppercase;
             letter-spacing: 0.1em;
             margin-bottom: 1.25rem;
@@ -613,12 +676,12 @@
 
         .footer-section p {
             font-size: 0.95rem;
-            color: var(--slate-400);
+            color: var(--text-secondary);
             margin-bottom: 0.5rem;
         }
 
         .footer-section a {
-            color: var(--slate-400);
+            color: var(--text-muted);
             display: block;
             margin: 0.5rem 0;
             font-size: 0.95rem;
@@ -626,14 +689,14 @@
         }
 
         .footer-section a:hover {
-            color: var(--primary-light);
+            color: var(--accent-signature);
         }
 
         .footer-bottom {
             text-align: center;
             padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.06);
-            color: var(--slate-600);
+            border-top: 1px solid var(--border-color);
+            color: var(--text-muted);
             font-size: 0.9rem;
         }
 
@@ -641,7 +704,7 @@
         .intro-text {
             font-size: 1.15rem;
             line-height: 1.9;
-            color: var(--slate-300);
+            color: var(--text-secondary);
             max-width: 900px;
         }
 
@@ -649,11 +712,36 @@
         .content-list {
             line-height: 2;
             padding-left: 1.5rem;
-            color: var(--slate-400);
+            color: var(--text-secondary);
         }
 
         .content-list li {
             margin-bottom: 0.25rem;
+        }
+
+        .content-list strong {
+            color: var(--text-primary);
+        }
+
+        /* Theme toggle */
+        .theme-toggle {
+            background: transparent;
+            border: 1px solid var(--border-light);
+            color: var(--text-muted);
+            width: 36px;
+            height: 36px;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            transition: all 0.2s ease;
+        }
+
+        .theme-toggle:hover {
+            border-color: var(--accent-signature);
+            color: var(--text-primary);
         }
 
         /* Responsive */
@@ -703,16 +791,16 @@
         }
 
         ::-webkit-scrollbar-track {
-            background: var(--deep-space);
+            background: var(--bg-primary);
         }
 
         ::-webkit-scrollbar-thumb {
-            background: var(--slate-600);
+            background: var(--border-color);
             border-radius: 4px;
         }
 
         ::-webkit-scrollbar-thumb:hover {
-            background: var(--slate-400);
+            background: var(--border-light);
         }
     </style>
 </head>
@@ -724,14 +812,19 @@
                 <img src="logo.png" alt="SOLEY Logo">
                 <h1>SOLEY</h1>
             </div>
-            <nav>
-                <ul>
-                    <li><a href="#overview-tab">Overview</a></li>
-                    <li><a href="#features-tab">Features</a></li>
-                    <li><a href="#download-tab">Download</a></li>
-                    <li><a href="#patchnotes-tab">Patch Notes</a></li>
-                </ul>
-            </nav>
+            <div style="display:flex;align-items:center;gap:2rem;">
+                <nav>
+                    <ul>
+                        <li><a href="#overview-tab">Overview</a></li>
+                        <li><a href="#features-tab">Features</a></li>
+                        <li><a href="#download-tab">Download</a></li>
+                        <li><a href="#patchnotes-tab">Patch Notes</a></li>
+                    </ul>
+                </nav>
+                <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+                    <span id="theme-icon">&#9790;</span>
+                </button>
+            </div>
         </div>
     </header>
 
@@ -1015,7 +1108,7 @@
         <div id="screenshots" class="tab-content">
             <section>
                 <h3>Application Screenshots</h3>
-                <p style="margin-bottom: 2rem; color: var(--slate-400);">See SOLEY in action with these interface examples:</p>
+                <p style="margin-bottom: 2rem; color: var(--text-secondary);">See SOLEY in action with these interface examples:</p>
 
                 <div class="screenshot-gallery">
                     <div class="screenshot-item">
@@ -1059,7 +1152,7 @@
         <div id="download" class="tab-content">
             <section>
                 <h3>Download SOLEY v1.9.8</h3>
-                <p style="font-size: 1.1rem; margin-bottom: 2rem; color: var(--slate-300);">
+                <p style="font-size: 1.1rem; margin-bottom: 2rem; color: var(--text-secondary);">
                     Choose your platform below. SOLEY now requires installation. Example files are located in the installation directory (Program Files/SOLEY/ for Windows).
                 </p>
 
@@ -1182,7 +1275,7 @@
                 <h3>Technical Approach</h3>
 
                 <h4>Optical Model: Transfer Matrix Method</h4>
-                <p style="color: var(--slate-300); margin-bottom: 1rem;">SOLEY implements the Fresnel-based TMM for stratified media:</p>
+                <p style="color: var(--text-secondary); margin-bottom: 1rem;">SOLEY implements the Fresnel-based TMM for stratified media:</p>
                 <ul class="content-list">
                     <li>Exact solution of Maxwell's equations in planar geometry</li>
                     <li>Coherent interference effects in thin films</li>
@@ -1190,27 +1283,27 @@
                     <li>Direct and diffuse illumination with angular integration</li>
                     <li>Three light scattering models: Debye-Waller, geometric trapping, and hybrid treatment</li>
                 </ul>
-                <p style="margin-top: 1rem;"><strong style="color: var(--slate-200);">Reference:</strong> Jimenez et al., <em>Sol. Mat.</em> <strong>251</strong>, 112109 (2023), DOI: <a href="https://doi.org/10.1016/j.solmat.2022.112109" target="_blank">10.1016/j.solmat.2022.112109</a></p>
+                <p style="margin-top: 1rem;"><strong style="color: var(--text-primary);">Reference:</strong> Jimenez et al., <em>Sol. Mat.</em> <strong>251</strong>, 112109 (2023), DOI: <a href="https://doi.org/10.1016/j.solmat.2022.112109" target="_blank">10.1016/j.solmat.2022.112109</a></p>
 
                 <h4>Electrical Model: Extended Detailed Balance</h4>
-                <p style="color: var(--slate-300); margin-bottom: 1rem;">The device physics engine solves:</p>
+                <p style="color: var(--text-secondary); margin-bottom: 1rem;">The device physics engine solves:</p>
                 <pre>J(V) = Jph - J0_rad·[exp(qV/kT) - 1] 
        - J0_SRH·[exp(qV/nkT) - 1]
        - JAuger(V)
        - V/Rsh 
        - J·Rs</pre>
                 
-                <p style="margin-top: 1.5rem;"><strong style="color: var(--slate-200);">Key advantages:</strong></p>
+                <p style="margin-top: 1.5rem;"><strong style="color: var(--text-primary);">Key advantages:</strong></p>
                 <ul class="content-list">
                     <li>No need to solve Poisson-drift-diffusion system</li>
                     <li>Faster iteration for design screening</li>
                     <li>Thermodynamic consistency checks</li>
                     <li>Direct link between optical and electrical models</li>
                 </ul>
-                <p style="margin-top: 1rem;"><strong style="color: var(--slate-200);">Reference:</strong> Jehl Li-Kao, <em>Solar RRL</em> (2025), DOI: <a href="https://doi.org/10.1002/solr.202500345" target="_blank">10.1002/solr.202500345</a></p>
+                <p style="margin-top: 1rem;"><strong style="color: var(--text-primary);">Reference:</strong> Jehl Li-Kao, <em>Solar RRL</em> (2025), DOI: <a href="https://doi.org/10.1002/solr.202500345" target="_blank">10.1002/solr.202500345</a></p>
 
                 <h4>Defect Modelling: Bulk and Interface Recombination</h4>
-                <p style="color: var(--slate-300); margin-bottom: 1rem;">SOLEY translates microscopic trap parameters into macroscopic J₀ using the formulation from Scaffidi et al.:</p>
+                <p style="color: var(--text-secondary); margin-bottom: 1rem;">SOLEY translates microscopic trap parameters into macroscopic J₀ using the formulation from Scaffidi et al.:</p>
                 <pre>Bulk recombination:
 J₀₀_bulk = π·kB·T·√(ε·Nc·Nv/(2·q·Vbi·Ndop))·vth·σn·Nt
 
@@ -1219,7 +1312,7 @@ J₀₀_interface = q·Sp·Ndop·[(Nc_adj·Nv)/(Ndop_adj·Ndop)]^(1-θ)
 
 Final J₀_SRH:
 J₀_SRH = (J₀₀_bulk + J₀₀_interface)·exp(-Ea/(n·kB·T))</pre>
-                <p style="margin-top: 1rem;"><strong style="color: var(--slate-200);">Reference:</strong> Scaffidi, R. et al. <em>Newton</em> <strong>1</strong>(8), 100198 (2025). DOI: <a href="https://doi.org/10.1016/j.newton.2025.100198" target="_blank">10.1016/j.newton.2025.100198</a></p>
+                <p style="margin-top: 1rem;"><strong style="color: var(--text-primary);">Reference:</strong> Scaffidi, R. et al. <em>Newton</em> <strong>1</strong>(8), 100198 (2025). DOI: <a href="https://doi.org/10.1016/j.newton.2025.100198" target="_blank">10.1016/j.newton.2025.100198</a></p>
             </section>
         </div>
 
@@ -1260,116 +1353,116 @@ J₀_SRH = (J₀₀_bulk + J₀₀_interface)·exp(-Ea/(n·kB·T))</pre>
         <div id="patchnotes" class="tab-content">
             <section>
                 <h3>Patch Notes</h3>
-                <p style="margin-bottom: 2rem; color: var(--slate-400);">Version history and changelog for SOLEY releases.</p>
+                <p style="margin-bottom: 2rem; color: var(--text-secondary);">Version history and changelog for SOLEY releases.</p>
 
                 <div class="timeline">
                     <div class="timeline-item">
                         <h5>Version 1.9.8 (Current)</h5>
-                        <p style="margin-bottom: 0.5rem; color: var(--slate-400);"><strong style="color: var(--slate-200);">Release Date:</strong> May 2026</p>
-                        <p style="margin-bottom: 1rem; color: var(--slate-300);"><strong>Physics, multijunction, and packaging:</strong></p>
+                        <p style="margin-bottom: 0.5rem; color: var(--text-secondary);"><strong style="color: var(--text-primary);">Release Date:</strong> May 2026</p>
+                        <p style="margin-bottom: 1rem; color: var(--text-secondary);"><strong>Physics, multijunction, and packaging:</strong></p>
                         <ul>
-                            <li><strong style="color: var(--slate-200);">Linux build now bundles Qt-WebEngine:</strong> the Linux executable no longer fails to open on distributions missing the system Qt-WebEngine packages. Self-contained at the cost of a larger download (~250 MB instead of ~100 MB).</li>
-                            <li><strong style="color: var(--slate-200);">2T multijunction solver:</strong> replaced the legacy interpolation-based combiner with the direct diode-equation solver across every code path (Device tab, J-V tab, headless calculation). Single source of truth for 2T physics.</li>
-                            <li><strong style="color: var(--slate-200);">MPP refinement:</strong> 3-point parabolic refinement around argmax(P) so reported V_mpp, J_mpp, P_max are no longer pinned to voltage-grid resolution. Same logic in api, jv, and device paths.</li>
-                            <li><strong style="color: var(--slate-200);">Per-absorber scattering mode:</strong> a new layer-level dropdown — Flat / Debye-Waller / Geometric — replaces the implicit global heuristic. The "Geometric" mode is the light-trapping model (textured-surface scattering with multi-bounce cavity factor); honored only on absorbers. Tagged per-layer and cached accordingly; old .soley files migrate automatically.</li>
+                            <li><strong style="color: var(--text-primary);">Linux build now bundles Qt-WebEngine:</strong> the Linux executable no longer fails to open on distributions missing the system Qt-WebEngine packages. Self-contained at the cost of a larger download (~250 MB instead of ~100 MB).</li>
+                            <li><strong style="color: var(--text-primary);">2T multijunction solver:</strong> replaced the legacy interpolation-based combiner with the direct diode-equation solver across every code path (Device tab, J-V tab, headless calculation). Single source of truth for 2T physics.</li>
+                            <li><strong style="color: var(--text-primary);">MPP refinement:</strong> 3-point parabolic refinement around argmax(P) so reported V_mpp, J_mpp, P_max are no longer pinned to voltage-grid resolution. Same logic in api, jv, and device paths.</li>
+                            <li><strong style="color: var(--text-primary);">Per-absorber scattering mode:</strong> a new layer-level dropdown — Flat / Debye-Waller / Geometric — replaces the implicit global heuristic. The "Geometric" mode is the light-trapping model (textured-surface scattering with multi-bounce cavity factor); honored only on absorbers. Tagged per-layer and cached accordingly; old .soley files migrate automatically.</li>
                         </ul>
                     </div>
 
                     <div class="timeline-item">
                         <h5>Version 1.9.7</h5>
-                        <p style="margin-bottom: 0.5rem; color: var(--slate-400);"><strong style="color: var(--slate-200);">Release Date:</strong> April 2026</p>
-                        <p style="margin-bottom: 1rem; color: var(--slate-300);">Bugfix release: fixes a project file loading issue where custom optical material paths were lost during the second loading pass, causing missing absorber layers.</p>
+                        <p style="margin-bottom: 0.5rem; color: var(--text-secondary);"><strong style="color: var(--text-primary);">Release Date:</strong> April 2026</p>
+                        <p style="margin-bottom: 1rem; color: var(--text-secondary);">Bugfix release: fixes a project file loading issue where custom optical material paths were lost during the second loading pass, causing missing absorber layers.</p>
                     </div>
 
                     <div class="timeline-item">
                         <h5>Version 1.9.6</h5>
-                        <p style="margin-bottom: 0.5rem; color: var(--slate-400);"><strong style="color: var(--slate-200);">Release Date:</strong> March 2026</p>
-                        <p style="margin-bottom: 1rem; color: var(--slate-300);"><strong>Bug Fixes & Accuracy Improvements:</strong></p>
+                        <p style="margin-bottom: 0.5rem; color: var(--text-secondary);"><strong style="color: var(--text-primary);">Release Date:</strong> March 2026</p>
+                        <p style="margin-bottom: 1rem; color: var(--text-secondary);"><strong>Bug Fixes & Accuracy Improvements:</strong></p>
                         <ul>
-                            <li><strong style="color: var(--slate-200);">TM Polarization Fix:</strong> Corrected Poynting-vector normalization for TM polarization in the TMM engine. Generation profiles through glass superstrates (e.g. perovskite/silicon tandems) are now accurate for both TE and TM components.</li>
-                            <li><strong style="color: var(--slate-200);">Numerical Stability:</strong> Added overflow guard in the diode equation solver for extreme series resistance values, preventing crashes in edge-case device configurations.</li>
-                            <li><strong style="color: var(--slate-200);">TMM Cache Fix:</strong> Optical cache no longer falsely invalidates when Bruggeman EMA merges mixed-index layers, eliminating unnecessary recalculations.</li>
-                            <li><strong style="color: var(--slate-200);">Results Export Rewrite:</strong> CSV export now correctly handles multijunction devices with per-subcell PV parameters, J-V curves, and diode analysis.</li>
-                            <li><strong style="color: var(--slate-200);">Project File Portability:</strong> .soley files now store canonical material paths instead of temporary paths, making project files portable across machines.</li>
+                            <li><strong style="color: var(--text-primary);">TM Polarization Fix:</strong> Corrected Poynting-vector normalization for TM polarization in the TMM engine. Generation profiles through glass superstrates (e.g. perovskite/silicon tandems) are now accurate for both TE and TM components.</li>
+                            <li><strong style="color: var(--text-primary);">Numerical Stability:</strong> Added overflow guard in the diode equation solver for extreme series resistance values, preventing crashes in edge-case device configurations.</li>
+                            <li><strong style="color: var(--text-primary);">TMM Cache Fix:</strong> Optical cache no longer falsely invalidates when Bruggeman EMA merges mixed-index layers, eliminating unnecessary recalculations.</li>
+                            <li><strong style="color: var(--text-primary);">Results Export Rewrite:</strong> CSV export now correctly handles multijunction devices with per-subcell PV parameters, J-V curves, and diode analysis.</li>
+                            <li><strong style="color: var(--text-primary);">Project File Portability:</strong> .soley files now store canonical material paths instead of temporary paths, making project files portable across machines.</li>
                         </ul>
                     </div>
 
                     <div class="timeline-item">
                         <h5>Version 1.9.5</h5>
-                        <p style="margin-bottom: 0.5rem; color: var(--slate-400);"><strong style="color: var(--slate-200);">Release Date:</strong> February 2026</p>
-                        <p style="margin-bottom: 1rem; color: var(--slate-300);"><strong>Major Updates:</strong></p>
+                        <p style="margin-bottom: 0.5rem; color: var(--text-secondary);"><strong style="color: var(--text-primary);">Release Date:</strong> February 2026</p>
+                        <p style="margin-bottom: 1rem; color: var(--text-secondary);"><strong>Major Updates:</strong></p>
                         <ul>
-                            <li><strong style="color: var(--slate-200);">3-Terminal Common-Z Tandem Mode:</strong> Distributed network model with sheet resistance and cell width parameters, replacing the lumped R_B approximation. Robust MPP optimizer across all coupling regimes.</li>
-                            <li><strong style="color: var(--slate-200);">Photon Recycling:</strong> New module computing escape probability and radiative coupling between subcells.</li>
-                            <li><strong style="color: var(--slate-200);">Mixed Coherent/Incoherent TMM:</strong> Stacks with thick layers (glass substrates) no longer crash. Katsidis & Siapkas 2002 method handles thick layers via Beer-Lambert + Redheffer star product, transparent to all callers.</li>
-                            <li><strong style="color: var(--slate-200);">Multi-Bounce Geometric Light Trapping:</strong> Textured surface reflectance now accounts for inter-facet bounces (Campbell & Green 1987), with proper deduplication against the TMM cavity model.</li>
-                            <li><strong style="color: var(--slate-200);">Major Save/Load Overhaul:</strong> Fixed dozens of bugs where device parameters (SRH, defects, bifacial, injection level, wavelength range) were lost or leaked between presets. Three duplicate loading paths unified into one.</li>
-                            <li><strong style="color: var(--slate-200);">Stability & Build Fixes:</strong> Hecht model no longer silently disabled in packaged builds, NumPy 2.0 compatible, legacy tkinter GUI fully removed.</li>
+                            <li><strong style="color: var(--text-primary);">3-Terminal Common-Z Tandem Mode:</strong> Distributed network model with sheet resistance and cell width parameters, replacing the lumped R_B approximation. Robust MPP optimizer across all coupling regimes.</li>
+                            <li><strong style="color: var(--text-primary);">Photon Recycling:</strong> New module computing escape probability and radiative coupling between subcells.</li>
+                            <li><strong style="color: var(--text-primary);">Mixed Coherent/Incoherent TMM:</strong> Stacks with thick layers (glass substrates) no longer crash. Katsidis & Siapkas 2002 method handles thick layers via Beer-Lambert + Redheffer star product, transparent to all callers.</li>
+                            <li><strong style="color: var(--text-primary);">Multi-Bounce Geometric Light Trapping:</strong> Textured surface reflectance now accounts for inter-facet bounces (Campbell & Green 1987), with proper deduplication against the TMM cavity model.</li>
+                            <li><strong style="color: var(--text-primary);">Major Save/Load Overhaul:</strong> Fixed dozens of bugs where device parameters (SRH, defects, bifacial, injection level, wavelength range) were lost or leaked between presets. Three duplicate loading paths unified into one.</li>
+                            <li><strong style="color: var(--text-primary);">Stability & Build Fixes:</strong> Hecht model no longer silently disabled in packaged builds, NumPy 2.0 compatible, legacy tkinter GUI fully removed.</li>
                         </ul>
                     </div>
 
                     <div class="timeline-item">
                         <h5>Version 1.9</h5>
-                        <p style="margin-bottom: 0.5rem; color: var(--slate-400);"><strong style="color: var(--slate-200);">Release Date:</strong> February 2026</p>
-                        <p style="margin-bottom: 1rem; color: var(--slate-300);"><strong>Major Updates:</strong></p>
+                        <p style="margin-bottom: 0.5rem; color: var(--text-secondary);"><strong style="color: var(--text-primary);">Release Date:</strong> February 2026</p>
+                        <p style="margin-bottom: 1rem; color: var(--text-secondary);"><strong>Major Updates:</strong></p>
                         <ul>
-                            <li><strong style="color: var(--slate-200);">Photon Recycling:</strong> Implementation of photon recycling via Rau's optical reciprocity relation. Calculates effective radiative saturation current J0_rad_eff by accounting for the fraction of radiatively emitted photons that escape the device vs. being reabsorbed. Uses escape probability P_esc(E) from diffuse absorptivity (Kirchhoff reciprocity). Also includes photon coupling currents between subcells in multijunction devices.</li>
-                            <li><strong style="color: var(--slate-200);">Critical Bug Fix:</strong> Fixed a severe bug where moving or removing a layer would corrupt the layer labeling and cause incorrect optical and device modeling results. Layer indices are now properly maintained throughout all operations.</li>
-                            <li><strong style="color: var(--slate-200);">Bug fixes and QoL improvements:</strong> Various stability improvements and user experience enhancements</li>
+                            <li><strong style="color: var(--text-primary);">Photon Recycling:</strong> Implementation of photon recycling via Rau's optical reciprocity relation. Calculates effective radiative saturation current J0_rad_eff by accounting for the fraction of radiatively emitted photons that escape the device vs. being reabsorbed. Uses escape probability P_esc(E) from diffuse absorptivity (Kirchhoff reciprocity). Also includes photon coupling currents between subcells in multijunction devices.</li>
+                            <li><strong style="color: var(--text-primary);">Critical Bug Fix:</strong> Fixed a severe bug where moving or removing a layer would corrupt the layer labeling and cause incorrect optical and device modeling results. Layer indices are now properly maintained throughout all operations.</li>
+                            <li><strong style="color: var(--text-primary);">Bug fixes and QoL improvements:</strong> Various stability improvements and user experience enhancements</li>
                         </ul>
                     </div>
 
                     <div class="timeline-item">
                         <h5>Version 1.8.1</h5>
-                        <p style="margin-bottom: 0.5rem; color: var(--slate-400);"><strong style="color: var(--slate-200);">Release Date:</strong> January 2026</p>
-                        <p style="margin-bottom: 1rem; color: var(--slate-300);"><strong>Minor Update:</strong></p>
+                        <p style="margin-bottom: 0.5rem; color: var(--text-secondary);"><strong style="color: var(--text-primary);">Release Date:</strong> January 2026</p>
+                        <p style="margin-bottom: 1rem; color: var(--text-secondary);"><strong>Minor Update:</strong></p>
                         <ul>
-                            <li><strong style="color: var(--slate-200);">macOS .dmg packaging:</strong> macOS builds are now distributed as .dmg disk images with drag-to-Applications installation</li>
-                            <li><strong style="color: var(--slate-200);">IEC 60904-1-2 bifacial characterization:</strong> Added standard-compliant bifacial device characterization with configurable rear irradiance, bifaciality coefficients, and bifacial gain metrics</li>
+                            <li><strong style="color: var(--text-primary);">macOS .dmg packaging:</strong> macOS builds are now distributed as .dmg disk images with drag-to-Applications installation</li>
+                            <li><strong style="color: var(--text-primary);">IEC 60904-1-2 bifacial characterization:</strong> Added standard-compliant bifacial device characterization with configurable rear irradiance, bifaciality coefficients, and bifacial gain metrics</li>
                         </ul>
                     </div>
 
                     <div class="timeline-item">
                         <h5>Version 1.8</h5>
-                        <p style="margin-bottom: 0.5rem; color: var(--slate-400);"><strong style="color: var(--slate-200);">Release Date:</strong> January 2026</p>
-                        <p style="margin-bottom: 1rem; color: var(--slate-300);"><strong>Major Updates:</strong></p>
+                        <p style="margin-bottom: 0.5rem; color: var(--text-secondary);"><strong style="color: var(--text-primary);">Release Date:</strong> January 2026</p>
+                        <p style="margin-bottom: 1rem; color: var(--text-secondary);"><strong>Major Updates:</strong></p>
                         <ul>
-                            <li><strong style="color: var(--slate-200);">Bifacial Simulation:</strong> Full dual-sided PV module support with angular-resolved rear-side TMM. Three illumination modes (Auto, Full Environment, Custom), wavelength-dependent albedo models (presets for grass/sand/concrete/snow/water, flat value, Gaussian profile), and per-layer bifacial gain output</li>
-                            <li><strong style="color: var(--slate-200);">HTML GUI:</strong> New cross-platform front end via pywebview (run_soley.py). Calls the same physics as the CustomTkinter interface through a modular Python API backend</li>
+                            <li><strong style="color: var(--text-primary);">Bifacial Simulation:</strong> Full dual-sided PV module support with angular-resolved rear-side TMM. Three illumination modes (Auto, Full Environment, Custom), wavelength-dependent albedo models (presets for grass/sand/concrete/snow/water, flat value, Gaussian profile), and per-layer bifacial gain output</li>
+                            <li><strong style="color: var(--text-primary);">HTML GUI:</strong> New cross-platform front end via pywebview (run_soley.py). Calls the same physics as the CustomTkinter interface through a modular Python API backend</li>
                         </ul>
                     </div>
 
                     <div class="timeline-item">
                         <h5>Version 1.7</h5>
-                        <p style="margin-bottom: 0.5rem; color: var(--slate-400);"><strong style="color: var(--slate-200);">Release Date:</strong> December 10th, 2025</p>
-                        <p style="margin-bottom: 1rem; color: var(--slate-300);"><strong>Major Updates:</strong></p>
+                        <p style="margin-bottom: 0.5rem; color: var(--text-secondary);"><strong style="color: var(--text-primary);">Release Date:</strong> December 10th, 2025</p>
+                        <p style="margin-bottom: 1rem; color: var(--text-secondary);"><strong>Major Updates:</strong></p>
                         <ul>
-                            <li><strong style="color: var(--slate-200);">Light Scattering/Trapping Logic:</strong> Three comprehensive models - Debye-Waller factors for smooth interfaces, geometric light trapping for textured surfaces with infinite bounce path enhancement, and hybrid absorber/non-absorber interface treatment</li>
-                            <li><strong style="color: var(--slate-200);">Voltage Dependent Collection:</strong> Integrated Hecht equation for modeling collection efficiency as a function of applied voltage based on mobility-lifetime product (μτ) and drift length</li>
-                            <li><strong style="color: var(--slate-200);">Advanced Diode Analysis:</strong> Added local ideality factor n_id(V) and differential resistance R_diff(V) diagnostic tools to separate shunt, recombination, and series resistance regimes</li>
-                            <li><strong style="color: var(--slate-200);">Integrated Theoretical Hints:</strong> GUI now includes contextual scientific explanations for each functionality, helping users understand the physics behind SOLEY's features</li>
-                            <li><strong style="color: var(--slate-200);">Installation Changes:</strong> SOLEY now uses an installer instead of portable executables</li>
-                            <li><strong style="color: var(--slate-200);">Example Files:</strong> Example files now included in installation directory (Program Files/SOLEY/ for Windows)</li>
+                            <li><strong style="color: var(--text-primary);">Light Scattering/Trapping Logic:</strong> Three comprehensive models - Debye-Waller factors for smooth interfaces, geometric light trapping for textured surfaces with infinite bounce path enhancement, and hybrid absorber/non-absorber interface treatment</li>
+                            <li><strong style="color: var(--text-primary);">Voltage Dependent Collection:</strong> Integrated Hecht equation for modeling collection efficiency as a function of applied voltage based on mobility-lifetime product (μτ) and drift length</li>
+                            <li><strong style="color: var(--text-primary);">Advanced Diode Analysis:</strong> Added local ideality factor n_id(V) and differential resistance R_diff(V) diagnostic tools to separate shunt, recombination, and series resistance regimes</li>
+                            <li><strong style="color: var(--text-primary);">Integrated Theoretical Hints:</strong> GUI now includes contextual scientific explanations for each functionality, helping users understand the physics behind SOLEY's features</li>
+                            <li><strong style="color: var(--text-primary);">Installation Changes:</strong> SOLEY now uses an installer instead of portable executables</li>
+                            <li><strong style="color: var(--text-primary);">Example Files:</strong> Example files now included in installation directory (Program Files/SOLEY/ for Windows)</li>
                         </ul>
                     </div>
 
                     <div class="timeline-item">
                         <h5>Version 1.5</h5>
-                        <p style="margin-bottom: 0.5rem; color: var(--slate-400);"><strong style="color: var(--slate-200);">Release Date:</strong> October 30th, 2025</p>
-                        <p style="margin-bottom: 1rem; color: var(--slate-300);"><strong>Key Features:</strong></p>
+                        <p style="margin-bottom: 0.5rem; color: var(--text-secondary);"><strong style="color: var(--text-primary);">Release Date:</strong> October 30th, 2025</p>
+                        <p style="margin-bottom: 1rem; color: var(--text-secondary);"><strong>Key Features:</strong></p>
                         <ul>
-                            <li><strong style="color: var(--slate-200);">Luminescence Logic:</strong> Implemented photoluminescence (PL) and electroluminescence (EL) spectroscopy capabilities</li>
-                            <li><strong style="color: var(--slate-200);">Bug Fixes:</strong> Corrected bug in Auger recombination calculations</li>
+                            <li><strong style="color: var(--text-primary);">Luminescence Logic:</strong> Implemented photoluminescence (PL) and electroluminescence (EL) spectroscopy capabilities</li>
+                            <li><strong style="color: var(--text-primary);">Bug Fixes:</strong> Corrected bug in Auger recombination calculations</li>
                         </ul>
                     </div>
 
                     <div class="timeline-item">
                         <h5>Version 1.3</h5>
-                        <p style="margin-bottom: 0.5rem; color: var(--slate-400);"><strong style="color: var(--slate-200);">Release Date:</strong> September 15th, 2025</p>
-                        <p style="margin-bottom: 1rem; color: var(--slate-300);"><strong>Key Features:</strong></p>
+                        <p style="margin-bottom: 0.5rem; color: var(--text-secondary);"><strong style="color: var(--text-primary);">Release Date:</strong> September 15th, 2025</p>
+                        <p style="margin-bottom: 1rem; color: var(--text-secondary);"><strong>Key Features:</strong></p>
                         <ul>
-                            <li><strong style="color: var(--slate-200);">Modern GUI:</strong> Interface redesign with improved user experience</li>
-                            <li><strong style="color: var(--slate-200);">Batch Logic Fixes:</strong> Resolved bugs affecting batch calculation workflows</li>
+                            <li><strong style="color: var(--text-primary);">Modern GUI:</strong> Interface redesign with improved user experience</li>
+                            <li><strong style="color: var(--text-primary);">Batch Logic Fixes:</strong> Resolved bugs affecting batch calculation workflows</li>
                         </ul>
                     </div>
                 </div>
@@ -1384,11 +1477,11 @@ J₀_SRH = (J₀₀_bulk + J₀₀_interface)·exp(-Ea/(n·kB·T))</pre>
         <div id="citation" class="tab-content">
             <section>
                 <h3>Citation</h3>
-                <p style="color: var(--slate-300); margin-bottom: 1rem;">If you use SOLEY in your research, please cite:</p>
+                <p style="color: var(--text-secondary); margin-bottom: 1rem;">If you use SOLEY in your research, please cite:</p>
 
                 <div class="citation-block">
                     <p>
-                        <strong style="color: var(--primary-light);">Jehl Li-Kao, Z.</strong> "SOLEY: a package for optical and extended detailed balance model for photovoltaic device simulation." <em>Solar RRL</em> (2025). DOI: <a href="https://doi.org/10.1002/solr.202500345" target="_blank">10.1002/solr.202500345</a>
+                        <strong style="color: var(--accent-signature);">Jehl Li-Kao, Z.</strong> "SOLEY: a package for optical and extended detailed balance model for photovoltaic device simulation." <em>Solar RRL</em> (2025). DOI: <a href="https://doi.org/10.1002/solr.202500345" target="_blank">10.1002/solr.202500345</a>
                     </p>
                 </div>
 
@@ -1404,8 +1497,8 @@ J₀_SRH = (J₀₀_bulk + J₀₀_interface)·exp(-Ea/(n·kB·T))</pre>
 }</pre>
 
                 <h4>License</h4>
-                <p style="color: var(--slate-300);"><strong style="color: var(--slate-200);">SOLEY</strong> is distributed for academic use only. Commercial use requires explicit written permission from the author.</p>
-                <p style="color: var(--slate-400); margin-top: 0.75rem;">By downloading and using SOLEY, you agree to:</p>
+                <p style="color: var(--text-secondary);"><strong style="color: var(--text-primary);">SOLEY</strong> is distributed for academic use only. Commercial use requires explicit written permission from the author.</p>
+                <p style="color: var(--text-secondary); margin-top: 0.75rem;">By downloading and using SOLEY, you agree to:</p>
                 <ul class="content-list">
                     <li>Use the software strictly for non-commercial research and educational purposes</li>
                     <li>Cite the software in any publications or presentations</li>
@@ -1418,7 +1511,7 @@ J₀_SRH = (J₀₀_bulk + J₀₀_interface)·exp(-Ea/(n·kB·T))</pre>
         <div id="contact" class="tab-content">
             <section>
                 <h3>Contact</h3>
-                <p style="font-size: 1.1rem; margin-bottom: 2rem; color: var(--slate-300);">
+                <p style="font-size: 1.1rem; margin-bottom: 2rem; color: var(--text-secondary);">
                     Get in touch for questions, bug reports, feature requests, or collaboration opportunities.
                 </p>
 
@@ -1426,7 +1519,7 @@ J₀_SRH = (J₀₀_bulk + J₀₀_interface)·exp(-Ea/(n·kB·T))</pre>
                     <div class="feature-card">
                         <h5>📧 Email</h5>
                         <p><a href="mailto:zacharie.jehl@upc.edu">zacharie.jehl@upc.edu</a></p>
-                        <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--slate-600);">
+                        <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-muted);">
                             Use subject prefixes:<br>
                             [SOLEY Bug] - Bug reports<br>
                             [SOLEY Feature] - Feature requests<br>
@@ -1437,7 +1530,7 @@ J₀_SRH = (J₀₀_bulk + J₀₀_interface)·exp(-Ea/(n·kB·T))</pre>
                     <div class="feature-card">
                         <h5>💼 LinkedIn</h5>
                         <p><a href="https://www.linkedin.com/in/zacharie-j-9ba014ba/" target="_blank">Connect on LinkedIn</a></p>
-                        <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--slate-600);">
+                        <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-muted);">
                             Professional networking and updates
                         </p>
                     </div>
@@ -1445,14 +1538,14 @@ J₀_SRH = (J₀₀_bulk + J₀₀_interface)·exp(-Ea/(n·kB·T))</pre>
                     <div class="feature-card">
                         <h5>🐛 GitHub Issues</h5>
                         <p><a href="https://github.com/zacharie-li-kao/SOLEY-PV/issues" target="_blank">Report on GitHub</a></p>
-                        <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--slate-600);">
+                        <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-muted);">
                             For bug tracking and feature discussions
                         </p>
                     </div>
                 </div>
 
                 <h4>Developer</h4>
-                <p style="color: var(--slate-300);"><strong style="color: var(--white);">Zacharie Jehl Li-Kao</strong><br>
+                <p style="color: var(--text-secondary);"><strong style="color: var(--text-primary);">Zacharie Jehl Li-Kao</strong><br>
                 Universitat Politècnica de Catalunya (UPC)<br>
                 Barcelona, Spain</p>
             </section>
@@ -1465,7 +1558,7 @@ J₀_SRH = (J₀₀_bulk + J₀₀_interface)·exp(-Ea/(n·kB·T))</pre>
         <div class="footer-content">
             <div class="footer-section">
                 <h4>SOLEY</h4>
-                <p style="color: var(--slate-300);">Solar Cell Simulation Package</p>
+                <p style="color: var(--text-secondary);">Solar Cell Simulation Package</p>
                 <p style="margin-top: 1rem;">
                     A scientific-grade toolkit for optical and electrical modelling of photovoltaic devices.
                 </p>
@@ -1481,9 +1574,9 @@ J₀_SRH = (J₀₀_bulk + J₀₀_interface)·exp(-Ea/(n·kB·T))</pre>
 
             <div class="footer-section">
                 <h4>Contact</h4>
-                <p><strong style="color: var(--slate-300);">Developer:</strong> Zacharie Jehl Li-Kao</p>
-                <p><strong style="color: var(--slate-300);">Email:</strong> <a href="mailto:zacharie.jehl@upc.edu">zacharie.jehl@upc.edu</a></p>
-                <p><strong style="color: var(--slate-300);">LinkedIn:</strong> <a href="https://www.linkedin.com/in/zacharie-j-9ba014ba/" target="_blank">Connect</a></p>
+                <p><strong style="color: var(--text-secondary);">Developer:</strong> Zacharie Jehl Li-Kao</p>
+                <p><strong style="color: var(--text-secondary);">Email:</strong> <a href="mailto:zacharie.jehl@upc.edu">zacharie.jehl@upc.edu</a></p>
+                <p><strong style="color: var(--text-secondary);">LinkedIn:</strong> <a href="https://www.linkedin.com/in/zacharie-j-9ba014ba/" target="_blank">Connect</a></p>
             </div>
 
             <div class="footer-section">
@@ -1566,6 +1659,29 @@ J₀_SRH = (J₀₀_bulk + J₀₀_interface)·exp(-Ea/(n·kB·T))</pre>
     // Initialize on page load
     window.addEventListener('load', handleHashNavigation);
     window.addEventListener('hashchange', handleHashNavigation);
+
+    // Theme toggle
+    function toggleTheme() {
+        const html = document.documentElement;
+        const current = html.getAttribute('data-theme');
+        const next = current === 'light' ? 'dark' : 'light';
+        html.setAttribute('data-theme', next);
+        localStorage.setItem('soley-theme', next);
+        updateThemeIcon(next);
+    }
+
+    function updateThemeIcon(theme) {
+        const icon = document.getElementById('theme-icon');
+        if (icon) icon.innerHTML = theme === 'light' ? '&#9728;' : '&#9790;';
+    }
+
+    (function initTheme() {
+        const saved = localStorage.getItem('soley-theme');
+        if (saved) {
+            document.documentElement.setAttribute('data-theme', saved);
+            updateThemeIcon(saved);
+        }
+    })();
     </script>
 </body>
 </html>

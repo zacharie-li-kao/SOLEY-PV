@@ -841,8 +841,8 @@
                     </a>
                 </span>
                 <span class="badge">
-                    <a href="https://zenodo.org/records/20301491" target="_blank">
-                        <img src="https://img.shields.io/badge/Zenodo-v1.9.8-orange" alt="Zenodo">
+                    <a href="https://zenodo.org/records/21871142" target="_blank">
+                        <img src="https://img.shields.io/badge/Zenodo-v2.1.0-orange" alt="Zenodo">
                     </a>
                 </span>
                 <span class="badge">
@@ -853,7 +853,7 @@
             <div class="cta-buttons">
                 <a href="#download-tab" class="btn btn-primary">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                    Download v1.9.8
+                    Download v2.1.0
                 </a>
                 <a href="https://zenodo.org/records/18771881/files/SOLEY_MANUAL1_9_5.pdf?download=1" class="btn btn-secondary" target="_blank">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
@@ -1112,6 +1112,11 @@
 
                 <div class="screenshot-gallery">
                     <div class="screenshot-item">
+                        <img src="eqe_transport.png" alt="Thermodynamic EQE vs drift-diffusion">
+                        <div class="screenshot-caption">New in 2.1 - External quantum efficiency from the thermodynamic transport model (green), closely matching a full drift-diffusion calculation (dashed); both sit below the absorptance ceiling (grey), the gap being transport-limited collection loss in a CZTSe thin film</div>
+                    </div>
+
+                    <div class="screenshot-item">
                         <img src="main_interface.png" alt="Main SOLEY Interface">
                         <div class="screenshot-caption">Main SOLEY Interface - Layer stack management and optical profile visualization</div>
                     </div>
@@ -1151,7 +1156,7 @@
         <!-- Download Tab -->
         <div id="download" class="tab-content">
             <section>
-                <h3>Download SOLEY v1.9.8</h3>
+                <h3>Download SOLEY v2.1.0</h3>
                 <p style="font-size: 1.1rem; margin-bottom: 2rem; color: var(--text-secondary);">
                     Choose your platform below. SOLEY now requires installation. Example files are located in the installation directory (Program Files/SOLEY/ for Windows).
                 </p>
@@ -1161,7 +1166,7 @@
                         <span class="platform-icon">🪟</span>
                         <h5>Windows</h5>
                         <p class="size">~100 MB</p>
-                        <a href="https://zenodo.org/records/20301491/files/SOLEY-1_9_8-Windows.exe?download=1" class="btn btn-primary">Download for Windows</a>
+                        <a href="https://zenodo.org/records/21871142/files/SOLEY-2_1-Windows.exe?download=1" class="btn btn-primary">Download for Windows</a>
                         <p class="platform-note">Windows 10/11 (64-bit)</p>
                     </div>
 
@@ -1169,7 +1174,7 @@
                         <span class="platform-icon">🍎</span>
                         <h5>macOS</h5>
                         <p class="size">~60 MB</p>
-                        <a href="https://zenodo.org/records/20301491/files/SOLEY-1_9_8-macOS.dmg?download=1" class="btn btn-primary">Download for macOS</a>
+                        <a href="https://zenodo.org/records/21871142/files/SOLEY-2_1_0-macOS.dmg?download=1" class="btn btn-primary">Download for macOS</a>
                         <p class="platform-note">macOS 10.15+ (Intel/Apple Silicon)</p>
                     </div>
 
@@ -1177,7 +1182,7 @@
                         <span class="platform-icon">🐧</span>
                         <h5>Linux</h5>
                         <p class="size">~250 MB</p>
-                        <a href="https://zenodo.org/records/20301491/files/SOLEY-1_9_8-Linux?download=1" class="btn btn-primary">Download for Linux</a>
+                        <a href="https://zenodo.org/records/21871142/files/SOLEY-2_1_0-Linux?download=1" class="btn btn-primary">Download for Linux</a>
                         <p class="platform-note">Ubuntu 20.04+ / Debian-based · Qt-WebEngine bundled</p>
                     </div>
                 </div>
@@ -1357,7 +1362,23 @@ J₀_SRH = (J₀₀_bulk + J₀₀_interface)·exp(-Ea/(n·kB·T))</pre>
 
                 <div class="timeline">
                     <div class="timeline-item">
-                        <h5>Version 1.9.8 (Current)</h5>
+                        <h5>Version 2.1.0 (Current)</h5>
+                        <p style="margin-bottom: 0.5rem; color: var(--text-secondary);"><strong style="color: var(--text-primary);">Release Date:</strong> August 2026</p>
+                        <p style="margin-bottom: 1rem; color: var(--text-secondary);">The biggest update to SOLEY so far.</p>
+                        <ul>
+                            <li><strong style="color: var(--text-primary);">Thermodynamic EQE model:</strong> External quantum efficiency is now computed from a new thermodynamic model with depth-resolved carrier collection. A simpler drift-diffusion (BVP) solver is included alongside it for comparison, and the thermodynamic result closely matches a full drift-diffusion calculation. The V_oc deficit is quantified with the Rau reciprocity model.</li>
+                            <li><strong style="color: var(--text-primary);">Transport model in J-V and PV parameters:</strong> the same transport treatment now drives the J-V curves and PV parameters, not just the EQE. Especially useful for transport-limited thin films.</li>
+                            <li><strong style="color: var(--text-primary);">Temperature-dependent bandgap E_g(T):</strong> set a Varshni or custom E_g(T) law and it flows consistently through both the optics (n,k) and the device physics, with the temperature provenance carried into the results table and CSV export.</li>
+                            <li><strong style="color: var(--text-primary);">Multijunction transport:</strong> the thermodynamic model, EQE and depth-resolved J-V now extend to 2T/3T/4T tandems, including luminescent coupling between subcells.</li>
+                            <li><strong style="color: var(--text-primary);">Per-absorber collection model:</strong> the collection model (off / Hecht / full transport) is now selectable per absorber, so ideal and transport-limited layers can be mixed in one stack.</li>
+                            <li><strong style="color: var(--text-primary);">Improved light scattering / trapping:</strong> the roughness and light-trapping logic has been further refined and validated against RCWA.</li>
+                            <li><strong style="color: var(--text-primary);">Refreshed presets and faster optics:</strong> built-in material presets updated with realistic mobilities and collection models; TMM and optical caching reworked for noticeably quicker repeated runs.</li>
+                            <li><strong style="color: var(--text-primary);">Reworked UI:</strong> a much cleaner interface with unified light and dark themes.</li>
+                        </ul>
+                    </div>
+
+                    <div class="timeline-item">
+                        <h5>Version 1.9.8</h5>
                         <p style="margin-bottom: 0.5rem; color: var(--text-secondary);"><strong style="color: var(--text-primary);">Release Date:</strong> May 2026</p>
                         <p style="margin-bottom: 1rem; color: var(--text-secondary);"><strong>Physics, multijunction, and packaging:</strong></p>
                         <ul>

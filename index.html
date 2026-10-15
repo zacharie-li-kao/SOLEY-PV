@@ -95,8 +95,8 @@
         <li>Photoluminescence and electroluminescence spectra, and bifacial devices</li>
       </ul>
       <figure class="spot">
-        <img src="eqe_transport.png" alt="EQE from the thermodynamic transport model compared with a drift-diffusion calculation" loading="lazy" width="800" height="500">
-        <figcaption>EQE of a CZTSe thin film from the transport model of version 2.1 (green), compared with a full drift-diffusion calculation (dashed).</figcaption>
+        <img src="assets/screens/eqe.webp" alt="EQE from the thermodynamic transport model compared with the absorbance" loading="lazy" width="1500" height="1027">
+        <figcaption>EQE of a CZTSe thin film from the transport model of version 2.1 (green), compared with the absorbance of the absorber (dashed).</figcaption>
       </figure>
       <a class="next" href="#download">Next: Download</a>
     </section>
@@ -167,7 +167,7 @@
     <section id="optics" aria-labelledby="optics-h">
       <h2 id="optics-h" tabindex="-1">Optics</h2>
       <p>The optical part of SOLEY is a Transfer Matrix Method engine for stratified media, completed by scattering and light trapping models for rough or textured interfaces.</p>
-      <figure class="shot"><img src="main_interface.png" alt="Layer stack and optical profiles in the main interface" loading="lazy" width="800" height="500"></figure>
+      <figure class="shot"><img src="assets/screens/optical-cztse.webp" alt="Layer stack and optical profile of a CZTSe device" loading="lazy" width="1600" height="1000"></figure>
       <dl class="features">
         <div><dt>Transfer Matrix Method</dt>
           <dd>Coherent and partially coherent calculations, with thick incoherent layers such as glass substrates handled by the method of Katsidis and Siapkas; direct and diffuse (Lambertian) illumination; angle of incidence from 0 to 89° with TE, TM or unpolarised light; generation profiles integrated over the spectrum.</dd></div>
@@ -184,7 +184,7 @@
     <section id="device" aria-labelledby="device-h">
       <h2 id="device-h" tabindex="-1">Device physics</h2>
       <p>The electrical part of SOLEY is built on the detailed balance principle, extended in order to include the non-radiative losses and, since version 2.1, the carrier transport in the absorber.</p>
-      <figure class="shot"><img src="defects.png" alt="Defect parameter window" loading="lazy" width="800" height="500"></figure>
+      <figure class="shot"><img src="assets/screens/defects.webp" alt="Absorber defect and doping settings" loading="lazy" width="1600" height="1000"></figure>
       <dl class="features">
         <div><dt>Extended detailed balance</dt>
           <dd>Shockley-Queisser limit, radiative recombination following van Roosbroeck and Shockley, SRH recombination in the bulk and at the interfaces, Auger recombination depending on temperature and bandgap, all computed from the TMM absorption spectra.</dd></div>
@@ -204,7 +204,7 @@
 
     <section id="analysis" aria-labelledby="analysis-h">
       <h2 id="analysis-h" tabindex="-1">Analysis tools</h2>
-      <figure class="shot"><img src="jv_curves.png" alt="J-V curves of several absorbers" loading="lazy" width="800" height="500"></figure>
+      <figure class="shot"><img src="assets/screens/jv.webp" alt="J-V characteristics of a CZTSe device" loading="lazy" width="1500" height="1027"></figure>
       <dl class="features">
         <div><dt>J-V characteristics</dt>
           <dd>Dark and illuminated curves, custom voltage sweep, overlay of several absorbers and CSV export. The maximum power point is refined by a parabolic fit around the maximum, so that V<sub>mpp</sub>, J<sub>mpp</sub> and P<sub>max</sub> do not depend on the voltage step.</dd></div>
@@ -228,32 +228,32 @@
       <h2 id="gallery-h" tabindex="-1">Gallery</h2>
       <div class="gallery">
         <figure>
-          <button type="button" aria-label="Enlarge the EQE comparison"><img src="eqe_transport.png" alt="EQE from the thermodynamic transport model compared with a drift-diffusion calculation" loading="lazy" width="800" height="500"></button>
-          <figcaption>EQE of a CZTSe thin film from the thermodynamic transport model (green), close to a full drift-diffusion calculation (dashed). Both remain below the absorptance (grey), the difference being the collection loss due to transport.</figcaption>
+          <button type="button" aria-label="Enlarge: Optical modelling of a perovskite/silicon tandem in SOLEY"><img src="assets/screens/optical-tandem.webp" alt="Optical modelling of a perovskite/silicon tandem in SOLEY" loading="lazy" width="1600" height="1000"></button>
+          <figcaption>Optical modelling of a perovskite/silicon tandem: the layer stack, with the roughness of every interface, and the reflection, transmission and absorption of each layer calculated with the TMM.</figcaption>
         </figure>
         <figure>
-          <button type="button" aria-label="Enlarge the main interface"><img src="main_interface.png" alt="Main SOLEY interface" loading="lazy" width="800" height="500"></button>
-          <figcaption>Main interface, with the layer stack and the optical profiles.</figcaption>
+          <button type="button" aria-label="Enlarge: EQE from the thermodynamic transport model compared with the absorbance"><img src="assets/screens/eqe.webp" alt="EQE from the thermodynamic transport model compared with the absorbance" loading="lazy" width="1500" height="1027"></button>
+          <figcaption>EQE of a CZTSe thin film from the thermodynamic transport model (green), below the absorbance of the absorber (dashed), the difference being the collection loss due to transport.</figcaption>
         </figure>
         <figure>
-          <button type="button" aria-label="Enlarge the optimisation and batch panels"><img src="opti_batch.png" alt="Layer stack optimisation and batch calculation panels" loading="lazy" width="800" height="500"></button>
-          <figcaption>Layer stack optimisation panel and batch calculation panel.</figcaption>
+          <button type="button" aria-label="Enlarge: J-V characteristics of a CZTSe device"><img src="assets/screens/jv.webp" alt="J-V characteristics of a CZTSe device" loading="lazy" width="1500" height="1027"></button>
+          <figcaption>J-V characteristics of the same CZTSe device, in the dark and under AM1.5G, with the power curve and the Shockley-Queisser reference at the same bandgap.</figcaption>
         </figure>
         <figure>
-          <button type="button" aria-label="Enlarge the J-V window"><img src="jv_curves.png" alt="J-V curve window" loading="lazy" width="800" height="500"></button>
-          <figcaption>J-V curves, with several absorbers shown together.</figcaption>
+          <button type="button" aria-label="Enlarge: Results table with the PV parameters of several devices"><img src="assets/screens/results.webp" alt="Results table with the PV parameters of several devices" loading="lazy" width="1600" height="1000"></button>
+          <figcaption>Results table with the PV parameters of several devices, including the subcells of 2T, 3T and 4T tandems.</figcaption>
         </figure>
         <figure>
-          <button type="button" aria-label="Enlarge the luminescence window"><img src="luminescence.png" alt="Luminescence window with PL and EL spectra" loading="lazy" width="800" height="500"></button>
-          <figcaption>Photoluminescence and electroluminescence spectra.</figcaption>
+          <button type="button" aria-label="Enlarge: Diode analysis with the ideality factor and differential resistance"><img src="assets/screens/diode.webp" alt="Diode analysis with the ideality factor and differential resistance" loading="lazy" width="1500" height="1027"></button>
+          <figcaption>Diode analysis of the CZTSe device: local ideality factor and differential resistance as a function of the voltage.</figcaption>
         </figure>
         <figure>
-          <button type="button" aria-label="Enlarge the Shockley-Queisser calculator"><img src="sq_limit.png" alt="Shockley-Queisser limit calculator" loading="lazy" width="800" height="500"></button>
-          <figcaption>Shockley-Queisser limit calculator.</figcaption>
+          <button type="button" aria-label="Enlarge: Photoluminescence spectrum of a perovskite absorber"><img src="assets/screens/luminescence.webp" alt="Photoluminescence spectrum of a perovskite absorber" loading="lazy" width="1500" height="1027"></button>
+          <figcaption>Photoluminescence spectrum of a FAPbI3 absorber, calculated from its TMM absorptivity with the van Roosbroeck-Shockley relation.</figcaption>
         </figure>
         <figure>
-          <button type="button" aria-label="Enlarge the defect window"><img src="defects.png" alt="Defect parameter window" loading="lazy" width="800" height="500"></button>
-          <figcaption>Defect parameters for bulk and interface recombination.</figcaption>
+          <button type="button" aria-label="Enlarge: Shockley-Queisser calculator with a bandgap sweep"><img src="assets/screens/sq-limit.webp" alt="Shockley-Queisser calculator with a bandgap sweep" loading="lazy" width="1440" height="1440"></button>
+          <figcaption>Shockley-Queisser calculator, here with a sweep of the bandgap showing the thermalisation, transmission and recombination losses.</figcaption>
         </figure>
       </div>
       <p class="note">The example files included in the installation are the easiest way to get used to the workflow, before building your own structures.</p>

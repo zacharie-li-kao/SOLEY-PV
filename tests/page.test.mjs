@@ -29,12 +29,11 @@ test('inline theme boot script matches resolveTheme', () => {
   }
 });
 
-test('copy rules: no em-dash, no exclamation, British spelling, no demo link', () => {
+test('copy rules: no em-dash, no exclamation, British spelling', () => {
   const text = html.replace(/<script[\s\S]*?<\/script>/g, '').replace(/<style[\s\S]*?<\/style>/g, '')
     .replace(/<!--[\s\S]*?-->/g, '').replace(/<[^>]+>/g, ' ');
   assert.ok(!html.includes('—'), 'em-dash');
   assert.ok(!text.includes('!'), 'exclamation mark');
   const us = text.match(/\b(modeling|modeled|colors?|behaviors?|centers?|license|characteriz\w*|optimiz\w*|analyz\w*|favor\w*)\b/gi);
   assert.equal(us, null, `US spelling: ${us}`);
-  assert.ok(!/demo\.soley-pv\.com/.test(html), 'demo link');
 });

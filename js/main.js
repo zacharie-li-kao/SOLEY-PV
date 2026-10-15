@@ -39,6 +39,7 @@ async function loadScene() {
     await s.go(open === null ? null : CELLS.findIndex(c => c.id === open), { instant: true });   // join the current state, no move
     scene = s;
     root.classList.add('has-scene');
+    root.classList.remove('booting');
     fireflies();
     requestAnimationFrame(() => requestAnimationFrame(() => root.classList.add('scene-ready')));   // fade in after the first frame
     document.getElementById('scene').addEventListener('click', () => { if (router.get()) router.close(); });
@@ -47,6 +48,7 @@ async function loadScene() {
     }
   } catch (err) {
     console.warn('[SOLEY] 3D scene disabled:', err);   // the CSS panel stays in place
+    root.classList.remove('booting');
   }
 }
 
@@ -80,3 +82,4 @@ bus.addEventListener('route', async ({ detail: { section, initial } }) => {
 
 router.start();
 if (hasWebGL()) loadScene();
+else root.classList.remove('booting');

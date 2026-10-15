@@ -44,10 +44,12 @@ html:not(.js) .topbar { position: absolute; }   /* plain page: the bar scrolls a
 .hero-meta { margin-top: 4px; }
 
 /* With the scene: the hero sits in the empty space right of the panel (desktop) or above it (phone). */
-.has-scene .stage { display: block; }
-.has-scene .hero { position: absolute; z-index: 2; }
-@media (min-width: 761px) { .has-scene .hero { left: 58%; top: 30%; right: 32px; } }
-@media (max-width: 760px) { .has-scene .hero { left: max(16px, env(safe-area-inset-left, 0px)); right: max(16px, env(safe-area-inset-right, 0px)); top: calc(var(--topbar-h) + 16px); } }
+/* .booting: the scene is still loading; the title already takes its 3D-layout place and the flat panel stays hidden. */
+.has-scene .stage, .booting .stage { display: block; }
+.has-scene .hero, .booting .hero { position: absolute; z-index: 2; }
+.booting .cells { visibility: hidden; }
+@media (min-width: 761px) { .has-scene .hero, .booting .hero { left: 58%; top: 30%; right: 32px; } }
+@media (max-width: 760px) { .has-scene .hero, .booting .hero { left: max(16px, env(safe-area-inset-left, 0px)); right: max(16px, env(safe-area-inset-right, 0px)); top: calc(var(--topbar-h) + 16px); } }
 /* While a section is open the hero steps aside; the panel is the navigation. */
 .hero { transition: opacity 0.3s var(--ease-in-out), visibility 0s linear 0s; }
 .reading .hero { opacity: 0; visibility: hidden; transition: opacity 0.2s var(--ease-in-out), visibility 0s linear 0.2s; }

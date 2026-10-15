@@ -1,0 +1,72 @@
+/* Engawa tokens, same values as the SOLEY GUI (html_gui/frontend/css/main.css).
+   Light on bare :root so the page is light if the theme boot script is blocked. */
+
+@font-face {
+  font-family: 'Inter';
+  src: url('../fonts/InterVariable.woff2') format('woff2');
+  font-weight: 100 900;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('../fonts/JetBrainsMonoVariable.woff2') format('woff2');
+  font-weight: 100 800;
+  font-display: swap;
+}
+
+:root,
+:root[data-theme="light"] {
+  --bg-primary: #EEF0EA;
+  --bg-secondary: #F9FAF7;
+  --bg-tertiary: #E7EAE1;
+  --bg-card: #FFFFFF;
+  --text-primary: #151912;
+  --text-secondary: #4B5245;
+  --text-muted: #6B7262;
+  --accent-signature: #3E7350;
+  --accent-warning: #8A6B26;
+  --accent-cta: #9C4A30;
+  --accent-cta-hover: #843D27;
+  --accent-cta-on: #FFFFFF;
+  --border-color: #DCE0D5;
+  --border-light: #C2C8B9;
+  --scrim: rgba(238, 240, 234, 0.55);
+  --cell: #2F3E63;
+  --cell-label: #D9E0EE;
+  --shadow-lg: 0 8px 24px rgba(21, 25, 18, 0.14), 0 0 0 1px rgba(21, 25, 18, 0.04);
+  --ripple-texture: repeating-radial-gradient(circle at 78% 8%, rgba(21, 25, 18, 0.05) 0 1px, transparent 1px 22px);
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  --bg-primary: #0A0D0C;
+  --bg-secondary: #111513;
+  --bg-tertiary: #1C2220;
+  --bg-card: #161B18;
+  --text-primary: #E6E9E4;
+  --text-secondary: #9CA69C;
+  --text-muted: #6C766C;
+  --accent-signature: #6FA37E;
+  --accent-warning: #B8965A;
+  --accent-cta: #C0603F;
+  --accent-cta-hover: #D0724F;
+  --accent-cta-on: #FFFFFF;
+  --border-color: #232925;
+  --border-light: #313832;
+  --scrim: rgba(10, 13, 12, 0.5);
+  --cell: #24335E;
+  --cell-label: #AEB8D2;
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.03);
+  --ripple-texture: repeating-radial-gradient(circle at 78% 8%, rgba(230, 233, 228, 0.05) 0 1px, transparent 1px 22px);
+  color-scheme: dark;
+}
+
+:root {
+  --font-family: 'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', Consolas, Monaco, monospace;
+  --radius-sm: 7px;
+  --radius-md: 9px;
+  --radius-lg: 12px;
+  --topbar-h: 64px;
+  --sheet-w: min(56vw, 760px);
+}

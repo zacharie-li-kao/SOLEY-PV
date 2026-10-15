@@ -12,8 +12,16 @@ export function createScene(canvas, { reducedMotion, onCells }) {
   const panel = createPanel(CELLS.findIndex(c => c.id === PRIMARY)), garden = createGarden();
   stage.scene.add(panel.group, garden.group);
   const lighting = createLighting(stage.scene, panel, garden);
-  const flies = createFireflies(stage.scene);  const rig = createCameraRig(stage.camera, panel);
+  const rig = createCameraRig(stage.camera, panel);
   const v = new THREE.Vector3();
+  let lastRects = [];
+  // Screen columns (NDC x) covered by the panel, so fireflies are never spawned over it.
+  const panelX = () => {
+    if (!lastRects.length) return [-0.3, 0.3];
+    const w = canvas.clientWidth;
+    return [Math.min(...lastRects.map(r => r.x)) / w * 2 - 1, Math.max(...lastRects.map(r => r.x + r.w)) / w * 2 - 1];
+  };
+  const flies = createFireflies(stage.scene, stage.camera, panelX);
   let moved = true;
 
   function rects() {
@@ -45,7 +53,7 @@ export function createScene(canvas, { reducedMotion, onCells }) {
   };
   stage.addTicker(dt => {
     const m = rig.tick(dt);
-    if (m || moved) { moved = false; fitFog(); onCells(rects()); }
+    if (m || moved) { moved = false; fitFog(); lastRects = rects(); onCells(lastRects); }
     return m;
   });
   stage.start();

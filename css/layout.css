@@ -82,7 +82,7 @@ html:not(.js) .topbar { position: absolute; }   /* plain page: the bar scrolls a
 .has-scene .cells { position: fixed; inset: 0; z-index: 1; width: auto; padding: 0; background: none; border: 0; display: block; pointer-events: none; }
 .has-scene .cell { position: absolute; pointer-events: auto; aspect-ratio: auto; background: none; padding: 7px; border-radius: var(--radius-sm); overflow: hidden; transition: color 0.2s var(--ease-snap); }
 @media (max-width: 760px) { .has-scene .cell { font-size: 8.5px; } }
-@media (max-width: 760px) { .has-scene.reading .cell { font-size: 7px; letter-spacing: 0.02em; padding: 4px; } }   /* small panel above the sheet */
+@media (max-width: 760px) { .has-scene.reading .cell { font-size: 7px; letter-spacing: 0; padding: 4px; } }   /* small panel above the sheet: fits 8 letters per line */
 .cell[aria-current="true"] { outline: 1px solid var(--accent-signature); outline-offset: 0; color: #FFFFFF; }
 .has-scene .cell[aria-current="true"] { outline: none; }
 
@@ -102,7 +102,7 @@ html:not(.js) .sheet-body { max-width: 72ch; margin: 0 auto; padding: 48px max(1
 .js .sheet[open] { display: flex; }
 .js .sheet.in { opacity: 1; translate: 0 0; }
 @media (max-width: 760px) {
-  .js .sheet { inset: auto 0 0 0; width: 100%; height: 66svh; border-left: 0; border-top: 1px solid var(--border-color); border-radius: 16px 16px 0 0; translate: 0 32px; }
+  .js .sheet { inset: auto 0 0 0; width: 100%; height: 62svh; border-left: 0; border-top: 1px solid var(--border-color); border-radius: 16px 16px 0 0; translate: 0 32px; }
 }
 
 .sheet-head {
@@ -140,7 +140,7 @@ html:not(.js) .sheet-body { max-width: 72ch; margin: 0 auto; padding: 48px max(1
 .has-scene .footer * { pointer-events: auto; }
 .footer { transition: opacity 0.3s var(--ease-in-out); }
 .reading .footer { opacity: 0; visibility: hidden; }
-@media (max-width: 760px) { .has-scene .footer nav { display: none; } }
+@media (max-width: 760px) { .has-scene .footer { display: none; } }   /* on a phone it would sit on the garden; its links are in Citation and About me */
 
 /* Image viewer */
 .viewer { margin: auto; max-width: min(1200px, 94vw); max-height: 92vh; border: 0; border-radius: var(--radius-lg); background: var(--bg-card); color: var(--text-primary); padding: 12px; cursor: zoom-out; }

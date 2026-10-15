@@ -71,9 +71,10 @@ bus.addEventListener('route', async ({ detail: { section, initial } }) => {
   if (!section) await sheet.hide(initial ? 0 : fade);
   if (my !== seq) return;
   if (!section && lastOpen) cells.focus(lastOpen);   // focus is back on the cell before the camera returns
-  root.classList.toggle('reading', !!section);
+  if (section) root.classList.add('reading');                 // hero steps aside before the camera moves in
   if (scene) await scene.go(index, { instant: initial });
   if (my !== seq) return;
+  if (!section) root.classList.remove('reading');             // and comes back only once the panel has settled
   if (section) { lastOpen = section; sheet.show(section); }
 });
 

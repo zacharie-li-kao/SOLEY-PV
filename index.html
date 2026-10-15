@@ -268,18 +268,17 @@
       <p>The optics are solved with the Fresnel-based Transfer Matrix Method for stratified media, which gives the exact solution of Maxwell's equations in a planar geometry, including the interference in thin films. Partial coherence is treated by convolution or sampling, diffuse light by angular integration, and rough or textured interfaces by the three scattering models described in the Optics section.</p>
       <p class="refs">Jimenez et al., Solar Energy Materials and Solar Cells 251, 112109 (2023). <a href="https://doi.org/10.1016/j.solmat.2022.112109">doi:10.1016/j.solmat.2022.112109</a></p>
       <h3>Electrical model</h3>
-      <p>The current density is written as a sum of diode terms evaluated at the junction voltage <span class="nowrap">V<sub>j</sub> = V + J R<sub>s</sub></span>:</p>
+      <p>The current density is solved at the junction voltage <span class="nowrap">V<sub>j</sub> = V + J R<sub>s</sub> + Δv</span>, where Δv is the additional drop across a heterointerface barrier when one is defined:</p>
       <math display="block">
         <mrow>
-          <mi>J</mi><mo>=</mo><msub><mi>J</mi><mi>ph</mi></msub>
-          <mo>−</mo><msub><mi>J</mi><mrow><mn>0</mn><mo>,</mo><mi>rad</mi></mrow></msub>
-          <mrow><mo>[</mo><mrow><mi>exp</mi><mo>⁡</mo><mrow><mo>(</mo><mfrac><mrow><mi>q</mi><msub><mi>V</mi><mi>j</mi></msub></mrow><mrow><mi>k</mi><mi>T</mi></mrow></mfrac><mo>)</mo></mrow><mo>−</mo><mn>1</mn></mrow><mo>]</mo></mrow>
-          <mo>−</mo><msub><mi>J</mi><mrow><mn>0</mn><mo>,</mo><mi>SRH</mi></mrow></msub>
+          <mi>J</mi><mo>=</mo><msub><mi>J</mi><mi>ph</mi></msub><mo>(</mo><msub><mi>V</mi><mi>j</mi></msub><mo>)</mo>
+          <mo>−</mo>
+          <mrow><mo>(</mo><msub><mi>J</mi><mrow><mn>0</mn><mo>,</mo><mi>rad</mi></mrow></msub><mo>+</mo><msub><mi>J</mi><mrow><mn>0</mn><mo>,</mo><mi>Auger</mi></mrow></msub><mo>+</mo><msub><mi>J</mi><mrow><mn>0</mn><mo>,</mo><mi>SRH</mi></mrow></msub><mo>)</mo></mrow>
           <mrow><mo>[</mo><mrow><mi>exp</mi><mo>⁡</mo><mrow><mo>(</mo><mfrac><mrow><mi>q</mi><msub><mi>V</mi><mi>j</mi></msub></mrow><mrow><mi>n</mi><mi>k</mi><mi>T</mi></mrow></mfrac><mo>)</mo></mrow><mo>−</mo><mn>1</mn></mrow><mo>]</mo></mrow>
-          <mo>−</mo><msub><mi>J</mi><mi>Auger</mi></msub><mo>(</mo><msub><mi>V</mi><mi>j</mi></msub><mo>)</mo>
           <mo>−</mo><mfrac><msub><mi>V</mi><mi>j</mi></msub><msub><mi>R</mi><mi>sh</mi></msub></mfrac>
         </mrow>
       </math>
+      <p>The photocurrent J<sub>ph</sub> depends on V<sub>j</sub> when a collection model (Hecht or full transport) is selected for the absorber, and is constant otherwise.</p>
       <p>This approach does not require solving the Poisson and drift-diffusion equations, which makes the iteration much faster for design screening, keeps a direct link between the optical and the electrical model, and makes it possible to check the thermodynamic consistency of a device.</p>
       <p class="refs">Jehl Li-Kao, Solar RRL (2025). <a href="https://doi.org/10.1002/solr.202500345">doi:10.1002/solr.202500345</a></p>
       <h3>Defect model</h3>

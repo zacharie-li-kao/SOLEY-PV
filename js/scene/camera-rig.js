@@ -34,9 +34,9 @@ export function createCameraRig(camera, panel) {
       const t = c.clone().addScaledVector(RIGHT, 0.28 * visW).addScaledVector(UP, -0.1);
       return { t, p: t.clone().add(new THREE.Vector3(0, 0.6, d)) };
     }
-    // Phone: the sheet covers the lower 66%, the panel stays small and tappable in the band above it.
-    const d = PANEL_H / 0.24 / (2 * TAN), visH = 2 * d * TAN;
-    const t = c.clone().addScaledVector(UP, -0.29 * visH);
+    // Phone: the sheet covers the lower 62%, the panel stays small and tappable in the band above it.
+    const d = PANEL_H / 0.28 / (2 * TAN), visH = 2 * d * TAN;
+    const t = c.clone().addScaledVector(UP, -0.27 * visH);
     return { t, p: t.clone().add(new THREE.Vector3(0, 0.6, d)) };
   }
 

@@ -16,13 +16,21 @@ function glowTexture() {
   return new THREE.CanvasTexture(cv);
 }
 
-// Either side of the panel, near the ground; never in front of it.
-function spawnPoint() {
-  const left = Math.random() < 0.45;
-  return new THREE.Vector3(left ? rand(-6.5, -2) : rand(2.2, 7.5), rand(0.25, 1.3), rand(-1, 3));
+// A point the camera actually sees: low over the gravel, in the lower half of the frame,
+// and never in the screen columns occupied by the panel (panelX: its NDC x-range).
+const ray = new THREE.Raycaster(), ndc = new THREE.Vector2(), hit = new THREE.Vector3(), plane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
+function spawnPoint(camera, panelX) {
+  for (let tries = 0; tries < 12; tries++) {
+    ndc.set(rand(-0.92, 0.92), rand(-0.85, -0.15));
+    if (ndc.x > panelX[0] - 0.08 && ndc.x < panelX[1] + 0.08) continue;
+    plane.constant = -rand(0.25, 1.2);                 // the horizontal plane y = h
+    ray.setFromCamera(ndc, camera);
+    if (ray.ray.intersectPlane(plane, hit) && hit.distanceTo(camera.position) < 22) return { at: hit.clone(), side: ndc.x < panelX[0] ? -1 : 1 };
+  }
+  return null;
 }
 
-export function createFireflies(scene) {
+export function createFireflies(scene, camera, panelX) {
   const tex = glowTexture();
   const flies = Array.from({ length: MAX }, (_, i) => {
     const s = new THREE.Sprite(new THREE.SpriteMaterial({
@@ -31,7 +39,7 @@ export function createFireflies(scene) {
     s.scale.setScalar(0.22);
     s.visible = false;
     scene.add(s);
-    return { s, life: 0, dur: 0, wait: rand(1, 6) * (i + 1), vel: new THREE.Vector3(), phase: 0 };
+    return { s, life: 0, dur: 0, wait: rand(0.5, 3) * (i + 1), vel: new THREE.Vector3(), phase: 0 };
   });
   let enabled = false;
 
@@ -47,15 +55,17 @@ export function createFireflies(scene) {
         if (!f.s.visible) {
           f.wait -= dt;
           if (f.wait > 0) continue;
-          f.s.position.copy(spawnPoint());
-          f.vel.set(rand(-0.12, 0.12), rand(-0.03, 0.05), rand(-0.08, 0.08));
+          const spot = spawnPoint(camera, panelX());
+          if (!spot) { f.wait = 1; continue; }
+          f.s.position.copy(spot.at);
+          f.vel.set(spot.side * rand(0.02, 0.12), rand(-0.03, 0.05), rand(-0.08, 0.08));   // drift away from the panel
           Object.assign(f, { dur: rand(4, 7), life: 0, phase: rand(0, 6.28) });
           f.s.visible = true;
         }
         f.life += dt;
         const k = f.life / f.dur;
         active = true;
-        if (k >= 1) { f.s.visible = false; f.s.material.opacity = 0; f.wait = rand(3, 10); continue; }
+        if (k >= 1) { f.s.visible = false; f.s.material.opacity = 0; f.wait = rand(2, 7); continue; }
         f.s.position.addScaledVector(f.vel, dt);
         f.s.position.y += Math.sin(time * 1.3 + f.phase) * 0.002;
         f.s.material.opacity = Math.sin(Math.PI * k) * (0.75 + 0.25 * Math.sin(time * 2.1 + f.phase));

@@ -21,9 +21,9 @@ pre {
 .platforms small { color: var(--text-muted); font-size: 13px; }
 
 /* Overview: a strip of real figures in mono, then one large figure */
-.specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0; border-block: 1px solid var(--border-color); margin-block: 8px; }
-.specs div { padding: 16px 16px 16px 0; min-width: 0; }
-.specs dt { font: 500 22px/1.2 var(--font-mono); letter-spacing: -0.02em; color: var(--text-primary); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-block: 8px; }
+.specs div { padding: 14px 16px; min-width: 0; background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: var(--radius-md); }
+.specs dt { font: 500 20px/1.2 var(--font-mono); letter-spacing: -0.02em; color: var(--text-primary); font-variant-numeric: tabular-nums; white-space: nowrap; }
 .specs dd { font-size: 13px; color: var(--text-muted); margin-top: 6px; line-height: 1.4; }
 .spot, .shot { display: grid; gap: 8px; margin-block: 8px; }
 .spot img, .shot img { border: 1px solid var(--border-color); border-radius: var(--radius-md); background: var(--bg-secondary); }

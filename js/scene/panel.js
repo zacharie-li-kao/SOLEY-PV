@@ -3,7 +3,7 @@ import * as THREE from 'three';
 const CELL = 0.56, GAP = 0.12, PAD = 0.18, COLS = 3, ROWS = 4;
 export const PANEL_W = PAD * 2 + COLS * CELL + (COLS - 1) * GAP;   // 2.28
 export const PANEL_H = PAD * 2 + ROWS * CELL + (ROWS - 1) * GAP;   // 2.96
-const LEG_H = 0.55, TILT = -0.14, WHITE = new THREE.Color('#ffffff'), LIT = new THREE.Color('#5E7FC4');
+const LEG_H = 0.55, TILT = -0.14, LIT = new THREE.Color('#5E7FC4');
 
 function roundedRect(w, h, r) {
   const s = new THREE.Shape(), x = -w / 2, y = -h / 2;
@@ -19,7 +19,8 @@ const slab = (w, h, r, depth) => new THREE.ExtrudeGeometry(roundedRect(w, h, r),
 });
 
 // The logo panel: rounded frame, 12 cells, two legs. Origin on the ground between the legs.
-export function createPanel() {
+// `primary` is the index of the cell circled in ember (the single primary action).
+export function createPanel(primary = -1) {
   const group = new THREE.Group(), board = new THREE.Group();
   board.position.y = LEG_H + PANEL_H / 2;
   board.rotation.x = TILT;
@@ -41,6 +42,16 @@ export function createPanel() {
     cells.push(m);
   }
 
+  // Ember ring around the primary cell, lying on the frame.
+  const emberMat = new THREE.MeshStandardMaterial({ roughness: 0.6 });
+  if (cells[primary]) {
+    const ringShape = roundedRect(CELL + 0.06, CELL + 0.06, 0.1);
+    ringShape.holes.push(roundedRect(CELL + 0.016, CELL + 0.016, 0.078));
+    const ring = new THREE.Mesh(new THREE.ExtrudeGeometry(ringShape, { depth: 0.012, bevelEnabled: false, curveSegments: 8 }), emberMat);
+    ring.position.copy(cells[primary].position).setZ(0.072);
+    board.add(ring);
+  }
+
   const legMat = new THREE.MeshStandardMaterial({ roughness: 0.9 });
   for (const x of [-0.42, 0.42]) {
     const leg = new THREE.Mesh(new THREE.BoxGeometry(0.13, LEG_H + 0.3, 0.1), legMat);
@@ -55,14 +66,14 @@ export function createPanel() {
   const paint = () => cells.forEach((m, i) => {
     m.material.color.copy(cellColor);
     if (i === active) m.material.color.lerp(LIT, 0.55);
-    else if (i === hovered) m.material.color.lerp(WHITE, 0.1);
+    else if (i === hovered) m.material.color.lerp(LIT, 0.22);
   });
   const h = CELL / 2;
 
   return {
     group,
     count: cells.length,
-    setColors({ frame, cell, leg }) { frameMat.color.copy(frame); legMat.color.copy(leg); cellColor.copy(cell); paint(); },
+    setColors({ frame, cell, leg, ember }) { frameMat.color.copy(frame); legMat.color.copy(leg); emberMat.color.copy(ember); cellColor.copy(cell); paint(); },
     setHover(i) { hovered = i; paint(); },
     setActive(i) { active = i; paint(); },
     cellCorners(i) {

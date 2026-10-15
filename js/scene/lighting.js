@@ -3,14 +3,14 @@ import * as THREE from 'three';
 // Starting values from the spec; tuned during the look test.
 export const PRESETS = {
   day: {
-    sky: '#E9ECE4', hemiSky: '#F4F5F0', hemiGround: '#C9CDBF', hemi: 1.6, sun: '#FFF6E6', sunI: 1.5, sunPos: [-4, 9, 6], shadow: 0.75,
+    sky: '#E9ECE4', hemiSky: '#F4F5F0', hemiGround: '#C9CDBF', hemi: 2.0, sun: '#FFF6E6', sunI: 1.3, sunPos: [4, 15, -7], shadow: 0.6, fill: '#F4F2EA', fillI: 0.55,
     orb: '#EFE2B4', orbScale: 2.6, orbY: 2.1,
-    gravel: '#E1E4DB', rake: '#D2D6CA', moss: '#93A68B', stone: '#9AA094', frame: '#FFFFFF', cell: '#2F3E63', leg: '#8A9283',
+    gravel: '#E1E4DB', rake: '#D2D6CA', moss: '#93A68B', stone: '#9AA094', frame: '#FFFFFF', cell: '#2F3E63', leg: '#8A9283', ember: '#9C4A30',
   },
   night: {
-    sky: '#0B0F0D', hemiSky: '#46536E', hemiGround: '#101412', hemi: 2.1, sun: '#C9D4E8', sunI: 1.6, sunPos: [3, 9, 5], shadow: 0.45,
+    sky: '#0B0F0D', hemiSky: '#46536E', hemiGround: '#101412', hemi: 2.1, sun: '#C9D4E8', sunI: 1.6, sunPos: [4, 15, -7], shadow: 0.45, fill: '#B9C6E0', fillI: 0.5,
     orb: '#E6E9E4', orbScale: 0.75, orbY: 3.6,
-    gravel: '#232A26', rake: '#37413B', moss: '#3A4E41', stone: '#4C5650', frame: '#4A5650', cell: '#2A3C6E', leg: '#55605A',
+    gravel: '#232A26', rake: '#37413B', moss: '#3A4E41', stone: '#4C5650', frame: '#4A5650', cell: '#2A3C6E', leg: '#55605A', ember: '#C0603F',
   },
 };
 
@@ -21,9 +21,13 @@ export function createLighting(scene, panel, garden) {
   const sun = new THREE.DirectionalLight();
   sun.castShadow = true;
   sun.shadow.mapSize.set(2048, 2048);
-  Object.assign(sun.shadow.camera, { left: -6, right: 8, top: 6, bottom: -4, near: 1, far: 30 });
+  Object.assign(sun.shadow.camera, { left: -8, right: 8, top: 8, bottom: -8, near: 1, far: 40 });
+  // The light comes from behind the panel, where the sun (or moon) disc is drawn, so the shadow falls towards the viewer.
   sun.shadow.bias = -0.0005;
-  scene.add(hemi, sun, sun.target);
+  // Soft front fill without shadow: the light bounced off the gravel onto the panel face, which the sun behind it leaves unlit.
+  const fill = new THREE.DirectionalLight();
+  fill.position.set(-8, 2, 5);   // from the side, so the glossy cells do not mirror it towards the camera
+  scene.add(hemi, sun, sun.target, fill);
   scene.background = new THREE.Color();
   scene.fog = new THREE.Fog(0x000000, 11, 25);   // far edge of the 30 m ground plane is fully fogged
 
@@ -40,7 +44,8 @@ export function createLighting(scene, panel, garden) {
     hemi.color.copy(C('hemiSky')); hemi.groundColor.copy(C('hemiGround')); hemi.intensity = N('hemi');
     sun.color.copy(C('sun')); sun.intensity = N('sunI'); sun.position.lerpVectors(pa, pb, m);
     sun.shadow.intensity = N('shadow');
-    panel.setColors({ frame: C('frame'), cell: C('cell'), leg: C('leg') });
+    fill.color.copy(C('fill')); fill.intensity = N('fillI');
+    panel.setColors({ frame: C('frame'), cell: C('cell'), leg: C('leg'), ember: C('ember') });
     garden.setColors({ gravel: C('gravel'), rake: C('rake'), moss: C('moss'), stone: C('stone'), orb: C('orb') });
     garden.setOrb(N('orbScale'), N('orbY'));
   }

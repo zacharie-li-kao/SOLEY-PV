@@ -15,6 +15,9 @@ export const LEGACY = {
   patchnotes: 'releases', contact: 'about',
 };
 
+// The single primary action, marked in ember on the panel.
+export const PRIMARY = 'download';
+
 export const DAY_START = 7;
 export const NIGHT_START = 19;
 export const THEME_KEY = 'soley-daynight';

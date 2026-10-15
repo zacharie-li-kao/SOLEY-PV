@@ -5,10 +5,11 @@ import { createGarden } from './garden.js';
 import { createLighting } from './lighting.js';
 import { createFireflies } from './fireflies.js';
 import { createCameraRig } from './camera-rig.js';
+import { CELLS, PRIMARY } from '../config.js';
 
 export function createScene(canvas, { reducedMotion, onCells }) {
   const stage = createStage(canvas);
-  const panel = createPanel(), garden = createGarden();
+  const panel = createPanel(CELLS.findIndex(c => c.id === PRIMARY)), garden = createGarden();
   stage.scene.add(panel.group, garden.group);
   const lighting = createLighting(stage.scene, panel, garden);
   const flies = createFireflies(stage.scene);  const rig = createCameraRig(stage.camera, panel);

@@ -75,12 +75,16 @@ html:not(.js) .topbar { position: absolute; }   /* plain page: the bar scrolls a
 .cell span { max-width: 9ch; }
 .cell-primary { box-shadow: inset 0 0 0 2px var(--accent-cta); }
 .cell:hover { outline: 1px solid var(--accent-signature); outline-offset: 0; }
+/* With the scene, hover, the open section and the Download mark are drawn in 3D; flat rectangles would not follow the perspective. */
+.has-scene .cell, .has-scene .cell:hover, .has-scene .cell[aria-current="true"] { outline: none; box-shadow: none; }
+.has-scene .cell:focus-visible { outline: 1px solid var(--accent-signature); }   /* keyboard focus stays visible */
 
 .has-scene .cells { position: fixed; inset: 0; z-index: 1; width: auto; padding: 0; background: none; border: 0; display: block; pointer-events: none; }
 .has-scene .cell { position: absolute; pointer-events: auto; aspect-ratio: auto; background: none; padding: 7px; border-radius: var(--radius-sm); overflow: hidden; transition: color 0.2s var(--ease-snap); }
 @media (max-width: 760px) { .has-scene .cell { font-size: 8.5px; } }
 @media (max-width: 760px) { .has-scene.reading .cell { font-size: 7px; letter-spacing: 0.02em; padding: 4px; } }   /* small panel above the sheet */
 .cell[aria-current="true"] { outline: 1px solid var(--accent-signature); outline-offset: 0; color: #FFFFFF; }
+.has-scene .cell[aria-current="true"] { outline: none; }
 
 /* Sheet: a plain page without JS; with JS a non-modal sheet beside the panel, below the top bar. */
 html:not(.js) .sheet { display: block; position: static; inset: auto; border: 0; width: auto; max-width: none; height: auto; background: none; color: inherit; }

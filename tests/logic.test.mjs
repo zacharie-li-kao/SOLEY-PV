@@ -43,5 +43,6 @@ test('detectPlatform', () => {
   assert.equal(detectPlatform('Mozilla/5.0 (X11; Linux x86_64)'), 'linux');
   assert.equal(detectPlatform('Mozilla/5.0 (Linux; Android 14)'), 'windows');
   assert.equal(detectPlatform('Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X)'), 'windows');
+  assert.equal(detectPlatform('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)', 5), 'windows');
   assert.equal(detectPlatform(''), 'windows');
 });

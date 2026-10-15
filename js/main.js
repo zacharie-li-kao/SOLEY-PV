@@ -22,7 +22,11 @@ initDownload(); initGallery(); initCopy();
 document.getElementById('theme-toggle').addEventListener('click', () => theme.toggle());
 
 function hasWebGL() {
-  try { return !!document.createElement('canvas').getContext('webgl2'); } catch { return false; }
+  try {
+    const gl = document.createElement('canvas').getContext('webgl2');
+    gl?.getExtension('WEBGL_lose_context')?.loseContext();   // free the probe's context slot
+    return !!gl;
+  } catch { return false; }
 }
 
 // The scene loads in the background: the page and any deep-linked section work before three.js arrives.
@@ -66,11 +70,11 @@ bus.addEventListener('route', async ({ detail: { section, initial } }) => {
   }
   if (!section) await sheet.hide(initial ? 0 : fade);
   if (my !== seq) return;
+  if (!section && lastOpen) cells.focus(lastOpen);   // focus is back on the cell before the camera returns
   root.classList.toggle('reading', !!section);
   if (scene) await scene.go(index, { instant: initial });
   if (my !== seq) return;
-  if (section) { lastOpen = section; sheet.show(section); return; }
-  if (lastOpen) cells.focus(lastOpen);
+  if (section) { lastOpen = section; sheet.show(section); }
 });
 
 router.start();

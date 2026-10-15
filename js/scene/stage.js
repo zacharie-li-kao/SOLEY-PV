@@ -7,6 +7,7 @@ export function createStage(canvas) {
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  renderer.shadowMap.autoUpdate = false;   // redrawn on demand (renderer.shadowMap.needsUpdate), nothing that casts moves
 
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(30, 1, 0.1, 120);
@@ -38,6 +39,5 @@ export function createStage(canvas) {
     onResize: f => resizers.push(f),
     invalidate: () => { dirty = true; },
     start: () => requestAnimationFrame(frame),
-    capture() { renderer.render(scene, camera); return canvas.toDataURL('image/png'); },
   };
 }

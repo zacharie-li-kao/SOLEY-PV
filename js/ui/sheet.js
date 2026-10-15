@@ -6,6 +6,7 @@ export function createSheet(onClose) {
   const sections = [...body.querySelectorAll(':scope > section')];
   const path = document.getElementById('sheet-path');
   sections.forEach(s => { s.hidden = true; });
+  let closing = 0;   // pending hide() timer, cancelled if a section opens first
 
   dlg.querySelector('.sheet-close').addEventListener('click', onClose);
   document.addEventListener('keydown', e => {
@@ -25,6 +26,7 @@ export function createSheet(onClose) {
       const section = document.getElementById(id);
       sections.forEach(s => { s.hidden = s !== section; });
       path.textContent = document.getElementById(id + '-h').textContent;
+      clearTimeout(closing);
       body.classList.remove('leaving');
       if (!dlg.open) dlg.show();
       body.scrollTop = 0;
@@ -40,7 +42,7 @@ export function createSheet(onClose) {
     hide(ms) {
       if (!dlg.open) return Promise.resolve();
       dlg.classList.remove('in');
-      return new Promise(res => setTimeout(() => { dlg.close(); body.classList.remove('leaving'); res(); }, ms));
+      return new Promise(res => { closing = setTimeout(() => { dlg.close(); body.classList.remove('leaving'); res(); }, ms); });
     },
   };
 }

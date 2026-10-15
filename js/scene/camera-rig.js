@@ -12,8 +12,8 @@ export function createCameraRig(camera, panel) {
   camera.fov = FOV;
   camera.updateProjectionMatrix();
   const pos = new THREE.Vector3(), tgt = new THREE.Vector3();
-  const par = new THREE.Vector2(), parGoal = new THREE.Vector2();
-  let aspect = 16 / 9, reading = false, anim = null;
+  const par = new THREE.Vector2(), parGoal = new THREE.Vector2(), off = new THREE.Vector3();
+  let aspect = 16 / 9, reading = false, anim = null, parW = 1;   // parW: parallax weight, 1 at rest, 0 while reading
 
   function restPose() {
     const c = panel.centre();
@@ -44,23 +44,23 @@ export function createCameraRig(camera, panel) {
 
   function applyCamera() {
     camera.position.copy(pos);
-    if (!reading && !anim) camera.position.add(new THREE.Vector3(par.x * 0.3, par.y * 0.15, 0));
+    if (parW) camera.position.add(off.set(par.x * 0.3 * parW, par.y * 0.15 * parW, 0));
     camera.lookAt(tgt);
   }
 
-  function jump() { const p = pose(); pos.copy(p.p); tgt.copy(p.t); applyCamera(); }
+  function jump() { const p = pose(); parW = reading ? 0 : 1; pos.copy(p.p); tgt.copy(p.t); applyCamera(); }
 
   return {
     setAspect(a) { aspect = a; if (anim) { const r = anim.res; anim = null; r(); } jump(); },
     // index: a cell index (reading pose) or null (rest). Same pose for every cell.
     go(index, instant) {
-      const next = index !== null;
+      const next = index !== null, moving = !!anim;
       if (anim) { anim.res(); anim = null; }      // a superseded move resolves at once
-      if (next === reading && !instant) return Promise.resolve();
+      if (next === reading && !instant && !moving) return Promise.resolve();   // mid-move: restart toward the same pose
       reading = next;
       if (instant) { jump(); return Promise.resolve(); }
       const p = pose();
-      return new Promise(res => { anim = { p0: pos.clone(), t0: tgt.clone(), p1: p.p, t1: p.t, k: 0, dur: MOVE, res }; });
+      return new Promise(res => { anim = { p0: pos.clone(), t0: tgt.clone(), p1: p.p, t1: p.t, k: 0, dur: MOVE, w0: parW, res }; });
     },
     setParallax(x, y) { parGoal.set(x, y); },
     tick(dt) {
@@ -69,7 +69,8 @@ export function createCameraRig(camera, panel) {
         const e = ease(anim.k);
         pos.lerpVectors(anim.p0, anim.p1, e);
         tgt.lerpVectors(anim.t0, anim.t1, e);
-        if (anim.k === 1) { const r = anim.res; anim = null; r(); }
+        parW = anim.w0 + ((reading ? 0 : 1) - anim.w0) * e;
+        if (anim.k === 1) { const r = anim.res; anim = null; parW = reading ? 0 : 1; r(); }
         applyCamera();
         return true;
       }

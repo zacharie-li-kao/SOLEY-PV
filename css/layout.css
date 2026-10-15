@@ -51,6 +51,7 @@ html:not(.js) .topbar { position: absolute; }   /* plain page: the bar scrolls a
 /* While a section is open the hero steps aside; the panel is the navigation. */
 .hero { transition: opacity 0.3s var(--ease-in-out), visibility 0s linear 0s; }
 .reading .hero { opacity: 0; visibility: hidden; transition: opacity 0.2s var(--ease-in-out), visibility 0s linear 0.2s; }
+@media (max-width: 760px) { html:not(.has-scene).reading .hero { display: none; } }   /* no WebGL: lift the cells out from under the sheet */
 
 /* Page entry: one short staggered rise, finished within 800 ms. */
 @keyframes rise { from { opacity: 0; transform: translateY(var(--rise)); filter: blur(6px); } }

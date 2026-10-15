@@ -70,8 +70,6 @@ export function createPanel() {
       m.updateWorldMatrix(true, false);
       return [[-h, -h], [h, -h], [h, h], [-h, h]].map(([x, y]) => m.localToWorld(new THREE.Vector3(x, y, 0.03)));
     },
-    cellCentre(i) { cells[i].updateWorldMatrix(true, false); return cells[i].localToWorld(new THREE.Vector3(0, 0, 0.03)); },
     centre() { board.updateWorldMatrix(true, false); return board.getWorldPosition(new THREE.Vector3()); },
-    normal() { return new THREE.Vector3(0, 0, 1).applyQuaternion(board.getWorldQuaternion(new THREE.Quaternion())); },
   };
 }

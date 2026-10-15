@@ -12,14 +12,18 @@ export function parseHash(hash) {
 // Opening is plain navigation (<a href="#id">); closing pushes a hash-less entry, so Back reopens.
 export function createRouter(bus, win = window) {
   const { location, history } = win;
+  // Legacy, unknown and differently-cased hashes are rewritten to the canonical one (or removed).
+  const normalise = id => {
+    if (location.hash && location.hash !== '#' + id) history.replaceState(null, '', id ? '#' + id : location.pathname + location.search);
+  };
   let current = parseHash(location.hash);
-  const clean = current ? '#' + current : location.pathname + location.search;
-  if (location.hash && location.hash !== '#' + current) history.replaceState(null, '', clean);
+  normalise(current);
 
   const emit = initial => bus.dispatchEvent(new CustomEvent('route', { detail: { section: current, initial } }));
 
   win.addEventListener('hashchange', () => {
     const next = parseHash(location.hash);
+    normalise(next);
     if (next === current) return;
     current = next;
     emit(false);

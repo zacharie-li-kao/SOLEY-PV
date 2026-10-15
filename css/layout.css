@@ -34,7 +34,8 @@ html:not(.js) .topbar { position: absolute; }   /* plain page: the bar scrolls a
 }
 
 #scene { display: none; }
-.has-scene #scene { display: block; position: fixed; inset: 0; width: 100%; height: 100%; }
+.has-scene #scene { display: block; position: fixed; inset: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 0.6s var(--ease-in-out); }
+.scene-ready #scene { opacity: 1; }
 
 .hero { max-width: 30rem; display: grid; gap: 16px; position: relative; z-index: 2; }
 .hero > p:first-of-type { font-size: 18px; color: var(--text-secondary); max-width: 26rem; }
@@ -47,6 +48,18 @@ html:not(.js) .topbar { position: absolute; }   /* plain page: the bar scrolls a
 .has-scene .hero { position: absolute; z-index: 2; }
 @media (min-width: 761px) { .has-scene .hero { left: 58%; top: 30%; right: 32px; } }
 @media (max-width: 760px) { .has-scene .hero { left: max(16px, env(safe-area-inset-left, 0px)); right: max(16px, env(safe-area-inset-right, 0px)); top: calc(var(--topbar-h) + 16px); } }
+/* While a section is open the hero steps aside; the panel is the navigation. */
+.hero { transition: opacity 0.3s var(--ease-in-out), visibility 0s linear 0s; }
+.reading .hero { opacity: 0; visibility: hidden; transition: opacity 0.2s var(--ease-in-out), visibility 0s linear 0.2s; }
+
+/* Page entry: one short staggered rise, finished within 800 ms. */
+@keyframes rise { from { opacity: 0; transform: translateY(var(--rise)); filter: blur(6px); } }
+.js .topbar { animation: rise 0.6s var(--ease-out) both; }
+.js .hero > * { animation: rise 0.7s var(--ease-out) both; }
+.js .hero > :nth-child(1) { animation-delay: 80ms; }
+.js .hero > :nth-child(2) { animation-delay: 160ms; }
+.js .hero > :nth-child(3) { animation-delay: 240ms; }
+.js .hero > :nth-child(4) { animation-delay: 320ms; }
 
 /* Cells: a CSS-drawn 3 x 4 panel by default (no JS, no WebGL); placed over the 3D cells when the scene runs. */
 .cells {
@@ -63,25 +76,29 @@ html:not(.js) .topbar { position: absolute; }   /* plain page: the bar scrolls a
 .cell:hover { outline: 1px solid var(--accent-signature); outline-offset: 0; }
 
 .has-scene .cells { position: fixed; inset: 0; z-index: 1; width: auto; padding: 0; background: none; border: 0; display: block; pointer-events: none; }
-.has-scene .cell { position: absolute; pointer-events: auto; aspect-ratio: auto; background: none; padding: 9%; border-radius: var(--radius-sm); }
+.has-scene .cell { position: absolute; pointer-events: auto; aspect-ratio: auto; background: none; padding: 7px; border-radius: var(--radius-sm); overflow: hidden; transition: color 0.2s var(--ease-snap); }
 @media (max-width: 760px) { .has-scene .cell { font-size: 8.5px; } }
+@media (max-width: 760px) { .has-scene.reading .cell { font-size: 7px; letter-spacing: 0.02em; padding: 4px; } }   /* small panel above the sheet */
+.cell[aria-current="true"] { outline: 1px solid var(--accent-signature); outline-offset: 0; color: #FFFFFF; }
 
-/* Sheet: a plain page without JS; a modal sheet on the right with JS. */
+/* Sheet: a plain page without JS; with JS a non-modal sheet beside the panel, below the top bar. */
 html:not(.js) .sheet { display: block; position: static; inset: auto; border: 0; width: auto; max-width: none; height: auto; background: none; color: inherit; }
 html:not(.js) .sheet-head { display: none; }
 html:not(.js) .sheet-body { max-width: 72ch; margin: 0 auto; padding: 48px max(16px, env(safe-area-inset-right, 0px)) 48px max(16px, env(safe-area-inset-left, 0px)); }
 
 .js .sheet {
-  margin: 0 0 0 auto; width: var(--sheet-w); max-width: 100%; height: 100%; max-height: none;
-  border: 0; border-left: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-primary);
-  box-shadow: var(--shadow-lg);
+  position: fixed; inset: var(--topbar-h) 0 0 auto; z-index: 5; margin: 0; padding: 0;
+  width: var(--sheet-w); max-width: 100%; height: auto; max-height: none;
+  border: 0; border-left: 1px solid var(--border-color); border-top-left-radius: var(--radius-lg);
+  background: var(--bg-card); color: var(--text-primary); box-shadow: var(--shadow-lg);
   display: none; flex-direction: column;
-  opacity: 0; translate: 0 24px; transition: opacity 0.24s ease, translate 0.24s ease;
+  opacity: 0; translate: 24px 0; transition: opacity 0.24s var(--ease-out), translate 0.24s var(--ease-out);
 }
 .js .sheet[open] { display: flex; }
 .js .sheet.in { opacity: 1; translate: 0 0; }
-.js .sheet::backdrop { background: transparent; }
-@media (max-width: 760px) { .js .sheet { width: 100%; border-left: 0; } }
+@media (max-width: 760px) {
+  .js .sheet { inset: auto 0 0 0; width: 100%; height: 66svh; border-left: 0; border-top: 1px solid var(--border-color); border-radius: 16px 16px 0 0; translate: 0 32px; }
+}
 
 .sheet-head {
   display: flex; align-items: center; gap: 16px; flex: none;
@@ -89,17 +106,22 @@ html:not(.js) .sheet-body { max-width: 72ch; margin: 0 auto; padding: 48px max(1
 }
 .sheet-path { flex: 1; min-width: 0; margin: 0; }
 .sheet-path span:first-child { color: var(--text-muted); }
-.sheet-map { display: grid; grid-template-columns: repeat(3, 10px); gap: 3px; flex: none; }
-.sheet-map a { width: 10px; height: 10px; border-radius: 2px; background: var(--border-light); }
-.sheet-map a:hover { background: var(--text-muted); }
-.sheet-map a[aria-current] { background: var(--accent-signature); }
 .sheet-close {
   width: 34px; height: 34px; flex: none; border-radius: 50%; border: 1px solid var(--border-light);
   background: transparent; color: var(--text-secondary); font-size: 18px; line-height: 1; cursor: pointer;
 }
 .sheet-close:hover { color: var(--text-primary); border-color: var(--accent-signature); }
-.js .sheet-body { flex: 1; overflow-y: auto; overscroll-behavior: contain; padding: 32px max(24px, env(safe-area-inset-right, 0px)) 64px 32px; }
-@media (max-width: 760px) { .js .sheet-body { padding-inline: 16px; } }
+.js .sheet-body { flex: 1; overflow-y: auto; overscroll-behavior: contain; padding: 32px max(24px, env(safe-area-inset-right, 0px)) 64px 32px; transition: opacity 0.15s var(--ease-in-out), filter 0.15s var(--ease-in-out); }
+.js .sheet-body.leaving { opacity: 0; filter: blur(2px); }
+@media (max-width: 760px) { .js .sheet-body { padding-inline: 16px; } .sheet-head { padding: 12px 16px; } }
+
+/* Section entry: heading, lead and the first blocks rise in, 80 ms apart. */
+.sheet-body section.rise > * { animation: rise 0.6s var(--ease-out) both; }
+.sheet-body section.rise > :nth-child(2) { animation-delay: 80ms; }
+.sheet-body section.rise > :nth-child(3) { animation-delay: 160ms; }
+.sheet-body section.rise > :nth-child(4) { animation-delay: 240ms; }
+.sheet-body section.rise > :nth-child(5) { animation-delay: 320ms; }
+.sheet-body section.rise > :nth-child(n+6) { animation-delay: 400ms; }
 
 /* Footer: plain, below the stage; hidden behind the scene when it runs */
 .footer {
@@ -111,6 +133,8 @@ html:not(.js) .sheet-body { max-width: 72ch; margin: 0 auto; padding: 48px max(1
 .footer a { color: var(--text-secondary); text-decoration: none; }
 .has-scene .footer { position: fixed; inset: auto 0 0 0; z-index: 2; border: 0; background: none; padding-block: 12px calc(12px + env(safe-area-inset-bottom, 0px)); pointer-events: none; }
 .has-scene .footer * { pointer-events: auto; }
+.footer { transition: opacity 0.3s var(--ease-in-out); }
+.reading .footer { opacity: 0; visibility: hidden; }
 @media (max-width: 760px) { .has-scene .footer nav { display: none; } }
 
 /* Image viewer */

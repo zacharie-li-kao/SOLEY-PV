@@ -3,7 +3,7 @@ import * as THREE from 'three';
 const CELL = 0.56, GAP = 0.12, PAD = 0.18, COLS = 3, ROWS = 4;
 export const PANEL_W = PAD * 2 + COLS * CELL + (COLS - 1) * GAP;   // 2.28
 export const PANEL_H = PAD * 2 + ROWS * CELL + (ROWS - 1) * GAP;   // 2.96
-const LEG_H = 0.55, TILT = -0.14, WHITE = new THREE.Color('#ffffff');
+const LEG_H = 0.55, TILT = -0.14, WHITE = new THREE.Color('#ffffff'), LIT = new THREE.Color('#5E7FC4');
 
 function roundedRect(w, h, r) {
   const s = new THREE.Shape(), x = -w / 2, y = -h / 2;
@@ -50,8 +50,13 @@ export function createPanel() {
   }
 
   const cellColor = new THREE.Color();
-  let hovered = -1;
-  const paint = () => cells.forEach((m, i) => m.material.color.copy(cellColor).lerp(WHITE, i === hovered ? 0.14 : 0));
+  let hovered = -1, active = -1;
+  // The open section's cell turns a clearer blue (the logo blue); a hover only lightens slightly.
+  const paint = () => cells.forEach((m, i) => {
+    m.material.color.copy(cellColor);
+    if (i === active) m.material.color.lerp(LIT, 0.55);
+    else if (i === hovered) m.material.color.lerp(WHITE, 0.1);
+  });
   const h = CELL / 2;
 
   return {
@@ -59,6 +64,7 @@ export function createPanel() {
     count: cells.length,
     setColors({ frame, cell, leg }) { frameMat.color.copy(frame); legMat.color.copy(leg); cellColor.copy(cell); paint(); },
     setHover(i) { hovered = i; paint(); },
+    setActive(i) { active = i; paint(); },
     cellCorners(i) {
       const m = cells[i];
       m.updateWorldMatrix(true, false);

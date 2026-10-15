@@ -1,18 +1,19 @@
 import * as THREE from 'three';
-import { PANEL_W } from './panel.js';
+import { PANEL_W, PANEL_H } from './panel.js';
 
-const FOV = 30, REST_DIST = 12.5, MOVE = 1.2, PAN = 0.8, CELL_FILL = 0.62, CELL = 0.56;
+const FOV = 30, REST_DIST = 12.5, MOVE = 1.2;
 const TAN = Math.tan(THREE.MathUtils.degToRad(FOV / 2));
 const ease = t => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
-const RIGHT = new THREE.Vector3(1, 0, 0);
+const RIGHT = new THREE.Vector3(1, 0, 0), UP = new THREE.Vector3(0, 1, 0);
 
-// The only camera movements of the site: rest <-> cell, cell -> cell. No free camera.
+// Two poses only: rest (the garden) and reading (the whole panel beside the open section).
+// Every section shares the reading pose, so moving between sections never moves the camera.
 export function createCameraRig(camera, panel) {
   camera.fov = FOV;
   camera.updateProjectionMatrix();
   const pos = new THREE.Vector3(), tgt = new THREE.Vector3();
   const par = new THREE.Vector2(), parGoal = new THREE.Vector2();
-  let aspect = 16 / 9, cell = null, anim = null;
+  let aspect = 16 / 9, reading = false, anim = null;
 
   function restPose() {
     const c = panel.centre();
@@ -25,17 +26,25 @@ export function createCameraRig(camera, panel) {
     return { t, p: t.clone().add(new THREE.Vector3(0, 1.6 * d / REST_DIST, d)) };
   }
 
-  function cellPose(i) {
-    const c = panel.cellCentre(i), d = CELL / CELL_FILL / (2 * TAN);
-    const shift = aspect >= 1.2 ? 0.27 * 2 * d * TAN * aspect : 0;   // cell on the left, sheet on the right
-    return { t: c.clone().addScaledVector(RIGHT, shift), p: c.clone().addScaledVector(panel.normal(), d).addScaledVector(RIGHT, shift) };
+  function readingPose() {
+    const c = panel.centre();
+    if (aspect >= 1) {
+      // Panel in the free space left of the sheet (sheet ~56% of the width), filling ~62% of the height.
+      const d = PANEL_H / 0.62 / (2 * TAN), visW = 2 * d * TAN * aspect;
+      const t = c.clone().addScaledVector(RIGHT, 0.28 * visW).addScaledVector(UP, -0.1);
+      return { t, p: t.clone().add(new THREE.Vector3(0, 0.6, d)) };
+    }
+    // Phone: the sheet covers the lower 66%, the panel stays small and tappable in the band above it.
+    const d = PANEL_H / 0.24 / (2 * TAN), visH = 2 * d * TAN;
+    const t = c.clone().addScaledVector(UP, -0.29 * visH);
+    return { t, p: t.clone().add(new THREE.Vector3(0, 0.6, d)) };
   }
 
-  const pose = () => (cell === null ? restPose() : cellPose(cell));
+  const pose = () => (reading ? readingPose() : restPose());
 
   function applyCamera() {
     camera.position.copy(pos);
-    if (cell === null && !anim) camera.position.add(new THREE.Vector3(par.x * 0.3, par.y * 0.15, 0));
+    if (!reading && !anim) camera.position.add(new THREE.Vector3(par.x * 0.3, par.y * 0.15, 0));
     camera.lookAt(tgt);
   }
 
@@ -43,13 +52,15 @@ export function createCameraRig(camera, panel) {
 
   return {
     setAspect(a) { aspect = a; if (anim) { const r = anim.res; anim = null; r(); } jump(); },
+    // index: a cell index (reading pose) or null (rest). Same pose for every cell.
     go(index, instant) {
-      const dur = cell !== null && index !== null ? PAN : MOVE;
-      cell = index;
+      const next = index !== null;
       if (anim) { anim.res(); anim = null; }      // a superseded move resolves at once
+      if (next === reading && !instant) return Promise.resolve();
+      reading = next;
       if (instant) { jump(); return Promise.resolve(); }
       const p = pose();
-      return new Promise(res => { anim = { p0: pos.clone(), t0: tgt.clone(), p1: p.p, t1: p.t, k: 0, dur, res }; });
+      return new Promise(res => { anim = { p0: pos.clone(), t0: tgt.clone(), p1: p.p, t1: p.t, k: 0, dur: MOVE, res }; });
     },
     setParallax(x, y) { parGoal.set(x, y); },
     tick(dt) {
@@ -62,7 +73,7 @@ export function createCameraRig(camera, panel) {
         applyCamera();
         return true;
       }
-      if (cell === null && par.distanceToSquared(parGoal) > 1e-6) {
+      if (!reading && par.distanceToSquared(parGoal) > 1e-6) {
         par.lerp(parGoal, 1 - Math.exp(-dt * 3));
         applyCamera();
         return true;

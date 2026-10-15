@@ -12,5 +12,6 @@ export function initCells(onHover) {
       rects.forEach((r, i) => Object.assign(links[i].style, { left: `${r.x}px`, top: `${r.y}px`, width: `${r.w}px`, height: `${r.h}px` }));
     },
     focus(id) { links.find(a => a.hash === '#' + id)?.focus({ preventScroll: true }); },
+    setActive(id) { links.forEach(a => (a.hash === '#' + id ? a.setAttribute('aria-current', 'true') : a.removeAttribute('aria-current'))); },
   };
 }

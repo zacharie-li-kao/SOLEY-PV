@@ -25,18 +25,24 @@ function hasWebGL() {
   try { return !!document.createElement('canvas').getContext('webgl2'); } catch { return false; }
 }
 
-if (hasWebGL()) {
+// The scene loads in the background: the page and any deep-linked section work before three.js arrives.
+async function loadScene() {
   try {
     const { createScene } = await import('./scene/index.js');
-    scene = createScene(document.getElementById('scene'), { reducedMotion, onCells: r => cells.place(r) });
+    const s = createScene(document.getElementById('scene'), { reducedMotion, onCells: r => cells.place(r) });
+    s.setTheme(theme.get(), true);
+    const open = router.get();
+    await s.go(open === null ? null : CELLS.findIndex(c => c.id === open), { instant: true });   // join the current state, no move
+    scene = s;
     root.classList.add('has-scene');
-    scene.setTheme(theme.get(), true);
+    fireflies();
+    requestAnimationFrame(() => requestAnimationFrame(() => root.classList.add('scene-ready')));   // fade in after the first frame
+    document.getElementById('scene').addEventListener('click', () => { if (router.get()) router.close(); });
     if (!reducedMotion && matchMedia('(pointer: fine)').matches) {
       addEventListener('pointermove', e => scene.setParallax(e.clientX / innerWidth * 2 - 1, e.clientY / innerHeight * 2 - 1));
     }
   } catch (err) {
     console.warn('[SOLEY] 3D scene disabled:', err);   // the CSS panel stays in place
-    scene = null;
   }
 }
 
@@ -47,9 +53,20 @@ let seq = 0, lastOpen = null;   // only the latest route may finish (fast clicks
 bus.addEventListener('route', async ({ detail: { section, initial } }) => {
   const my = ++seq;
   fireflies();
-  if (sheet.isOpen()) await sheet.hide(initial ? 0 : Math.min(fade, 150));
-  if (my !== seq) return;
+  cells.setActive(section);
   const index = section === null ? null : CELLS.findIndex(c => c.id === section);
+  if (section && sheet.isOpen()) {
+    // Section to section: the panel stays where it is, only the text changes.
+    await sheet.swap(initial ? 0 : Math.min(fade, 150));
+    if (my !== seq) return;
+    scene?.go(index, { instant: initial });
+    lastOpen = section;
+    sheet.show(section);
+    return;
+  }
+  if (!section) await sheet.hide(initial ? 0 : fade);
+  if (my !== seq) return;
+  root.classList.toggle('reading', !!section);
   if (scene) await scene.go(index, { instant: initial });
   if (my !== seq) return;
   if (section) { lastOpen = section; sheet.show(section); return; }
@@ -57,3 +74,4 @@ bus.addEventListener('route', async ({ detail: { section, initial } }) => {
 });
 
 router.start();
+if (hasWebGL()) loadScene();

@@ -70,7 +70,6 @@
 
 <dialog class="sheet" id="sheet" aria-labelledby="sheet-path">
   <div class="sheet-head">
-    <div class="sheet-map" aria-label="Sections"></div>
     <p class="sheet-path micro"><span>SOLEY</span> / <span id="sheet-path"></span></p>
     <button class="sheet-close" type="button" aria-label="Close section">×</button>
   </div>
@@ -80,6 +79,12 @@
       <h2 id="overview-h" tabindex="-1">Overview</h2>
       <p class="lead">SOLEY is a solar cell simulator which combines Transfer Matrix Method optics with an extended detailed balance model of the device. Starting from the layer stack and the optical constants of each material, it calculates the absorption and generation profiles, then the J-V curve, the EQE and the luminescence of single-junction and multijunction devices, without having to solve the full drift-diffusion system.</p>
       <p>It is free for academic use and is described in Solar RRL (2025); it is meant as a complement to drift-diffusion tools such as SCAPS-1D, in particular for quick design screening and for checking the thermodynamic consistency of a result.</p>
+      <dl class="specs">
+        <div><dt>0–89°</dt><dd>angle of incidence, TE, TM or unpolarised</dd></div>
+        <div><dt>0.001–46,300</dt><dd>suns of injection level</dd></div>
+        <div><dt>2T · 3T · 4T</dt><dd>tandem configurations</dd></div>
+        <div><dt>6</dt><dd>junctions at most in one device</dd></div>
+      </dl>
       <h3>What SOLEY covers</h3>
       <ul>
         <li>Coherent and partially coherent TMM optics, with scattering and light trapping models</li>
@@ -89,6 +94,11 @@
         <li>Bulk and interface defects described by their microscopic parameters</li>
         <li>Photoluminescence and electroluminescence spectra, and bifacial devices</li>
       </ul>
+      <figure class="spot">
+        <img src="eqe_transport.png" alt="EQE from the thermodynamic transport model compared with a drift-diffusion calculation" loading="lazy" width="800" height="500">
+        <figcaption>EQE of a CZTSe thin film from the transport model of version 2.1 (green), compared with a full drift-diffusion calculation (dashed).</figcaption>
+      </figure>
+      <a class="next" href="#download">Next: Download</a>
     </section>
 
     <section id="download" aria-labelledby="download-h">
@@ -116,6 +126,7 @@
         <li>4 GB of RAM at least, 8 GB recommended</li>
         <li>500 MB of free disk space and a display of at least 1280 × 720</li>
       </ul>
+      <a class="next" href="#quickstart">Next: Quick start</a>
     </section>
 
     <section id="quickstart" aria-labelledby="quickstart-h">
@@ -128,7 +139,7 @@
       </ol>
       <p class="note">On macOS, the first launch may be blocked by Gatekeeper. In that case, right-click on the application and select Open, or allow it in System Settings under Privacy and Security.</p>
       <h3>A first simulation in five steps</h3>
-      <ol>
+      <ol class="steps">
         <li>Open an example structure: File, Open, then <code>perovskite_silicon_tandem.soley</code>.</li>
         <li>Click Calculate TMM in order to compute the absorption profiles.</li>
         <li>Go to the Device Physics tab and review the recombination settings.</li>
@@ -150,11 +161,13 @@
         <li><code>CZTS.soley</code> and <code>CZTSe.soley</code>: sulphur and selenium kesterites</li>
       </ul>
       <p>The <a href="https://zenodo.org/records/21976471/files/manual_2_1_1.pdf?download=1">user manual</a> describes every panel and parameter in more detail.</p>
+      <a class="next" href="#optics">Next: Optics</a>
     </section>
 
     <section id="optics" aria-labelledby="optics-h">
       <h2 id="optics-h" tabindex="-1">Optics</h2>
       <p>The optical part of SOLEY is a Transfer Matrix Method engine for stratified media, completed by scattering and light trapping models for rough or textured interfaces.</p>
+      <figure class="shot"><img src="main_interface.png" alt="Layer stack and optical profiles in the main interface" loading="lazy" width="800" height="500"></figure>
       <dl class="features">
         <div><dt>Transfer Matrix Method</dt>
           <dd>Coherent and partially coherent calculations, with thick incoherent layers such as glass substrates handled by the method of Katsidis and Siapkas; direct and diffuse (Lambertian) illumination; angle of incidence from 0 to 89° with TE, TM or unpolarised light; generation profiles integrated over the spectrum.</dd></div>
@@ -165,11 +178,13 @@
         <div><dt>Bifacial devices</dt>
           <dd>Rear-side TMM with angular integration, three illumination modes (Auto, Full Environment and Custom spectrum), wavelength-dependent albedo (presets for grass, sand, concrete, snow and water, flat value or Gaussian profile), bifacial gain per absorber, and characterisation following IEC 60904-1-2.</dd></div>
       </dl>
+      <a class="next" href="#device">Next: Device physics</a>
     </section>
 
     <section id="device" aria-labelledby="device-h">
       <h2 id="device-h" tabindex="-1">Device physics</h2>
       <p>The electrical part of SOLEY is built on the detailed balance principle, extended in order to include the non-radiative losses and, since version 2.1, the carrier transport in the absorber.</p>
+      <figure class="shot"><img src="defects.png" alt="Defect parameter window" loading="lazy" width="800" height="500"></figure>
       <dl class="features">
         <div><dt>Extended detailed balance</dt>
           <dd>Shockley-Queisser limit, radiative recombination following van Roosbroeck and Shockley, SRH recombination in the bulk and at the interfaces, Auger recombination depending on temperature and bandgap, all computed from the TMM absorption spectra.</dd></div>
@@ -184,10 +199,12 @@
         <div><dt>Temperature-dependent bandgap</dt>
           <dd>A Varshni or custom E<sub>g</sub>(T) law is applied consistently to the optics (n, k) and to the device physics.</dd></div>
       </dl>
+      <a class="next" href="#analysis">Next: Analysis tools</a>
     </section>
 
     <section id="analysis" aria-labelledby="analysis-h">
       <h2 id="analysis-h" tabindex="-1">Analysis tools</h2>
+      <figure class="shot"><img src="jv_curves.png" alt="J-V curves of several absorbers" loading="lazy" width="800" height="500"></figure>
       <dl class="features">
         <div><dt>J-V characteristics</dt>
           <dd>Dark and illuminated curves, custom voltage sweep, overlay of several absorbers and CSV export. The maximum power point is refined by a parabolic fit around the maximum, so that V<sub>mpp</sub>, J<sub>mpp</sub> and P<sub>max</sub> do not depend on the voltage step.</dd></div>
@@ -204,6 +221,7 @@
         <div><dt>Theoretical hints</dt>
           <dd>Each function of the interface comes with a short explanation of the physics behind it.</dd></div>
       </dl>
+      <a class="next" href="#gallery">Next: Gallery</a>
     </section>
 
     <section id="gallery" aria-labelledby="gallery-h">
@@ -239,6 +257,7 @@
         </figure>
       </div>
       <p class="note">The example files included in the installation are the easiest way to get used to the workflow, before building your own structures.</p>
+      <a class="next" href="#method">Next: Method</a>
     </section>
 
     <section id="method" aria-labelledby="method-h">
@@ -287,6 +306,7 @@
         </mrow>
       </math>
       <p class="refs">Scaffidi et al., Newton 1(8), 100198 (2025). <a href="https://doi.org/10.1016/j.newton.2025.100198">doi:10.1016/j.newton.2025.100198</a></p>
+      <a class="next" href="#roadmap">Next: Roadmap</a>
     </section>
 
     <section id="roadmap" aria-labelledby="roadmap-h">
@@ -303,10 +323,12 @@
         <li>The scaling of the interface on macOS has not been tested on every hardware variant.</li>
         <li>The built-in database of optical constants is limited, so that in most cases the n and k files have to be provided by the user.</li>
       </ul>
+      <a class="next" href="#releases">Next: Release notes</a>
     </section>
 
     <section id="releases" aria-labelledby="releases-h">
       <h2 id="releases-h" tabindex="-1">Release notes</h2>
+      <div class="timeline">
       <div class="release">
         <h3>Version 2.1.1 <span class="micro">August 2026</span></h3>
         <p>The largest update of SOLEY so far.</p>
@@ -392,7 +414,9 @@
         <summary>Version 1.3 · September 2025</summary>
         <p>A redesigned interface, and fixes in the batch calculations.</p>
       </details>
+      </div>
       <p>All versions are archived on <a href="https://doi.org/10.5281/zenodo.16151990">Zenodo</a>, each with its own DOI.</p>
+      <a class="next" href="#citation">Next: Citation</a>
     </section>
 
     <section id="citation" aria-labelledby="citation-h">
@@ -411,6 +435,7 @@
       <div class="copy-row"><button class="btn btn-secondary" type="button" data-copy="bibtex" data-done="Copied">Copy</button></div>
       <h3>Licence</h3>
       <p>SOLEY is distributed for academic use only, and commercial use requires the written permission of the author. By downloading and using SOLEY, you agree to use it for non-commercial research and teaching only, to cite it in the publications and presentations which use it, and not to redistribute modified versions without permission.</p>
+      <a class="next" href="#about">Next: About me</a>
     </section>
 
     <section id="about" aria-labelledby="about-h">

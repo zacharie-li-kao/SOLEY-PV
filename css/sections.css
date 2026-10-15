@@ -20,13 +20,52 @@ pre {
 .platforms b { display: block; color: var(--text-primary); font-weight: 600; }
 .platforms small { color: var(--text-muted); font-size: 13px; }
 
-/* Definition lists for features */
-.features { display: grid; gap: 20px; }
+/* Overview: a strip of real figures in mono, then one large figure */
+.specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0; border-block: 1px solid var(--border-color); margin-block: 8px; }
+.specs div { padding: 16px 16px 16px 0; min-width: 0; }
+.specs dt { font: 500 22px/1.2 var(--font-mono); letter-spacing: -0.02em; color: var(--text-primary); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.specs dd { font-size: 13px; color: var(--text-muted); margin-top: 6px; line-height: 1.4; }
+.spot, .shot { display: grid; gap: 8px; margin-block: 8px; }
+.spot img, .shot img { border: 1px solid var(--border-color); border-radius: var(--radius-md); background: var(--bg-secondary); }
+.shot img { aspect-ratio: 16 / 9; object-fit: cover; object-position: top left; }
+.spot figcaption { font-size: 13px; color: var(--text-secondary); }
+
+/* Feature groups: two columns where the sheet is wide enough */
+.features { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px 32px; }
+.features > div { min-width: 0; padding-top: 16px; border-top: 1px solid var(--border-color); }
 .features dt { color: var(--text-primary); font-weight: 600; }
 .features dd { color: var(--text-secondary); margin-top: 4px; }
 
-/* Gallery */
-.gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
+/* Quick start: numbered steps on a thin vertical line */
+ol.steps { list-style: none; padding: 0 !important; gap: 0 !important; counter-reset: step; position: relative; }
+ol.steps::before { content: ''; position: absolute; left: 13px; top: 14px; bottom: 14px; width: 1px; background: var(--border-light); }
+ol.steps li { counter-increment: step; position: relative; padding: 4px 0 16px 44px; }
+ol.steps li::before {
+  content: counter(step); position: absolute; left: 0; top: 2px; width: 27px; height: 27px; border-radius: 50%;
+  display: grid; place-items: center; background: var(--bg-card); border: 1px solid var(--border-light);
+  font: 500 12px/1 var(--font-mono); color: var(--text-primary);
+}
+
+/* Release notes: a timeline */
+.timeline { display: grid; border-left: 1px solid var(--border-light); padding-left: 24px; margin-left: 4px; }
+.timeline > .release, .timeline > details { position: relative; }
+.timeline > .release::before, .timeline > details::before {
+  content: ''; position: absolute; left: -29px; top: 18px; width: 9px; height: 9px; border-radius: 50%;
+  background: var(--bg-card); border: 1px solid var(--border-light);
+}
+.timeline > .release::before { background: var(--accent-signature); border-color: var(--accent-signature); top: 8px; }
+.timeline > .release { padding-bottom: 16px; }
+details::details-content { block-size: 0; overflow: hidden; transition: block-size 0.35s var(--ease-out), content-visibility 0.35s allow-discrete; }
+details[open]::details-content { block-size: auto; }
+
+/* "Next" link at the end of every section */
+.next { justify-self: start; margin-top: 24px; font-size: 14px; color: var(--accent-signature); text-decoration: none; }
+
+/* Gallery: one dominant image, the others around it */
+.gallery { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.gallery figure:first-child { grid-column: 1 / -1; }
+.gallery figure:first-child img { aspect-ratio: 16 / 9; }
+@media (max-width: 560px) { .gallery { grid-template-columns: 1fr; } }
 .gallery figure { display: grid; gap: 8px; align-content: start; min-width: 0; }
 .gallery button { border: 1px solid var(--border-color); border-radius: var(--radius-md); overflow: hidden; background: var(--bg-secondary); cursor: zoom-in; padding: 0; }
 .gallery img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: top left; }

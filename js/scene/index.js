@@ -32,15 +32,23 @@ export function createScene(canvas, { reducedMotion, onCells }) {
   stage.onResize(aspect => { rig.setAspect(aspect); moved = true; });
   stage.addTicker(dt => lighting.tick(dt));
   stage.addTicker((dt, t) => (reducedMotion ? false : flies.tick(dt, t)));
+  // Fog follows the camera distance, so the horizon fades the same way in every pose
+  // (the phone reading pose sits far back and would otherwise fog the panel away).
+  const centre = panel.centre();
+  const fitFog = () => {
+    const d = stage.camera.position.distanceTo(centre);
+    stage.scene.fog.near = d - 1.5;
+    stage.scene.fog.far = d + 12.5;
+  };
   stage.addTicker(dt => {
     const m = rig.tick(dt);
-    if (m || moved) { moved = false; onCells(rects()); }
+    if (m || moved) { moved = false; fitFog(); onCells(rects()); }
     return m;
   });
   stage.start();
 
   return {
-    go: (index, { instant }) => rig.go(index, instant || reducedMotion),
+    go: (index, { instant }) => { panel.setActive(index ?? -1); stage.invalidate(); return rig.go(index, instant || reducedMotion); },
     setTheme: (t, instant) => { lighting.set(t, instant || reducedMotion); stage.invalidate(); },
     setHover: i => { panel.setHover(i); stage.invalidate(); },
     setParallax: (x, y) => { if (!reducedMotion) rig.setParallax(x, y); },
